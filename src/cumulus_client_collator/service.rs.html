@@ -355,7 +355,7 @@
 <span class="kw">use </span>sp_api::{ApiExt, ProvideRuntimeApi};
 <span class="kw">use </span>sp_consensus::BlockStatus;
 <span class="kw">use </span>sp_core::traits::SpawnNamed;
-<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, HashFor, Header <span class="kw">as </span>HeaderT, Zero};
+<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, HashingFor, Header <span class="kw">as </span>HeaderT, Zero};
 
 <span class="kw">use </span>cumulus_client_consensus_common::ParachainCandidate;
 <span class="kw">use </span>polkadot_node_primitives::{
@@ -553,7 +553,7 @@
 
 		<span class="kw">let </span>compact_proof = <span class="kw">match </span>candidate
 			.proof
-			.into_compact_proof::&lt;HashFor&lt;Block&gt;&gt;(<span class="kw-2">*</span>parent_header.state_root())
+			.into_compact_proof::&lt;HashingFor&lt;Block&gt;&gt;(<span class="kw-2">*</span>parent_header.state_root())
 		{
 			<span class="prelude-val">Ok</span>(proof) =&gt; proof,
 			<span class="prelude-val">Err</span>(e) =&gt; {

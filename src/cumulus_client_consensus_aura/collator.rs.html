@@ -414,7 +414,7 @@
 <span class="kw">use </span>sp_keystore::KeystorePtr;
 <span class="kw">use </span>sp_runtime::{
 	generic::Digest,
-	traits::{Block <span class="kw">as </span>BlockT, HashFor, Header <span class="kw">as </span>HeaderT, Member},
+	traits::{Block <span class="kw">as </span>BlockT, HashingFor, Header <span class="kw">as </span>HeaderT, Member},
 };
 <span class="kw">use </span>sp_state_machine::StorageChanges;
 <span class="kw">use </span>sp_timestamp::Timestamp;
@@ -687,7 +687,7 @@
 <span class="doccomment">/// Seal a block with a signature in the header.
 </span><span class="kw">pub fn </span>seal&lt;B: BlockT, T, P&gt;(
 	pre_sealed: B,
-	storage_changes: StorageChanges&lt;T, HashFor&lt;B&gt;&gt;,
+	storage_changes: StorageChanges&lt;T, HashingFor&lt;B&gt;&gt;,
 	author_pub: <span class="kw-2">&amp;</span>P::Public,
 	keystore: <span class="kw-2">&amp;</span>KeystorePtr,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;BlockImportParams&lt;B, T&gt;, Box&lt;<span class="kw">dyn </span>Error&gt;&gt;

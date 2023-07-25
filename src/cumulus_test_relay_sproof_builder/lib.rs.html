@@ -201,7 +201,7 @@
 	relay_chain, AbridgedHostConfiguration, AbridgedHrmpChannel, ParaId,
 };
 <span class="kw">use </span>polkadot_primitives::UpgradeGoAhead;
-<span class="kw">use </span>sp_runtime::traits::HashFor;
+<span class="kw">use </span>sp_runtime::traits::HashingFor;
 <span class="kw">use </span>sp_state_machine::MemoryDB;
 <span class="kw">use </span>sp_std::collections::btree_map::BTreeMap;
 
@@ -287,7 +287,7 @@
 	<span class="kw">pub fn </span>into_state_root_and_proof(
 		<span class="self">self</span>,
 	) -&gt; (polkadot_primitives::Hash, sp_state_machine::StorageProof) {
-		<span class="kw">let </span>(db, root) = MemoryDB::&lt;HashFor&lt;polkadot_primitives::Block&gt;&gt;::default_with_root();
+		<span class="kw">let </span>(db, root) = MemoryDB::&lt;HashingFor&lt;polkadot_primitives::Block&gt;&gt;::default_with_root();
 		<span class="kw">let </span>state_version = Default::default(); <span class="comment">// for test using default.
 		</span><span class="kw">let </span><span class="kw-2">mut </span>backend = sp_state_machine::TrieBackendBuilder::new(db, root).build();
 

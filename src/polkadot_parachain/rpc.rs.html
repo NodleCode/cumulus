@@ -167,7 +167,7 @@
 	C::Api: BlockBuilder&lt;Block&gt;,
 	P: TransactionPool + Sync + Send + <span class="lifetime">&#39;static</span>,
 	B: sc_client_api::Backend&lt;Block&gt; + Send + Sync + <span class="lifetime">&#39;static</span>,
-	B::State: sc_client_api::backend::StateBackend&lt;sp_runtime::traits::HashFor&lt;Block&gt;&gt;,
+	B::State: sc_client_api::backend::StateBackend&lt;sp_runtime::traits::HashingFor&lt;Block&gt;&gt;,
 {
 	<span class="kw">use </span>frame_rpc_system::{System, SystemApiServer};
 	<span class="kw">use </span>pallet_transaction_payment_rpc::{TransactionPayment, TransactionPaymentApiServer};

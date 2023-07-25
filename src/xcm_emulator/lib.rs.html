@@ -1119,6 +1119,18 @@
 <a href="#1119" id="1119">1119</a>
 <a href="#1120" id="1120">1120</a>
 <a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Polkadot.
 
@@ -1149,7 +1161,7 @@
 <span class="kw">pub use </span>frame_system::AccountInfo;
 <span class="kw">pub use </span>pallet_balances::AccountData;
 <span class="kw">pub use </span>sp_arithmetic::traits::Bounded;
-<span class="kw">pub use </span>sp_core::{storage::Storage, H256};
+<span class="kw">pub use </span>sp_core::{storage::Storage, Pair, H256};
 <span class="kw">pub use </span>sp_io;
 <span class="kw">pub use </span>sp_std::{cell::RefCell, collections::vec_deque::VecDeque, fmt::Debug};
 <span class="kw">pub use </span>sp_trie::StorageProof;
@@ -1164,7 +1176,6 @@
 };
 <span class="kw">pub use </span>cumulus_primitives_parachain_inherent::ParachainInherentData;
 <span class="kw">pub use </span>cumulus_test_relay_sproof_builder::RelayStateSproofBuilder;
-<span class="kw">pub use </span>cumulus_test_service::get_account_id_from_seed;
 <span class="kw">pub use </span>pallet_message_queue;
 <span class="kw">pub use </span>parachain_info;
 <span class="kw">pub use </span>parachains_common::{AccountId, BlockNumber};
@@ -1370,6 +1381,19 @@
 	<span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
 		<span class="macro">write!</span>(f, <span class="string">&quot;{:?}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>)
 	}
+}
+
+<span class="doccomment">/// Helper function to generate an account ID from seed.
+</span><span class="kw">pub fn </span>get_account_id_from_seed&lt;TPublic: sp_core::Public&gt;(seed: <span class="kw-2">&amp;</span>str) -&gt; AccountId
+<span class="kw">where
+	</span>sp_runtime::MultiSigner:
+		From&lt;&lt;&lt;TPublic <span class="kw">as </span>sp_runtime::CryptoType&gt;::Pair <span class="kw">as </span>sp_core::Pair&gt;::Public&gt;,
+{
+	<span class="kw">use </span>sp_runtime::traits::IdentifyAccount;
+	<span class="kw">let </span>pubkey = TPublic::Pair::from_string(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;//{}&quot;</span>, seed), <span class="prelude-val">None</span>)
+		.expect(<span class="string">&quot;static values are valid; qed&quot;</span>)
+		.public();
+	sp_runtime::MultiSigner::from(pubkey).into_account()
 }
 
 <span class="comment">// Relay Chain Implementation

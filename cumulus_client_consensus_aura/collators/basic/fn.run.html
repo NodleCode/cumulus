@@ -3,7 +3,7 @@
 )<span class="where fmt-newline">where
     Block: BlockT,
     Client: ProvideRuntimeApi&lt;Block&gt; + BlockOf + AuxStore + HeaderBackend&lt;Block&gt; + BlockBackend&lt;Block&gt; + <a class="trait" href="https://doc.rust-lang.org/1.71.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.71.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,
-    Client::Api: AuraApi&lt;Block, P::Public&gt; + <a class="trait" href="../../../cumulus_primitives_core/trait.CollectCollationInfo.html" title="trait cumulus_primitives_core::CollectCollationInfo">CollectCollationInfo</a>&lt;Block&gt;,
+    Client::Api: AuraApi&lt;Block, P::Public&gt; + CollectCollationInfo&lt;Block&gt;,
     RClient: RelayChainInterface,
     CIDP: CreateInherentDataProviders&lt;Block, <a class="primitive" href="https://doc.rust-lang.org/1.71.0/std/primitive.unit.html">()</a>&gt; + 'static,
     BI: BlockImport&lt;Block&gt; + ParachainBlockImportMarker + <a class="trait" href="https://doc.rust-lang.org/1.71.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.71.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,

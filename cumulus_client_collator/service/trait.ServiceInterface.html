@@ -10,7 +10,7 @@
         parent_header: &amp;Block::Header,
         block_hash: Block::Hash,
         candidate: ParachainCandidate&lt;Block&gt;
-    ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(Collation, <a class="struct" href="../../cumulus_primitives_core/struct.ParachainBlockData.html" title="struct cumulus_primitives_core::ParachainBlockData">ParachainBlockData</a>&lt;Block&gt;)&gt;;
+    ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(Collation, ParachainBlockData&lt;Block&gt;)&gt;;
 <span class="item-spacer"></span>    fn <a href="#tymethod.announce_with_barrier" class="fn">announce_with_barrier</a>(
         &amp;self,
         block_hash: Block::Hash
@@ -24,7 +24,7 @@
     parent_header: &amp;Block::Header,
     block_hash: Block::Hash,
     candidate: ParachainCandidate&lt;Block&gt;
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(Collation, <a class="struct" href="../../cumulus_primitives_core/struct.ParachainBlockData.html" title="struct cumulus_primitives_core::ParachainBlockData">ParachainBlockData</a>&lt;Block&gt;)&gt;</h4></section></summary><div class="docblock"><p>Build a full [<code>Collation</code>] from a given [<code>ParachainCandidate</code>]. This requires
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.0/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(Collation, ParachainBlockData&lt;Block&gt;)&gt;</h4></section></summary><div class="docblock"><p>Build a full [<code>Collation</code>] from a given [<code>ParachainCandidate</code>]. This requires
 that the underlying block has been fully imported into the underlying client,
 as implementations will fetch underlying runtime API data.</p>
 <p>This also returns the unencoded parachain block data, in case that is desired.</p>
@@ -40,4 +40,4 @@ to be passed through.</p>
     Block: BlockT,
     BS: BlockBackend&lt;Block&gt;,
     RA: ProvideRuntimeApi&lt;Block&gt;,
-    RA::Api: <a class="trait" href="../../cumulus_primitives_core/trait.CollectCollationInfo.html" title="trait cumulus_primitives_core::CollectCollationInfo">CollectCollationInfo</a>&lt;Block&gt;,</span></h3></section></div><script src="../../implementors/cumulus_client_collator/service/trait.ServiceInterface.js" async></script></section></div></main></body></html>
+    RA::Api: CollectCollationInfo&lt;Block&gt;,</span></h3></section></div><script src="../../implementors/cumulus_client_collator/service/trait.ServiceInterface.js" async></script></section></div></main></body></html>

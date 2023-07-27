@@ -377,7 +377,7 @@
 //! The main limitation is block propagation time - i.e. the new blocks created by an author
 //! must be propagated to the next author before their turn.
 
-</span><span class="kw">use </span>codec::{Decode, Encode};
+</span><span class="kw">use </span>codec::{Codec, Encode};
 <span class="kw">use </span>cumulus_client_collator::service::ServiceInterface <span class="kw">as </span>CollatorServiceInterface;
 <span class="kw">use </span>cumulus_client_consensus_common::{
 	<span class="self">self </span><span class="kw">as </span>consensus_common, ParachainBlockImportMarker, ParentSearchParams,
@@ -406,7 +406,7 @@
 <span class="kw">use </span>sp_keystore::KeystorePtr;
 <span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, Header <span class="kw">as </span>HeaderT, Member};
 <span class="kw">use </span>sp_timestamp::Timestamp;
-<span class="kw">use </span>std::{convert::TryFrom, hash::Hash, sync::Arc, time::Duration};
+<span class="kw">use </span>std::{convert::TryFrom, sync::Arc, time::Duration};
 
 <span class="kw">use </span><span class="kw">crate</span>::collator::{<span class="self">self </span><span class="kw">as </span>collator_util, SlotClaim};
 
@@ -452,9 +452,9 @@
 	Proposer: ProposerInterface&lt;Block, Transaction = BI::Transaction&gt;,
 	Proposer::Transaction: Sync,
 	CS: CollatorServiceInterface&lt;Block&gt;,
-	P: Pair + Send + Sync,
-	P::Public: AppPublic + Hash + Member + Encode + Decode,
-	P::Signature: TryFrom&lt;Vec&lt;u8&gt;&gt; + Hash + Member + Encode + Decode,
+	P: Pair,
+	P::Public: AppPublic + Member,
+	P::Signature: TryFrom&lt;Vec&lt;u8&gt;&gt; + Member + Codec,
 {
 	<span class="comment">// This is an arbitrary value which is likely guaranteed to exceed any reasonable
 	// limit, as it would correspond to 10 non-included blocks.
@@ -660,8 +660,8 @@
 	</span>Client: ProvideRuntimeApi&lt;Block&gt;,
 	Client::Api: AuraApi&lt;Block, P::Public&gt; + AuraUnincludedSegmentApi&lt;Block&gt;,
 	P: Pair,
-	P::Public: Encode + Decode,
-	P::Signature: Encode + Decode,
+	P::Public: Codec,
+	P::Signature: Codec,
 {
 	<span class="kw">let </span>runtime_api = client.runtime_api();
 	<span class="kw">let </span>authorities = runtime_api.authorities(parent_hash).ok()<span class="question-mark">?</span>;

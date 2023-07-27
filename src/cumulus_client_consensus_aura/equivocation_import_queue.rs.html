@@ -268,7 +268,7 @@
 /// Equivocation resistance in general is a hard problem, as different nodes in the network
 /// may see equivocations in a different order, and therefore may not agree on which blocks
 /// should be thrown out and which ones should be kept.
-</span><span class="kw">use </span>codec::{Decode, Encode};
+</span><span class="kw">use </span>codec::Codec;
 <span class="kw">use </span>cumulus_client_consensus_common::ParachainBlockImportMarker;
 <span class="kw">use </span>lru::LruCache;
 
@@ -321,15 +321,15 @@
 	slot_duration: SlotDuration,
 	defender: NaiveEquivocationDefender,
 	telemetry: <span class="prelude-ty">Option</span>&lt;TelemetryHandle&gt;,
-	_marker: std::marker::PhantomData&lt;(Block, P)&gt;,
+	_phantom: std::marker::PhantomData&lt;<span class="kw">fn</span>() -&gt; (Block, P)&gt;,
 }
 
 <span class="attr">#[async_trait::async_trait]
 </span><span class="kw">impl</span>&lt;P, Client, Block, CIDP&gt; VerifierT&lt;Block&gt; <span class="kw">for </span>Verifier&lt;P, Client, Block, CIDP&gt;
 <span class="kw">where
 	</span>P: Pair,
-	P::Signature: Encode + Decode,
-	P::Public: Encode + Decode + PartialEq + Clone + Debug,
+	P::Signature: Codec,
+	P::Public: Codec + Debug,
 	Block: BlockT,
 	Client: ProvideRuntimeApi&lt;Block&gt; + Send + Sync,
 	&lt;Client <span class="kw">as </span>ProvideRuntimeApi&lt;Block&gt;&gt;::Api: BlockBuilderApi&lt;Block&gt; + AuraApi&lt;Block, P::Public&gt;,
@@ -472,9 +472,9 @@
 	telemetry: <span class="prelude-ty">Option</span>&lt;TelemetryHandle&gt;,
 ) -&gt; BasicQueue&lt;Block, I::Transaction&gt;
 <span class="kw">where
-	</span>P: Pair,
-	P::Signature: Encode + Decode,
-	P::Public: Encode + Decode + PartialEq + Clone + Debug,
+	</span>P: Pair + <span class="lifetime">&#39;static</span>,
+	P::Signature: Codec,
+	P::Public: Codec + Debug,
 	I: BlockImport&lt;Block, Error = ConsensusError&gt;
 		+ ParachainBlockImportMarker
 		+ Send
@@ -491,7 +491,7 @@
 		defender: NaiveEquivocationDefender::default(),
 		slot_duration,
 		telemetry,
-		_marker: std::marker::PhantomData,
+		_phantom: std::marker::PhantomData,
 	};
 
 	BasicQueue::new(verifier, Box::new(block_import), <span class="prelude-val">None</span>, spawner, registry)

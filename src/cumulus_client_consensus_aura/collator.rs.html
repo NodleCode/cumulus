@@ -387,7 +387,7 @@
 //! This module also exposes some standalone functions for common operations when building
 //! aura-based collators.
 
-</span><span class="kw">use </span>codec::{Decode, Encode};
+</span><span class="kw">use </span>codec::{Codec, Encode};
 <span class="kw">use </span>cumulus_client_collator::service::ServiceInterface <span class="kw">as </span>CollatorServiceInterface;
 <span class="kw">use </span>cumulus_client_consensus_common::{
 	<span class="self">self </span><span class="kw">as </span>consensus_common, ParachainBlockImportMarker, ParachainCandidate,
@@ -418,7 +418,7 @@
 };
 <span class="kw">use </span>sp_state_machine::StorageChanges;
 <span class="kw">use </span>sp_timestamp::Timestamp;
-<span class="kw">use </span>std::{convert::TryFrom, error::Error, hash::Hash, sync::Arc, time::Duration};
+<span class="kw">use </span>std::{convert::TryFrom, error::Error, sync::Arc, time::Duration};
 
 <span class="doccomment">/// Parameters for instantiating a [`Collator`].
 </span><span class="kw">pub struct </span>Params&lt;BI, CIDP, RClient, Proposer, CS&gt; {
@@ -461,9 +461,9 @@
 	Proposer: ProposerInterface&lt;Block, Transaction = BI::Transaction&gt;,
 	Proposer::Transaction: Sync,
 	CS: CollatorServiceInterface&lt;Block&gt;,
-	P: Pair + Send + Sync,
-	P::Public: AppPublic + Hash + Member + Encode + Decode,
-	P::Signature: TryFrom&lt;Vec&lt;u8&gt;&gt; + Hash + Member + Encode + Decode,
+	P: Pair,
+	P::Public: AppPublic + Member,
+	P::Signature: TryFrom&lt;Vec&lt;u8&gt;&gt; + Member + Codec,
 {
 	<span class="doccomment">/// Instantiate a new instance of the `Aura` manager.
 	</span><span class="kw">pub fn </span>new(params: Params&lt;BI, CIDP, RClient, Proposer, CS&gt;) -&gt; <span class="self">Self </span>{
@@ -620,8 +620,8 @@
 	</span><span class="kw">pub fn </span>unchecked&lt;P&gt;(author_pub: Pub, slot: Slot, timestamp: Timestamp) -&gt; <span class="self">Self
 	</span><span class="kw">where
 		</span>P: Pair&lt;Public = Pub&gt;,
-		P::Public: Encode + Decode,
-		P::Signature: Encode + Decode,
+		P::Public: Codec,
+		P::Signature: Codec,
 	{
 		SlotClaim { author_pub, timestamp, pre_digest: aura_internal::pre_digest::&lt;P&gt;(slot) }
 	}
@@ -657,8 +657,8 @@
 	C: ProvideRuntimeApi&lt;B&gt; + Send + Sync + <span class="lifetime">&#39;static</span>,
 	C::Api: AuraApi&lt;B, P::Public&gt;,
 	P: Pair,
-	P::Public: Encode + Decode,
-	P::Signature: Encode + Decode,
+	P::Public: Codec,
+	P::Signature: Codec,
 {
 	<span class="comment">// load authorities
 	</span><span class="kw">let </span>authorities = client.runtime_api().authorities(parent_hash).map_err(Box::new)<span class="question-mark">?</span>;
@@ -693,7 +693,7 @@
 ) -&gt; <span class="prelude-ty">Result</span>&lt;BlockImportParams&lt;B, T&gt;, Box&lt;<span class="kw">dyn </span>Error&gt;&gt;
 <span class="kw">where
 	</span>P: Pair,
-	P::Signature: Encode + Decode + TryFrom&lt;Vec&lt;u8&gt;&gt;,
+	P::Signature: Codec + TryFrom&lt;Vec&lt;u8&gt;&gt;,
 	P::Public: AppPublic,
 {
 	<span class="kw">let </span>(pre_header, body) = pre_sealed.deconstruct();

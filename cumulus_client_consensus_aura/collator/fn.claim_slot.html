@@ -10,6 +10,6 @@
     C: ProvideRuntimeApi&lt;B&gt; + <a class="trait" href="https://doc.rust-lang.org/1.71.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.71.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static,
     C::Api: AuraApi&lt;B, P::Public&gt;,
     P: Pair,
-    P::Public: Encode + Decode,
-    P::Signature: Encode + Decode,</span></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Attempt to claim a slot derived from the given relay-parent header’s slot.</p>
+    P::Public: Codec,
+    P::Signature: Codec,</span></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Attempt to claim a slot derived from the given relay-parent header’s slot.</p>
 </div></details></section></div></main></body></html>

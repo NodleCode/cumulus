@@ -252,7 +252,7 @@
 //!
 //! For more information about AuRa, the Substrate crate should be checked.
 
-</span><span class="kw">use </span>codec::{Decode, Encode};
+</span><span class="kw">use </span>codec::Codec;
 <span class="kw">use </span>cumulus_client_consensus_common::{
 	ParachainBlockImportMarker, ParachainCandidate, ParachainConsensus,
 };
@@ -272,7 +272,7 @@
 <span class="kw">use </span>sp_inherents::CreateInherentDataProviders;
 <span class="kw">use </span>sp_keystore::KeystorePtr;
 <span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, Header <span class="kw">as </span>HeaderT, Member, NumberFor};
-<span class="kw">use </span>std::{convert::TryFrom, hash::Hash, marker::PhantomData, sync::Arc};
+<span class="kw">use </span>std::{convert::TryFrom, marker::PhantomData, sync::Arc};
 
 <span class="kw">mod </span>import_queue;
 
@@ -364,9 +364,9 @@
 			Proof = &lt;EnableProofRecording <span class="kw">as </span>ProofRecording&gt;::Proof,
 		&gt;,
 		Error: std::error::Error + Send + From&lt;sp_consensus::Error&gt; + <span class="lifetime">&#39;static</span>,
-		P: Pair + Send + Sync,
-		P::Public: AppPublic + Hash + Member + Encode + Decode,
-		P::Signature: TryFrom&lt;Vec&lt;u8&gt;&gt; + Hash + Member + Encode + Decode,
+		P: Pair + <span class="lifetime">&#39;static</span>,
+		P::Public: AppPublic + Member + Codec,
+		P::Signature: TryFrom&lt;Vec&lt;u8&gt;&gt; + Member + Codec,
 	{
 		<span class="kw">let </span>worker = sc_consensus_aura::build_aura_worker::&lt;P, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
 			BuildAuraWorkerParams {

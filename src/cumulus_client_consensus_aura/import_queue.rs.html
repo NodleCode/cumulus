@@ -155,7 +155,7 @@
 <span class="kw">use </span>sp_core::crypto::Pair;
 <span class="kw">use </span>sp_inherents::CreateInherentDataProviders;
 <span class="kw">use </span>sp_runtime::traits::Block <span class="kw">as </span>BlockT;
-<span class="kw">use </span>std::{fmt::Debug, hash::Hash, sync::Arc};
+<span class="kw">use </span>std::{fmt::Debug, sync::Arc};
 <span class="kw">use </span>substrate_prometheus_endpoint::Registry;
 
 <span class="doccomment">/// Parameters for [`import_queue`].
@@ -201,8 +201,8 @@
 		+ Send
 		+ Sync
 		+ <span class="lifetime">&#39;static</span>,
-	P: Pair + Send + Sync + <span class="lifetime">&#39;static</span>,
-	P::Public: Clone + Eq + Send + Sync + Hash + Debug + Codec,
+	P: Pair + <span class="lifetime">&#39;static</span>,
+	P::Public: Debug + Codec,
 	P::Signature: Codec,
 	S: sp_core::traits::SpawnEssentialNamed,
 	CIDP: CreateInherentDataProviders&lt;Block, ()&gt; + Sync + Send + <span class="lifetime">&#39;static</span>,

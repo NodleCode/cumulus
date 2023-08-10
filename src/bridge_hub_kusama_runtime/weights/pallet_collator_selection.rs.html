@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/bridge-hubs/bridge-hub-kusama/src/weights/pallet_collator_selection.rs`."><title>pallet_collator_selection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bridge_hub_kusama_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../bridge_hub_kusama_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/bridge-hubs/bridge-hub-kusama/src/weights/pallet_collator_selection.rs`."><title>pallet_collator_selection.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bridge_hub_kusama_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../bridge_hub_kusama_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -217,6 +217,12 @@
 <a href="#217" id="217">217</a>
 <a href="#218" id="218">218</a>
 <a href="#219" id="219">219</a>
+<a href="#220" id="220">220</a>
+<a href="#221" id="221">221</a>
+<a href="#222" id="222">222</a>
+<a href="#223" id="223">223</a>
+<a href="#224" id="224">224</a>
+<a href="#225" id="225">225</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -236,25 +242,27 @@
 </span><span class="doccomment">//! Autogenerated weights for `pallet_collator_selection`
 //!
 //! THIS FILE WAS AUTO-GENERATED USING THE SUBSTRATE BENCHMARK CLI VERSION 4.0.0-dev
-//! DATE: 2023-05-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
+//! DATE: 2023-07-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
 //! WORST CASE MAP SIZE: `1000000`
-//! HOSTNAME: `bm4`, CPU: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-//! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some(&quot;bridge-hub-kusama-dev&quot;), DB CACHE: 1024
+//! HOSTNAME: `runner-ynta1nyy-project-238-concurrent-0`, CPU: `Intel(R) Xeon(R) CPU @ 2.60GHz`
+//! EXECUTION: ``, WASM-EXECUTION: `Compiled`, CHAIN: `Some(&quot;bridge-hub-kusama-dev&quot;)`, DB CACHE: 1024
 
 </span><span class="comment">// Executed Command:
-// ./artifacts/polkadot-parachain
+// ./target/production/polkadot-parachain
 // benchmark
 // pallet
 // --chain=bridge-hub-kusama-dev
-// --execution=wasm
 // --wasm-execution=compiled
 // --pallet=pallet_collator_selection
+// --no-storage-info
+// --no-median-slopes
+// --no-min-squares
 // --extrinsic=*
 // --steps=50
 // --repeat=20
 // --json
 // --header=./file_header.txt
-// --output=./parachains/runtimes/bridge-hubs/bridge-hub-kusama/src/weights/pallet_collator_selection.rs
+// --output=./parachains/runtimes/bridge-hubs/bridge-hub-kusama/src/weights/
 
 </span><span class="attr">#![cfg_attr(rustfmt, rustfmt_skip)]
 #![allow(unused_parens)]
@@ -267,173 +275,177 @@
 <span class="doccomment">/// Weight functions for `pallet_collator_selection`.
 </span><span class="kw">pub struct </span>WeightInfo&lt;T&gt;(PhantomData&lt;T&gt;);
 <span class="kw">impl</span>&lt;T: frame_system::Config&gt; pallet_collator_selection::WeightInfo <span class="kw">for </span>WeightInfo&lt;T&gt; {
-	<span class="doccomment">/// Storage: Session NextKeys (r:100 w:0)
-	/// Proof Skipped: Session NextKeys (max_values: None, max_size: None, mode: Measured)
-	/// Storage: CollatorSelection Invulnerables (r:0 w:1)
-	/// Proof: CollatorSelection Invulnerables (max_values: Some(1), max_size: Some(3202), added: 3697, mode: MaxEncodedLen)
-	/// The range of component `b` is `[1, 100]`.
+	<span class="doccomment">/// Storage: `Session::NextKeys` (r:20 w:0)
+	/// Proof: `Session::NextKeys` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `CollatorSelection::Invulnerables` (r:0 w:1)
+	/// Proof: `CollatorSelection::Invulnerables` (`max_values`: Some(1), `max_size`: Some(641), added: 1136, mode: `MaxEncodedLen`)
+	/// The range of component `b` is `[1, 20]`.
 	</span><span class="kw">fn </span>set_invulnerables(b: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `214 + b * (78 ±0)`
-		//  Estimated: `1203 + b * (2554 ±0)`
-		// Minimum execution time: 14_702_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">14_995_989</span>, <span class="number">0</span>)
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">1203</span>))
-			<span class="comment">// Standard Error: 2_975
-			</span>.saturating_add(Weight::from_parts(<span class="number">2_630_139</span>, <span class="number">0</span>).saturating_mul(b.into()))
+		//  Measured:  `196 + b * (79 ±0)`
+		//  Estimated: `1187 + b * (2555 ±0)`
+		// Minimum execution time: 14_329_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">11_605_842</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">1187</span>))
+			<span class="comment">// Standard Error: 4_784
+			</span>.saturating_add(Weight::from_parts(<span class="number">3_297_183</span>, <span class="number">0</span>).saturating_mul(b.into()))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(b.into())))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2554</span>).saturating_mul(b.into()))
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2555</span>).saturating_mul(b.into()))
 	}
-	<span class="doccomment">/// Storage: CollatorSelection DesiredCandidates (r:0 w:1)
-	/// Proof: CollatorSelection DesiredCandidates (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	</span><span class="kw">fn </span>set_desired_candidates() -&gt; Weight {
-		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `0`
-		//  Estimated: `0`
-		// Minimum execution time: 6_916_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">7_224_000</span>, <span class="number">0</span>)
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
-			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
-	}
-	<span class="doccomment">/// Storage: CollatorSelection CandidacyBond (r:0 w:1)
-	/// Proof: CollatorSelection CandidacyBond (max_values: Some(1), max_size: Some(16), added: 511, mode: MaxEncodedLen)
-	</span><span class="kw">fn </span>set_candidacy_bond() -&gt; Weight {
-		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `0`
-		//  Estimated: `0`
-		// Minimum execution time: 7_035_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">7_334_000</span>, <span class="number">0</span>)
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
-			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
-	}
-	<span class="doccomment">/// Storage: CollatorSelection Candidates (r:1 w:1)
-	/// Proof: CollatorSelection Candidates (max_values: Some(1), max_size: Some(48002), added: 48497, mode: MaxEncodedLen)
-	/// Storage: CollatorSelection DesiredCandidates (r:1 w:0)
-	/// Proof: CollatorSelection DesiredCandidates (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	/// Storage: CollatorSelection Invulnerables (r:1 w:0)
-	/// Proof: CollatorSelection Invulnerables (max_values: Some(1), max_size: Some(3202), added: 3697, mode: MaxEncodedLen)
-	/// Storage: Session NextKeys (r:1 w:0)
-	/// Proof Skipped: Session NextKeys (max_values: None, max_size: None, mode: Measured)
-	/// Storage: CollatorSelection CandidacyBond (r:1 w:0)
-	/// Proof: CollatorSelection CandidacyBond (max_values: Some(1), max_size: Some(16), added: 511, mode: MaxEncodedLen)
-	/// Storage: CollatorSelection LastAuthoredBlock (r:0 w:1)
-	/// Proof: CollatorSelection LastAuthoredBlock (max_values: None, max_size: Some(44), added: 2519, mode: MaxEncodedLen)
-	/// The range of component `c` is `[1, 999]`.
-	</span><span class="kw">fn </span>register_as_candidate(c: u32, ) -&gt; Weight {
-		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `1104 + c * (48 ±0)`
-		//  Estimated: `49487 + c * (49 ±0)`
-		// Minimum execution time: 42_377_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">34_785_115</span>, <span class="number">0</span>)
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">49487</span>))
-			<span class="comment">// Standard Error: 1_226
-			</span>.saturating_add(Weight::from_parts(<span class="number">101_867</span>, <span class="number">0</span>).saturating_mul(c.into()))
-			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
-			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">49</span>).saturating_mul(c.into()))
-	}
-	<span class="doccomment">/// Storage: CollatorSelection Candidates (r:1 w:1)
-	/// Proof: CollatorSelection Candidates (max_values: Some(1), max_size: Some(48002), added: 48497, mode: MaxEncodedLen)
-	/// Storage: CollatorSelection LastAuthoredBlock (r:0 w:1)
-	/// Proof: CollatorSelection LastAuthoredBlock (max_values: None, max_size: Some(44), added: 2519, mode: MaxEncodedLen)
-	/// The range of component `c` is `[6, 1000]`.
-	</span><span class="kw">fn </span>leave_intent(c: u32, ) -&gt; Weight {
-		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `428 + c * (48 ±0)`
-		//  Estimated: `49487`
-		// Minimum execution time: 33_648_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">24_533_176</span>, <span class="number">0</span>)
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">49487</span>))
-			<span class="comment">// Standard Error: 1_388
-			</span>.saturating_add(Weight::from_parts(<span class="number">103_733</span>, <span class="number">0</span>).saturating_mul(c.into()))
-			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
-			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
-	}
-	<span class="doccomment">/// Storage: System Account (r:2 w:2)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
-	/// Storage: System BlockWeight (r:1 w:1)
-	/// Proof: System BlockWeight (max_values: Some(1), max_size: Some(48), added: 543, mode: MaxEncodedLen)
-	/// Storage: CollatorSelection LastAuthoredBlock (r:0 w:1)
-	/// Proof: CollatorSelection LastAuthoredBlock (max_values: None, max_size: Some(44), added: 2519, mode: MaxEncodedLen)
-	</span><span class="kw">fn </span>note_author() -&gt; Weight {
-		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `155`
-		//  Estimated: `6196`
-		// Minimum execution time: 44_705_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">45_288_000</span>, <span class="number">0</span>)
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6196</span>))
-			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
-			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
-	}
-	<span class="doccomment">/// Storage: Session NextKeys (r:1 w:0)
-	/// Proof Skipped: Session NextKeys (max_values: None, max_size: None, mode: Measured)
-	/// Storage: CollatorSelection Invulnerables (r:1 w:1)
-	/// Proof: CollatorSelection Invulnerables (max_values: Some(1), max_size: Some(641), added: 1136, mode: MaxEncodedLen)
-	/// Storage: CollatorSelection Candidates (r:1 w:1)
-	/// Proof: CollatorSelection Candidates (max_values: Some(1), max_size: Some(4802), added: 5297, mode: MaxEncodedLen)
-	/// Storage: System Account (r:1 w:1)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Session::NextKeys` (r:1 w:0)
+	/// Proof: `Session::NextKeys` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `CollatorSelection::Invulnerables` (r:1 w:1)
+	/// Proof: `CollatorSelection::Invulnerables` (`max_values`: Some(1), `max_size`: Some(641), added: 1136, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::Candidates` (r:1 w:1)
+	/// Proof: `CollatorSelection::Candidates` (`max_values`: Some(1), `max_size`: Some(4802), added: 5297, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:1 w:1)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
 	/// The range of component `b` is `[1, 19]`.
 	/// The range of component `c` is `[1, 99]`.
 	</span><span class="kw">fn </span>add_invulnerable(b: u32, c: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `757 + b * (32 ±0) + c * (53 ±0)`
 		//  Estimated: `6287 + b * (37 ±0) + c * (53 ±0)`
-		// Minimum execution time: 52_720_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">56_102_459</span>, <span class="number">0</span>)
+		// Minimum execution time: 47_110_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">45_234_418</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6287</span>))
-			<span class="comment">// Standard Error: 12_957
-			</span>.saturating_add(Weight::from_parts(<span class="number">26_422</span>, <span class="number">0</span>).saturating_mul(b.into()))
-			<span class="comment">// Standard Error: 2_456
-			</span>.saturating_add(Weight::from_parts(<span class="number">128_528</span>, <span class="number">0</span>).saturating_mul(c.into()))
+			<span class="comment">// Standard Error: 14_452
+			</span>.saturating_add(Weight::from_parts(<span class="number">156_031</span>, <span class="number">0</span>).saturating_mul(b.into()))
+			<span class="comment">// Standard Error: 2_739
+			</span>.saturating_add(Weight::from_parts(<span class="number">216_162</span>, <span class="number">0</span>).saturating_mul(c.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">37</span>).saturating_mul(b.into()))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">53</span>).saturating_mul(c.into()))
 	}
-	<span class="doccomment">/// Storage: CollatorSelection Invulnerables (r:1 w:1)
-	/// Proof: CollatorSelection Invulnerables (max_values: Some(1), max_size: Some(3202), added: 3697, mode: MaxEncodedLen)
-	/// The range of component `b` is `[1, 100]`.
+	<span class="doccomment">/// Storage: `CollatorSelection::Candidates` (r:1 w:0)
+	/// Proof: `CollatorSelection::Candidates` (`max_values`: Some(1), `max_size`: Some(4802), added: 5297, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::Invulnerables` (r:1 w:1)
+	/// Proof: `CollatorSelection::Invulnerables` (`max_values`: Some(1), `max_size`: Some(641), added: 1136, mode: `MaxEncodedLen`)
+	/// The range of component `b` is `[5, 20]`.
 	</span><span class="kw">fn </span>remove_invulnerable(b: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `119 + b * (32 ±0)`
-		//  Estimated: `4687`
-		// Minimum execution time: 183_054_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">197_205_427</span>, <span class="number">0</span>)
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4687</span>))
-			<span class="comment">// Standard Error: 13_533
-			</span>.saturating_add(Weight::from_parts(<span class="number">376_231</span>, <span class="number">0</span>).saturating_mul(b.into()))
-			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
+		//  Measured:  `82 + b * (32 ±0)`
+		//  Estimated: `6287`
+		// Minimum execution time: 15_326_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">14_914_611</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6287</span>))
+			<span class="comment">// Standard Error: 2_274
+			</span>.saturating_add(Weight::from_parts(<span class="number">201_234</span>, <span class="number">0</span>).saturating_mul(b.into()))
+			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: CollatorSelection Candidates (r:1 w:0)
-	/// Proof: CollatorSelection Candidates (max_values: Some(1), max_size: Some(48002), added: 48497, mode: MaxEncodedLen)
-	/// Storage: CollatorSelection LastAuthoredBlock (r:999 w:0)
-	/// Proof: CollatorSelection LastAuthoredBlock (max_values: None, max_size: Some(44), added: 2519, mode: MaxEncodedLen)
-	/// Storage: CollatorSelection Invulnerables (r:1 w:0)
-	/// Proof: CollatorSelection Invulnerables (max_values: Some(1), max_size: Some(3202), added: 3697, mode: MaxEncodedLen)
-	/// Storage: System BlockWeight (r:1 w:1)
-	/// Proof: System BlockWeight (max_values: Some(1), max_size: Some(48), added: 543, mode: MaxEncodedLen)
-	/// Storage: System Account (r:995 w:995)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
-	/// The range of component `r` is `[1, 1000]`.
-	/// The range of component `c` is `[1, 1000]`.
+	<span class="doccomment">/// Storage: `CollatorSelection::DesiredCandidates` (r:0 w:1)
+	/// Proof: `CollatorSelection::DesiredCandidates` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	</span><span class="kw">fn </span>set_desired_candidates() -&gt; Weight {
+		<span class="comment">// Proof Size summary in bytes:
+		//  Measured:  `0`
+		//  Estimated: `0`
+		// Minimum execution time: 7_288_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">7_472_000</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
+			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
+	}
+	<span class="doccomment">/// Storage: `CollatorSelection::CandidacyBond` (r:0 w:1)
+	/// Proof: `CollatorSelection::CandidacyBond` (`max_values`: Some(1), `max_size`: Some(16), added: 511, mode: `MaxEncodedLen`)
+	</span><span class="kw">fn </span>set_candidacy_bond() -&gt; Weight {
+		<span class="comment">// Proof Size summary in bytes:
+		//  Measured:  `0`
+		//  Estimated: `0`
+		// Minimum execution time: 7_137_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">7_374_000</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
+			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
+	}
+	<span class="doccomment">/// Storage: `CollatorSelection::Candidates` (r:1 w:1)
+	/// Proof: `CollatorSelection::Candidates` (`max_values`: Some(1), `max_size`: Some(4802), added: 5297, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::DesiredCandidates` (r:1 w:0)
+	/// Proof: `CollatorSelection::DesiredCandidates` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::Invulnerables` (r:1 w:0)
+	/// Proof: `CollatorSelection::Invulnerables` (`max_values`: Some(1), `max_size`: Some(641), added: 1136, mode: `MaxEncodedLen`)
+	/// Storage: `Session::NextKeys` (r:1 w:0)
+	/// Proof: `Session::NextKeys` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `CollatorSelection::CandidacyBond` (r:1 w:0)
+	/// Proof: `CollatorSelection::CandidacyBond` (`max_values`: Some(1), `max_size`: Some(16), added: 511, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::LastAuthoredBlock` (r:0 w:1)
+	/// Proof: `CollatorSelection::LastAuthoredBlock` (`max_values`: None, `max_size`: Some(44), added: 2519, mode: `MaxEncodedLen`)
+	/// The range of component `c` is `[1, 99]`.
+	</span><span class="kw">fn </span>register_as_candidate(c: u32, ) -&gt; Weight {
+		<span class="comment">// Proof Size summary in bytes:
+		//  Measured:  `740 + c * (52 ±0)`
+		//  Estimated: `6287 + c * (54 ±0)`
+		// Minimum execution time: 40_718_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">43_911_837</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6287</span>))
+			<span class="comment">// Standard Error: 3_053
+			</span>.saturating_add(Weight::from_parts(<span class="number">229_337</span>, <span class="number">0</span>).saturating_mul(c.into()))
+			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
+			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">54</span>).saturating_mul(c.into()))
+	}
+	<span class="doccomment">/// Storage: `CollatorSelection::Candidates` (r:1 w:1)
+	/// Proof: `CollatorSelection::Candidates` (`max_values`: Some(1), `max_size`: Some(4802), added: 5297, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::Invulnerables` (r:1 w:0)
+	/// Proof: `CollatorSelection::Invulnerables` (`max_values`: Some(1), `max_size`: Some(641), added: 1136, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::LastAuthoredBlock` (r:0 w:1)
+	/// Proof: `CollatorSelection::LastAuthoredBlock` (`max_values`: None, `max_size`: Some(44), added: 2519, mode: `MaxEncodedLen`)
+	/// The range of component `c` is `[3, 100]`.
+	</span><span class="kw">fn </span>leave_intent(c: u32, ) -&gt; Weight {
+		<span class="comment">// Proof Size summary in bytes:
+		//  Measured:  `334 + c * (49 ±0)`
+		//  Estimated: `6287`
+		// Minimum execution time: 32_953_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">34_817_275</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6287</span>))
+			<span class="comment">// Standard Error: 2_476
+			</span>.saturating_add(Weight::from_parts(<span class="number">198_023</span>, <span class="number">0</span>).saturating_mul(c.into()))
+			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
+			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
+	}
+	<span class="doccomment">/// Storage: `System::Account` (r:2 w:2)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	/// Storage: `System::BlockWeight` (r:1 w:1)
+	/// Proof: `System::BlockWeight` (`max_values`: Some(1), `max_size`: Some(48), added: 543, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::LastAuthoredBlock` (r:0 w:1)
+	/// Proof: `CollatorSelection::LastAuthoredBlock` (`max_values`: None, `max_size`: Some(44), added: 2519, mode: `MaxEncodedLen`)
+	</span><span class="kw">fn </span>note_author() -&gt; Weight {
+		<span class="comment">// Proof Size summary in bytes:
+		//  Measured:  `155`
+		//  Estimated: `6196`
+		// Minimum execution time: 45_130_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">46_733_000</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6196</span>))
+			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
+			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
+	}
+	<span class="doccomment">/// Storage: `CollatorSelection::Candidates` (r:1 w:0)
+	/// Proof: `CollatorSelection::Candidates` (`max_values`: Some(1), `max_size`: Some(4802), added: 5297, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::LastAuthoredBlock` (r:100 w:0)
+	/// Proof: `CollatorSelection::LastAuthoredBlock` (`max_values`: None, `max_size`: Some(44), added: 2519, mode: `MaxEncodedLen`)
+	/// Storage: `CollatorSelection::Invulnerables` (r:1 w:0)
+	/// Proof: `CollatorSelection::Invulnerables` (`max_values`: Some(1), `max_size`: Some(641), added: 1136, mode: `MaxEncodedLen`)
+	/// Storage: `System::BlockWeight` (r:1 w:1)
+	/// Proof: `System::BlockWeight` (`max_values`: Some(1), `max_size`: Some(48), added: 543, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:97 w:97)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	/// The range of component `r` is `[1, 100]`.
+	/// The range of component `c` is `[1, 100]`.
 	</span><span class="kw">fn </span>new_session(r: u32, c: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `22815 + c * (97 ±0) + r * (116 ±0)`
-		//  Estimated: `49487 + c * (2519 ±0) + r * (2602 ±0)`
-		// Minimum execution time: 16_845_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">16_962_000</span>, <span class="number">0</span>)
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">49487</span>))
-			<span class="comment">// Standard Error: 858_960
-			</span>.saturating_add(Weight::from_parts(<span class="number">30_464_644</span>, <span class="number">0</span>).saturating_mul(c.into()))
+		//  Measured:  `2263 + c * (97 ±0) + r * (115 ±0)`
+		//  Estimated: `6287 + c * (2519 ±0) + r * (2603 ±0)`
+		// Minimum execution time: 16_690_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">17_188_000</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6287</span>))
+			<span class="comment">// Standard Error: 345_320
+			</span>.saturating_add(Weight::from_parts(<span class="number">15_166_422</span>, <span class="number">0</span>).saturating_mul(c.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(c.into())))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes((<span class="number">1_u64</span>).saturating_mul(c.into())))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2519</span>).saturating_mul(c.into()))
-			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2602</span>).saturating_mul(r.into()))
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2603</span>).saturating_mul(r.into()))
 	}
 }
 </code></pre></div></section></main></body></html>

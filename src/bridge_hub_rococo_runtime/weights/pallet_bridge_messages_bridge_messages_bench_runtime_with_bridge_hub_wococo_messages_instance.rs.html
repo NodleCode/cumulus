@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/bridge-hubs/bridge-hub-rococo/src/weights/pallet_bridge_messages_bridge_messages_bench_runtime_with_bridge_hub_wococo_messages_instance.rs`."><title>pallet_bridge_messages_bridge_messages_bench_runtime_with_bridge_hub_wococo_messages_instance.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bridge_hub_rococo_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../bridge_hub_rococo_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/bridge-hubs/bridge-hub-rococo/src/weights/pallet_bridge_messages_bridge_messages_bench_runtime_with_bridge_hub_wococo_messages_instance.rs`."><title>pallet_bridge_messages_bridge_messages_bench_runtime_with_bridge_hub_wococo_messages_instance.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bridge_hub_rococo_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../bridge_hub_rococo_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -230,6 +230,7 @@
 <a href="#230" id="230">230</a>
 <a href="#231" id="231">231</a>
 <a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -249,24 +250,25 @@
 </span><span class="doccomment">//! Autogenerated weights for `pallet_bridge_messages`
 //!
 //! THIS FILE WAS AUTO-GENERATED USING THE SUBSTRATE BENCHMARK CLI VERSION 4.0.0-dev
-//! DATE: 2023-05-03, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
+//! DATE: 2023-07-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
 //! WORST CASE MAP SIZE: `1000000`
-//! HOSTNAME: `bm3`, CPU: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-//! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some(&quot;bridge-hub-rococo-dev&quot;), DB CACHE: 1024
+//! HOSTNAME: `runner-ynta1nyy-project-238-concurrent-0`, CPU: `Intel(R) Xeon(R) CPU @ 2.60GHz`
+//! EXECUTION: ``, WASM-EXECUTION: `Compiled`, CHAIN: `Some(&quot;bridge-hub-rococo-dev&quot;)`, DB CACHE: 1024
 
 </span><span class="comment">// Executed Command:
-// target/production/polkadot-parachain
+// ./target/production/polkadot-parachain
 // benchmark
 // pallet
+// --chain=bridge-hub-rococo-dev
+// --wasm-execution=compiled
+// --pallet=pallet_bridge_messages
+// --no-storage-info
+// --no-median-slopes
+// --no-min-squares
+// --extrinsic=*
 // --steps=50
 // --repeat=20
-// --extrinsic=*
-// --execution=wasm
-// --wasm-execution=compiled
-// --heap-pages=4096
-// --json-file=/var/lib/gitlab-runner/builds/zyw4fam_/0/parity/mirrors/cumulus/.git/.artifacts/bench.json
-// --pallet=pallet_bridge_messages
-// --chain=bridge-hub-rococo-dev
+// --json
 // --header=./file_header.txt
 // --output=./parachains/runtimes/bridge-hubs/bridge-hub-rococo/src/weights/
 
@@ -281,183 +283,183 @@
 <span class="doccomment">/// Weight functions for `pallet_bridge_messages`.
 </span><span class="kw">pub struct </span>WeightInfo&lt;T&gt;(PhantomData&lt;T&gt;);
 <span class="kw">impl</span>&lt;T: frame_system::Config&gt; pallet_bridge_messages::WeightInfo <span class="kw">for </span>WeightInfo&lt;T&gt; {
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages InboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages InboundLanes (max_values: None, max_size: Some(49180), added: 51655, mode: MaxEncodedLen)
-	/// Storage: ParachainInfo ParachainId (r:1 w:0)
-	/// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::InboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::InboundLanes` (`max_values`: None, `max_size`: Some(49180), added: 51655, mode: `MaxEncodedLen`)
+	/// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	/// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>receive_single_message_proof() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `404`
 		//  Estimated: `52645`
-		// Minimum execution time: 43_745_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">45_462_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 43_991_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">45_465_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">52645</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages InboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages InboundLanes (max_values: None, max_size: Some(49180), added: 51655, mode: MaxEncodedLen)
-	/// Storage: ParachainInfo ParachainId (r:1 w:0)
-	/// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::InboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::InboundLanes` (`max_values`: None, `max_size`: Some(49180), added: 51655, mode: `MaxEncodedLen`)
+	/// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	/// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>receive_two_messages_proof() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `404`
 		//  Estimated: `52645`
-		// Minimum execution time: 55_455_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">65_023_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 54_906_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">56_412_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">52645</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages InboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages InboundLanes (max_values: None, max_size: Some(49180), added: 51655, mode: MaxEncodedLen)
-	/// Storage: ParachainInfo ParachainId (r:1 w:0)
-	/// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::InboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::InboundLanes` (`max_values`: None, `max_size`: Some(49180), added: 51655, mode: `MaxEncodedLen`)
+	/// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	/// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>receive_single_message_proof_with_outbound_lane_state() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `404`
 		//  Estimated: `52645`
-		// Minimum execution time: 48_603_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">50_377_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 48_906_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">51_665_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">52645</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages InboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages InboundLanes (max_values: None, max_size: Some(49180), added: 51655, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::InboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::InboundLanes` (`max_values`: None, `max_size`: Some(49180), added: 51655, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>receive_single_message_proof_1_kb() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `372`
 		//  Estimated: `52645`
-		// Minimum execution time: 42_777_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">43_499_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 42_784_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">44_788_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">52645</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages InboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages InboundLanes (max_values: None, max_size: Some(49180), added: 51655, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::InboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::InboundLanes` (`max_values`: None, `max_size`: Some(49180), added: 51655, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>receive_single_message_proof_16_kb() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `372`
 		//  Estimated: `52645`
-		// Minimum execution time: 69_408_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">69_916_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 75_805_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">77_731_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">52645</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages OutboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages OutboundLanes (max_values: Some(1), max_size: Some(44), added: 539, mode: MaxEncodedLen)
-	/// Storage: unknown `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
-	/// Proof Skipped: unknown `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
-	/// Storage: BridgeRelayers RelayerRewards (r:1 w:1)
-	/// Proof: BridgeRelayers RelayerRewards (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::OutboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::OutboundLanes` (`max_values`: Some(1), `max_size`: Some(44), added: 539, mode: `MaxEncodedLen`)
+	/// Storage: UNKNOWN KEY `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
+	/// Proof: UNKNOWN KEY `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
+	/// Storage: `BridgeRelayers::RelayerRewards` (r:1 w:1)
+	/// Proof: `BridgeRelayers::RelayerRewards` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>receive_delivery_proof_for_single_message() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `376`
 		//  Estimated: `3841`
-		// Minimum execution time: 33_122_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">34_379_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 32_012_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">32_653_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3841</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages OutboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages OutboundLanes (max_values: Some(1), max_size: Some(44), added: 539, mode: MaxEncodedLen)
-	/// Storage: unknown `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
-	/// Proof Skipped: unknown `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
-	/// Storage: BridgeRelayers RelayerRewards (r:1 w:1)
-	/// Proof: BridgeRelayers RelayerRewards (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::OutboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::OutboundLanes` (`max_values`: Some(1), `max_size`: Some(44), added: 539, mode: `MaxEncodedLen`)
+	/// Storage: UNKNOWN KEY `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
+	/// Proof: UNKNOWN KEY `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
+	/// Storage: `BridgeRelayers::RelayerRewards` (r:1 w:1)
+	/// Proof: `BridgeRelayers::RelayerRewards` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>receive_delivery_proof_for_two_messages_by_single_relayer() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `376`
 		//  Estimated: `3841`
-		// Minimum execution time: 33_049_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">33_747_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 31_851_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">33_017_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3841</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages OutboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages OutboundLanes (max_values: Some(1), max_size: Some(44), added: 539, mode: MaxEncodedLen)
-	/// Storage: unknown `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
-	/// Proof Skipped: unknown `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
-	/// Storage: BridgeRelayers RelayerRewards (r:2 w:2)
-	/// Proof: BridgeRelayers RelayerRewards (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::OutboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::OutboundLanes` (`max_values`: Some(1), `max_size`: Some(44), added: 539, mode: `MaxEncodedLen`)
+	/// Storage: UNKNOWN KEY `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
+	/// Proof: UNKNOWN KEY `0x6e0a18b62a1de81c5f519181cc611e18` (r:1 w:0)
+	/// Storage: `BridgeRelayers::RelayerRewards` (r:2 w:2)
+	/// Proof: `BridgeRelayers::RelayerRewards` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>receive_delivery_proof_for_two_messages_by_two_relayers() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `376`
 		//  Estimated: `6086`
-		// Minimum execution time: 35_578_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">36_007_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 34_818_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">35_728_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6086</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">6</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 	}
-	<span class="doccomment">/// Storage: BridgeWococoMessages PalletOperatingMode (r:1 w:0)
-	/// Proof: BridgeWococoMessages PalletOperatingMode (max_values: Some(1), max_size: Some(2), added: 497, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoParachain ImportedParaHeads (r:1 w:0)
-	/// Proof: BridgeWococoParachain ImportedParaHeads (max_values: Some(64), max_size: Some(196), added: 1186, mode: MaxEncodedLen)
-	/// Storage: BridgeWococoMessages InboundLanes (r:1 w:1)
-	/// Proof: BridgeWococoMessages InboundLanes (max_values: None, max_size: Some(49180), added: 51655, mode: MaxEncodedLen)
-	/// Storage: ParachainInfo ParachainId (r:1 w:0)
-	/// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	/// Storage: PolkadotXcm SupportedVersion (r:1 w:0)
-	/// Proof Skipped: PolkadotXcm SupportedVersion (max_values: None, max_size: None, mode: Measured)
-	/// Storage: PolkadotXcm VersionDiscoveryQueue (r:1 w:1)
-	/// Proof Skipped: PolkadotXcm VersionDiscoveryQueue (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: PolkadotXcm SafeXcmVersion (r:1 w:0)
-	/// Proof Skipped: PolkadotXcm SafeXcmVersion (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: ParachainSystem RelevantMessagingState (r:1 w:0)
-	/// Proof Skipped: ParachainSystem RelevantMessagingState (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: XcmpQueue OutboundXcmpStatus (r:1 w:1)
-	/// Proof Skipped: XcmpQueue OutboundXcmpStatus (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: XcmpQueue OutboundXcmpMessages (r:0 w:1)
-	/// Proof Skipped: XcmpQueue OutboundXcmpMessages (max_values: None, max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `BridgeWococoMessages::PalletOperatingMode` (r:1 w:0)
+	/// Proof: `BridgeWococoMessages::PalletOperatingMode` (`max_values`: Some(1), `max_size`: Some(2), added: 497, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoParachain::ImportedParaHeads` (r:1 w:0)
+	/// Proof: `BridgeWococoParachain::ImportedParaHeads` (`max_values`: Some(64), `max_size`: Some(196), added: 1186, mode: `MaxEncodedLen`)
+	/// Storage: `BridgeWococoMessages::InboundLanes` (r:1 w:1)
+	/// Proof: `BridgeWococoMessages::InboundLanes` (`max_values`: None, `max_size`: Some(49180), added: 51655, mode: `MaxEncodedLen`)
+	/// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	/// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	/// Storage: `PolkadotXcm::SupportedVersion` (r:1 w:0)
+	/// Proof: `PolkadotXcm::SupportedVersion` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `PolkadotXcm::VersionDiscoveryQueue` (r:1 w:1)
+	/// Proof: `PolkadotXcm::VersionDiscoveryQueue` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `PolkadotXcm::SafeXcmVersion` (r:1 w:0)
+	/// Proof: `PolkadotXcm::SafeXcmVersion` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `ParachainSystem::RelevantMessagingState` (r:1 w:0)
+	/// Proof: `ParachainSystem::RelevantMessagingState` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `XcmpQueue::OutboundXcmpStatus` (r:1 w:1)
+	/// Proof: `XcmpQueue::OutboundXcmpStatus` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `XcmpQueue::OutboundXcmpMessages` (r:0 w:1)
+	/// Proof: `XcmpQueue::OutboundXcmpMessages` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// The range of component `i` is `[128, 2048]`.
 	/// The range of component `i` is `[128, 2048]`.
 	</span><span class="kw">fn </span>receive_single_message_proof_with_dispatch(i: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `672`
 		//  Estimated: `52645`
-		// Minimum execution time: 130_070_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">104_597_637</span>, <span class="number">0</span>)
+		// Minimum execution time: 172_737_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">175_172_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">52645</span>))
-			<span class="comment">// Standard Error: 2_607
-			</span>.saturating_add(Weight::from_parts(<span class="number">538_698</span>, <span class="number">0</span>).saturating_mul(i.into()))
+			<span class="comment">// Standard Error: 3_669
+			</span>.saturating_add(Weight::from_parts(<span class="number">1_013_545</span>, <span class="number">0</span>).saturating_mul(i.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">9</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 	}

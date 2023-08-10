@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/bridge-hubs/bridge-hub-kusama/src/weights/frame_system.rs`."><title>frame_system.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bridge_hub_kusama_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../bridge_hub_kusama_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/bridge-hubs/bridge-hub-kusama/src/weights/frame_system.rs`."><title>frame_system.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="bridge_hub_kusama_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../bridge_hub_kusama_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -132,6 +132,27 @@
 <a href="#132" id="132">132</a>
 <a href="#133" id="133">133</a>
 <a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a>
+<a href="#141" id="141">141</a>
+<a href="#142" id="142">142</a>
+<a href="#143" id="143">143</a>
+<a href="#144" id="144">144</a>
+<a href="#145" id="145">145</a>
+<a href="#146" id="146">146</a>
+<a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
+<a href="#154" id="154">154</a>
+<a href="#155" id="155">155</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -151,25 +172,27 @@
 </span><span class="doccomment">//! Autogenerated weights for `frame_system`
 //!
 //! THIS FILE WAS AUTO-GENERATED USING THE SUBSTRATE BENCHMARK CLI VERSION 4.0.0-dev
-//! DATE: 2023-05-05, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
+//! DATE: 2023-07-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
 //! WORST CASE MAP SIZE: `1000000`
-//! HOSTNAME: `bm4`, CPU: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-//! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some(&quot;bridge-hub-kusama-dev&quot;), DB CACHE: 1024
+//! HOSTNAME: `runner-ynta1nyy-project-238-concurrent-0`, CPU: `Intel(R) Xeon(R) CPU @ 2.60GHz`
+//! EXECUTION: ``, WASM-EXECUTION: `Compiled`, CHAIN: `Some(&quot;bridge-hub-kusama-dev&quot;)`, DB CACHE: 1024
 
 </span><span class="comment">// Executed Command:
-// ./artifacts/polkadot-parachain
+// ./target/production/polkadot-parachain
 // benchmark
 // pallet
 // --chain=bridge-hub-kusama-dev
-// --execution=wasm
 // --wasm-execution=compiled
 // --pallet=frame_system
+// --no-storage-info
+// --no-median-slopes
+// --no-min-squares
 // --extrinsic=*
 // --steps=50
 // --repeat=20
 // --json
 // --header=./file_header.txt
-// --output=./parachains/runtimes/bridge-hubs/bridge-hub-kusama/src/weights/frame_system.rs
+// --output=./parachains/runtimes/bridge-hubs/bridge-hub-kusama/src/weights/
 
 </span><span class="attr">#![cfg_attr(rustfmt, rustfmt_skip)]
 #![allow(unused_parens)]
@@ -187,80 +210,99 @@
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `0`
-		// Minimum execution time: 2_356_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">1_100_689</span>, <span class="number">0</span>)
+		// Minimum execution time: 1_985_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">2_177_341</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
 			<span class="comment">// Standard Error: 0
-			</span>.saturating_add(Weight::from_parts(<span class="number">412</span>, <span class="number">0</span>).saturating_mul(b.into()))
+			</span>.saturating_add(Weight::from_parts(<span class="number">386</span>, <span class="number">0</span>).saturating_mul(b.into()))
 	}
 	<span class="doccomment">/// The range of component `b` is `[0, 3932160]`.
 	</span><span class="kw">fn </span>remark_with_event(b: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `0`
-		// Minimum execution time: 7_879_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">8_041_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 7_288_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">23_888_468</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
-			<span class="comment">// Standard Error: 0
-			</span>.saturating_add(Weight::from_parts(<span class="number">1_451</span>, <span class="number">0</span>).saturating_mul(b.into()))
+			<span class="comment">// Standard Error: 8
+			</span>.saturating_add(Weight::from_parts(<span class="number">1_718</span>, <span class="number">0</span>).saturating_mul(b.into()))
 	}
-	<span class="kw">fn </span>set_code() -&gt; Weight {
-		Weight::from_parts(<span class="number">1_000_000</span>, <span class="number">0</span>)
-	}
-	<span class="doccomment">/// Storage: System Digest (r:1 w:1)
-	/// Proof Skipped: System Digest (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: unknown `0x3a686561707061676573` (r:0 w:1)
-	/// Proof Skipped: unknown `0x3a686561707061676573` (r:0 w:1)
+	<span class="doccomment">/// Storage: `System::Digest` (r:1 w:1)
+	/// Proof: `System::Digest` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: UNKNOWN KEY `0x3a686561707061676573` (r:0 w:1)
+	/// Proof: UNKNOWN KEY `0x3a686561707061676573` (r:0 w:1)
 	</span><span class="kw">fn </span>set_heap_pages() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `1485`
-		// Minimum execution time: 4_358_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">4_537_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 3_700_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">3_867_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">1485</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Skipped Metadata (r:0 w:0)
-	/// Proof Skipped: Skipped Metadata (max_values: None, max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `ParachainSystem::ValidationData` (r:1 w:0)
+	/// Proof: `ParachainSystem::ValidationData` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `ParachainSystem::UpgradeRestrictionSignal` (r:1 w:0)
+	/// Proof: `ParachainSystem::UpgradeRestrictionSignal` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `ParachainSystem::PendingValidationCode` (r:1 w:1)
+	/// Proof: `ParachainSystem::PendingValidationCode` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `ParachainSystem::HostConfiguration` (r:1 w:0)
+	/// Proof: `ParachainSystem::HostConfiguration` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `ParachainSystem::NewValidationCode` (r:0 w:1)
+	/// Proof: `ParachainSystem::NewValidationCode` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `ParachainSystem::DidSetValidationCode` (r:0 w:1)
+	/// Proof: `ParachainSystem::DidSetValidationCode` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	</span><span class="kw">fn </span>set_code() -&gt; Weight {
+		<span class="comment">// Proof Size summary in bytes:
+		//  Measured:  `119`
+		//  Estimated: `1604`
+		// Minimum execution time: 100_298_586_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">101_869_369_000</span>, <span class="number">0</span>)
+			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">1604</span>))
+			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
+			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
+	}
+	<span class="doccomment">/// Storage: `Skipped::Metadata` (r:0 w:0)
+	/// Proof: `Skipped::Metadata` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// The range of component `i` is `[0, 1000]`.
 	</span><span class="kw">fn </span>set_storage(i: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `0`
-		// Minimum execution time: 2_373_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">2_395_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 2_052_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">2_115_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
-			<span class="comment">// Standard Error: 1_727
-			</span>.saturating_add(Weight::from_parts(<span class="number">690_266</span>, <span class="number">0</span>).saturating_mul(i.into()))
+			<span class="comment">// Standard Error: 2_048
+			</span>.saturating_add(Weight::from_parts(<span class="number">755_436</span>, <span class="number">0</span>).saturating_mul(i.into()))
 			.saturating_add(T::DbWeight::get().writes((<span class="number">1_u64</span>).saturating_mul(i.into())))
 	}
-	<span class="doccomment">/// Storage: Skipped Metadata (r:0 w:0)
-	/// Proof Skipped: Skipped Metadata (max_values: None, max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Skipped::Metadata` (r:0 w:0)
+	/// Proof: `Skipped::Metadata` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// The range of component `i` is `[0, 1000]`.
 	</span><span class="kw">fn </span>kill_storage(i: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `0`
-		// Minimum execution time: 2_513_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">2_540_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 2_044_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">2_110_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
-			<span class="comment">// Standard Error: 815
-			</span>.saturating_add(Weight::from_parts(<span class="number">505_090</span>, <span class="number">0</span>).saturating_mul(i.into()))
+			<span class="comment">// Standard Error: 1_011
+			</span>.saturating_add(Weight::from_parts(<span class="number">569_993</span>, <span class="number">0</span>).saturating_mul(i.into()))
 			.saturating_add(T::DbWeight::get().writes((<span class="number">1_u64</span>).saturating_mul(i.into())))
 	}
-	<span class="doccomment">/// Storage: Skipped Metadata (r:0 w:0)
-	/// Proof Skipped: Skipped Metadata (max_values: None, max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Skipped::Metadata` (r:0 w:0)
+	/// Proof: `Skipped::Metadata` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// The range of component `p` is `[0, 1000]`.
 	</span><span class="kw">fn </span>kill_prefix(p: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `68 + p * (69 ±0)`
 		//  Estimated: `66 + p * (70 ±0)`
-		// Minimum execution time: 4_242_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">4_308_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 3_741_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">3_838_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">66</span>))
-			<span class="comment">// Standard Error: 1_130
-			</span>.saturating_add(Weight::from_parts(<span class="number">1_032_054</span>, <span class="number">0</span>).saturating_mul(p.into()))
+			<span class="comment">// Standard Error: 2_455
+			</span>.saturating_add(Weight::from_parts(<span class="number">1_216_154</span>, <span class="number">0</span>).saturating_mul(p.into()))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(p.into())))
 			.saturating_add(T::DbWeight::get().writes((<span class="number">1_u64</span>).saturating_mul(p.into())))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">70</span>).saturating_mul(p.into()))

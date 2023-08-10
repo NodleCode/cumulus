@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/collectives/collectives-polkadot/src/weights/pallet_alliance.rs`."><title>pallet_alliance.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="collectives_polkadot_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../collectives_polkadot_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/collectives/collectives-polkadot/src/weights/pallet_alliance.rs`."><title>pallet_alliance.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="collectives_polkadot_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../collectives_polkadot_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -491,6 +491,8 @@
 <a href="#491" id="491">491</a>
 <a href="#492" id="492">492</a>
 <a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -510,25 +512,27 @@
 </span><span class="doccomment">//! Autogenerated weights for `pallet_alliance`
 //!
 //! THIS FILE WAS AUTO-GENERATED USING THE SUBSTRATE BENCHMARK CLI VERSION 4.0.0-dev
-//! DATE: 2023-05-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
+//! DATE: 2023-07-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
 //! WORST CASE MAP SIZE: `1000000`
-//! HOSTNAME: `bm5`, CPU: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-//! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some(&quot;collectives-polkadot-dev&quot;), DB CACHE: 1024
+//! HOSTNAME: `runner-ynta1nyy-project-238-concurrent-0`, CPU: `Intel(R) Xeon(R) CPU @ 2.60GHz`
+//! EXECUTION: ``, WASM-EXECUTION: `Compiled`, CHAIN: `Some(&quot;collectives-polkadot-dev&quot;)`, DB CACHE: 1024
 
 </span><span class="comment">// Executed Command:
-// ./artifacts/polkadot-parachain
+// ./target/production/polkadot-parachain
 // benchmark
 // pallet
 // --chain=collectives-polkadot-dev
-// --execution=wasm
 // --wasm-execution=compiled
 // --pallet=pallet_alliance
+// --no-storage-info
+// --no-median-slopes
+// --no-min-squares
 // --extrinsic=*
 // --steps=50
 // --repeat=20
 // --json
 // --header=./file_header.txt
-// --output=./parachains/runtimes/collectives/collectives-polkadot/src/weights/pallet_alliance.rs
+// --output=./parachains/runtimes/collectives/collectives-polkadot/src/weights/
 
 </span><span class="attr">#![cfg_attr(rustfmt, rustfmt_skip)]
 #![allow(unused_parens)]
@@ -541,16 +545,16 @@
 <span class="doccomment">/// Weight functions for `pallet_alliance`.
 </span><span class="kw">pub struct </span>WeightInfo&lt;T&gt;(PhantomData&lt;T&gt;);
 <span class="kw">impl</span>&lt;T: frame_system::Config&gt; pallet_alliance::WeightInfo <span class="kw">for </span>WeightInfo&lt;T&gt; {
-	<span class="doccomment">/// Storage: Alliance Members (r:1 w:0)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion ProposalOf (r:1 w:1)
-	/// Proof Skipped: AllianceMotion ProposalOf (max_values: None, max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Proposals (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion ProposalCount (r:1 w:1)
-	/// Proof Skipped: AllianceMotion ProposalCount (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Voting (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Voting (max_values: None, max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:1 w:0)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::ProposalOf` (r:1 w:1)
+	/// Proof: `AllianceMotion::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:1)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::ProposalCount` (r:1 w:1)
+	/// Proof: `AllianceMotion::ProposalCount` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Voting` (r:0 w:1)
+	/// Proof: `AllianceMotion::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// The range of component `b` is `[1, 1024]`.
 	/// The range of component `m` is `[2, 100]`.
 	/// The range of component `p` is `[1, 100]`.
@@ -558,76 +562,76 @@
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `439 + m * (32 ±0) + p * (36 ±0)`
 		//  Estimated: `6676 + m * (32 ±0) + p * (36 ±0)`
-		// Minimum execution time: 31_379_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">33_466_627</span>, <span class="number">0</span>)
+		// Minimum execution time: 32_783_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">32_174_037</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6676</span>))
-			<span class="comment">// Standard Error: 62
-			</span>.saturating_add(Weight::from_parts(<span class="number">434</span>, <span class="number">0</span>).saturating_mul(b.into()))
-			<span class="comment">// Standard Error: 648
-			</span>.saturating_add(Weight::from_parts(<span class="number">12_968</span>, <span class="number">0</span>).saturating_mul(m.into()))
-			<span class="comment">// Standard Error: 640
-			</span>.saturating_add(Weight::from_parts(<span class="number">111_468</span>, <span class="number">0</span>).saturating_mul(p.into()))
+			<span class="comment">// Standard Error: 198
+			</span>.saturating_add(Weight::from_parts(<span class="number">1_220</span>, <span class="number">0</span>).saturating_mul(b.into()))
+			<span class="comment">// Standard Error: 2_074
+			</span>.saturating_add(Weight::from_parts(<span class="number">40_945</span>, <span class="number">0</span>).saturating_mul(m.into()))
+			<span class="comment">// Standard Error: 2_048
+			</span>.saturating_add(Weight::from_parts(<span class="number">181_087</span>, <span class="number">0</span>).saturating_mul(p.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">32</span>).saturating_mul(m.into()))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">36</span>).saturating_mul(p.into()))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:1 w:0)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Voting (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Voting (max_values: None, max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:1 w:0)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Voting` (r:1 w:1)
+	/// Proof: `AllianceMotion::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// The range of component `m` is `[5, 100]`.
 	</span><span class="kw">fn </span>vote(m: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `868 + m * (64 ±0)`
 		//  Estimated: `6676 + m * (64 ±0)`
-		// Minimum execution time: 25_855_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">26_422_871</span>, <span class="number">0</span>)
+		// Minimum execution time: 28_520_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">29_661_024</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6676</span>))
-			<span class="comment">// Standard Error: 372
-			</span>.saturating_add(Weight::from_parts(<span class="number">37_878</span>, <span class="number">0</span>).saturating_mul(m.into()))
+			<span class="comment">// Standard Error: 2_336
+			</span>.saturating_add(Weight::from_parts(<span class="number">89_873</span>, <span class="number">0</span>).saturating_mul(m.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">64</span>).saturating_mul(m.into()))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:1 w:0)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Voting (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Voting (max_values: None, max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Members (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Proposals (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion ProposalOf (r:0 w:1)
-	/// Proof Skipped: AllianceMotion ProposalOf (max_values: None, max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:1 w:0)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Voting` (r:1 w:1)
+	/// Proof: `AllianceMotion::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Members` (r:1 w:0)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:1)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::ProposalOf` (r:0 w:1)
+	/// Proof: `AllianceMotion::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// The range of component `m` is `[4, 100]`.
 	/// The range of component `p` is `[1, 100]`.
 	</span><span class="kw">fn </span>close_early_disapproved(m: u32, p: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `312 + m * (96 ±0) + p * (36 ±0)`
 		//  Estimated: `6676 + m * (97 ±0) + p * (36 ±0)`
-		// Minimum execution time: 36_596_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">34_698_463</span>, <span class="number">0</span>)
+		// Minimum execution time: 39_353_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">33_028_008</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6676</span>))
-			<span class="comment">// Standard Error: 561
-			</span>.saturating_add(Weight::from_parts(<span class="number">39_490</span>, <span class="number">0</span>).saturating_mul(m.into()))
-			<span class="comment">// Standard Error: 547
-			</span>.saturating_add(Weight::from_parts(<span class="number">107_190</span>, <span class="number">0</span>).saturating_mul(p.into()))
+			<span class="comment">// Standard Error: 2_137
+			</span>.saturating_add(Weight::from_parts(<span class="number">90_946</span>, <span class="number">0</span>).saturating_mul(m.into()))
+			<span class="comment">// Standard Error: 2_084
+			</span>.saturating_add(Weight::from_parts(<span class="number">175_827</span>, <span class="number">0</span>).saturating_mul(p.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">97</span>).saturating_mul(m.into()))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">36</span>).saturating_mul(p.into()))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:1 w:0)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Voting (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Voting (max_values: None, max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Members (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion ProposalOf (r:1 w:1)
-	/// Proof Skipped: AllianceMotion ProposalOf (max_values: None, max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Proposals (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:1 w:0)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Voting` (r:1 w:1)
+	/// Proof: `AllianceMotion::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Members` (r:1 w:0)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::ProposalOf` (r:1 w:1)
+	/// Proof: `AllianceMotion::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:1)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	/// The range of component `b` is `[1, 1024]`.
 	/// The range of component `m` is `[4, 100]`.
 	/// The range of component `p` is `[1, 100]`.
@@ -635,62 +639,62 @@
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `762 + m * (96 ±0) + p * (41 ±0)`
 		//  Estimated: `6676 + m * (97 ±0) + p * (40 ±0)`
-		// Minimum execution time: 48_194_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">49_032_242</span>, <span class="number">0</span>)
+		// Minimum execution time: 52_835_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">45_963_292</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6676</span>))
-			<span class="comment">// Standard Error: 1_783
-			</span>.saturating_add(Weight::from_parts(<span class="number">46_747</span>, <span class="number">0</span>).saturating_mul(m.into()))
-			<span class="comment">// Standard Error: 1_738
-			</span>.saturating_add(Weight::from_parts(<span class="number">114_162</span>, <span class="number">0</span>).saturating_mul(p.into()))
+			<span class="comment">// Standard Error: 3_189
+			</span>.saturating_add(Weight::from_parts(<span class="number">111_627</span>, <span class="number">0</span>).saturating_mul(m.into()))
+			<span class="comment">// Standard Error: 3_109
+			</span>.saturating_add(Weight::from_parts(<span class="number">207_923</span>, <span class="number">0</span>).saturating_mul(p.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">97</span>).saturating_mul(m.into()))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">40</span>).saturating_mul(p.into()))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:1 w:0)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Voting (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Voting (max_values: None, max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Members (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Prime (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Prime (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion ProposalOf (r:1 w:1)
-	/// Proof Skipped: AllianceMotion ProposalOf (max_values: None, max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Proposals (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: Alliance Rule (r:0 w:1)
-	/// Proof: Alliance Rule (max_values: Some(1), max_size: Some(87), added: 582, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:1 w:0)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Voting` (r:1 w:1)
+	/// Proof: `AllianceMotion::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Members` (r:1 w:0)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Prime` (r:1 w:0)
+	/// Proof: `AllianceMotion::Prime` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::ProposalOf` (r:1 w:1)
+	/// Proof: `AllianceMotion::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:1)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `Alliance::Rule` (r:0 w:1)
+	/// Proof: `Alliance::Rule` (`max_values`: Some(1), `max_size`: Some(87), added: 582, mode: `MaxEncodedLen`)
 	/// The range of component `m` is `[2, 100]`.
 	/// The range of component `p` is `[1, 100]`.
 	</span><span class="kw">fn </span>close_disapproved(m: u32, p: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `518 + m * (96 ±0) + p * (41 ±0)`
 		//  Estimated: `6676 + m * (109 ±0) + p * (43 ±0)`
-		// Minimum execution time: 46_522_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">48_725_642</span>, <span class="number">0</span>)
+		// Minimum execution time: 49_980_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">48_110_301</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6676</span>))
-			<span class="comment">// Standard Error: 3_924
-			</span>.saturating_add(Weight::from_parts(<span class="number">99_493</span>, <span class="number">0</span>).saturating_mul(m.into()))
-			<span class="comment">// Standard Error: 3_876
-			</span>.saturating_add(Weight::from_parts(<span class="number">132_965</span>, <span class="number">0</span>).saturating_mul(p.into()))
+			<span class="comment">// Standard Error: 5_057
+			</span>.saturating_add(Weight::from_parts(<span class="number">169_065</span>, <span class="number">0</span>).saturating_mul(m.into()))
+			<span class="comment">// Standard Error: 4_995
+			</span>.saturating_add(Weight::from_parts(<span class="number">201_349</span>, <span class="number">0</span>).saturating_mul(p.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">6</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">109</span>).saturating_mul(m.into()))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">43</span>).saturating_mul(p.into()))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:1 w:0)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Voting (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Voting (max_values: None, max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Members (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Prime (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Prime (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Proposals (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion ProposalOf (r:0 w:1)
-	/// Proof Skipped: AllianceMotion ProposalOf (max_values: None, max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:1 w:0)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Voting` (r:1 w:1)
+	/// Proof: `AllianceMotion::Voting` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Members` (r:1 w:0)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Prime` (r:1 w:0)
+	/// Proof: `AllianceMotion::Prime` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:1)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::ProposalOf` (r:0 w:1)
+	/// Proof: `AllianceMotion::ProposalOf` (`max_values`: None, `max_size`: None, mode: `Measured`)
 	/// The range of component `b` is `[1, 1024]`.
 	/// The range of component `m` is `[5, 100]`.
 	/// The range of component `p` is `[1, 100]`.
@@ -698,66 +702,66 @@
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `417 + m * (96 ±0) + p * (36 ±0)`
 		//  Estimated: `6676 + m * (96 ±0) + p * (36 ±0)`
-		// Minimum execution time: 38_055_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">36_843_849</span>, <span class="number">0</span>)
+		// Minimum execution time: 40_646_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">36_865_909</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6676</span>))
-			<span class="comment">// Standard Error: 571
-			</span>.saturating_add(Weight::from_parts(<span class="number">37_581</span>, <span class="number">0</span>).saturating_mul(m.into()))
-			<span class="comment">// Standard Error: 550
-			</span>.saturating_add(Weight::from_parts(<span class="number">103_926</span>, <span class="number">0</span>).saturating_mul(p.into()))
+			<span class="comment">// Standard Error: 2_136
+			</span>.saturating_add(Weight::from_parts(<span class="number">74_341</span>, <span class="number">0</span>).saturating_mul(m.into()))
+			<span class="comment">// Standard Error: 2_059
+			</span>.saturating_add(Weight::from_parts(<span class="number">170_035</span>, <span class="number">0</span>).saturating_mul(p.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">96</span>).saturating_mul(m.into()))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">36</span>).saturating_mul(p.into()))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:2 w:2)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Members (r:1 w:1)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:2 w:2)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Members` (r:1 w:1)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	/// The range of component `m` is `[1, 100]`.
 	/// The range of component `z` is `[0, 100]`.
 	</span><span class="kw">fn </span>init_members(m: u32, z: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `12`
 		//  Estimated: `12362`
-		// Minimum execution time: 30_370_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">20_600_862</span>, <span class="number">0</span>)
+		// Minimum execution time: 29_710_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">17_762_170</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">12362</span>))
-			<span class="comment">// Standard Error: 490
-			</span>.saturating_add(Weight::from_parts(<span class="number">122_072</span>, <span class="number">0</span>).saturating_mul(m.into()))
-			<span class="comment">// Standard Error: 484
-			</span>.saturating_add(Weight::from_parts(<span class="number">102_456</span>, <span class="number">0</span>).saturating_mul(z.into()))
+			<span class="comment">// Standard Error: 1_652
+			</span>.saturating_add(Weight::from_parts(<span class="number">156_967</span>, <span class="number">0</span>).saturating_mul(m.into()))
+			<span class="comment">// Standard Error: 1_632
+			</span>.saturating_add(Weight::from_parts(<span class="number">130_352</span>, <span class="number">0</span>).saturating_mul(z.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:2 w:2)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Proposals (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: Alliance DepositOf (r:200 w:50)
-	/// Proof: Alliance DepositOf (max_values: None, max_size: Some(64), added: 2539, mode: MaxEncodedLen)
-	/// Storage: System Account (r:50 w:50)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Members (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Prime (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Prime (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:2 w:2)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:0)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `Alliance::DepositOf` (r:200 w:50)
+	/// Proof: `Alliance::DepositOf` (`max_values`: None, `max_size`: Some(64), added: 2539, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:50 w:50)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Members` (r:0 w:1)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Prime` (r:0 w:1)
+	/// Proof: `AllianceMotion::Prime` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	/// The range of component `x` is `[1, 100]`.
 	/// The range of component `y` is `[0, 100]`.
 	/// The range of component `z` is `[0, 50]`.
 	</span><span class="kw">fn </span>disband(x: u32, y: u32, z: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0 + x * (52 ±0) + y * (53 ±0) + z * (250 ±0)`
-		//  Estimated: `12362 + x * (2539 ±0) + y * (2539 ±0) + z * (2603 ±0)`
-		// Minimum execution time: 282_163_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">284_996_000</span>, <span class="number">0</span>)
+		//  Estimated: `12362 + x * (2539 ±0) + y * (2539 ±0) + z * (2603 ±1)`
+		// Minimum execution time: 294_258_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">295_116_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">12362</span>))
-			<span class="comment">// Standard Error: 23_331
-			</span>.saturating_add(Weight::from_parts(<span class="number">488_926</span>, <span class="number">0</span>).saturating_mul(x.into()))
-			<span class="comment">// Standard Error: 23_219
-			</span>.saturating_add(Weight::from_parts(<span class="number">528_274</span>, <span class="number">0</span>).saturating_mul(y.into()))
-			<span class="comment">// Standard Error: 46_396
-			</span>.saturating_add(Weight::from_parts(<span class="number">14_838_465</span>, <span class="number">0</span>).saturating_mul(z.into()))
+			<span class="comment">// Standard Error: 23_663
+			</span>.saturating_add(Weight::from_parts(<span class="number">553_978</span>, <span class="number">0</span>).saturating_mul(x.into()))
+			<span class="comment">// Standard Error: 23_549
+			</span>.saturating_add(Weight::from_parts(<span class="number">567_024</span>, <span class="number">0</span>).saturating_mul(y.into()))
+			<span class="comment">// Standard Error: 47_055
+			</span>.saturating_add(Weight::from_parts(<span class="number">15_439_056</span>, <span class="number">0</span>).saturating_mul(z.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(x.into())))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(y.into())))
@@ -768,217 +772,217 @@
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2539</span>).saturating_mul(y.into()))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2603</span>).saturating_mul(z.into()))
 	}
-	<span class="doccomment">/// Storage: Alliance Rule (r:0 w:1)
-	/// Proof: Alliance Rule (max_values: Some(1), max_size: Some(87), added: 582, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::Rule` (r:0 w:1)
+	/// Proof: `Alliance::Rule` (`max_values`: Some(1), `max_size`: Some(87), added: 582, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>set_rule() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `0`
-		// Minimum execution time: 9_852_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">10_129_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 8_538_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">8_752_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Announcements (r:1 w:1)
-	/// Proof: Alliance Announcements (max_values: Some(1), max_size: Some(8702), added: 9197, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::Announcements` (r:1 w:1)
+	/// Proof: `Alliance::Announcements` (`max_values`: Some(1), `max_size`: Some(8702), added: 9197, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>announce() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `76`
 		//  Estimated: `10187`
-		// Minimum execution time: 12_892_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">13_134_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 11_213_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">11_792_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">10187</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Announcements (r:1 w:1)
-	/// Proof: Alliance Announcements (max_values: Some(1), max_size: Some(8702), added: 9197, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::Announcements` (r:1 w:1)
+	/// Proof: `Alliance::Announcements` (`max_values`: Some(1), `max_size`: Some(8702), added: 9197, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>remove_announcement() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `149`
 		//  Estimated: `10187`
-		// Minimum execution time: 14_019_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">14_309_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 12_477_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">12_942_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">10187</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:3 w:1)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: Alliance UnscrupulousAccounts (r:1 w:0)
-	/// Proof: Alliance UnscrupulousAccounts (max_values: Some(1), max_size: Some(3202), added: 3697, mode: MaxEncodedLen)
-	/// Storage: System Account (r:1 w:1)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
-	/// Storage: Alliance DepositOf (r:0 w:1)
-	/// Proof: Alliance DepositOf (max_values: None, max_size: Some(64), added: 2539, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:3 w:1)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `Alliance::UnscrupulousAccounts` (r:1 w:0)
+	/// Proof: `Alliance::UnscrupulousAccounts` (`max_values`: Some(1), `max_size`: Some(3202), added: 3697, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:1 w:1)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	/// Storage: `Alliance::DepositOf` (r:0 w:1)
+	/// Proof: `Alliance::DepositOf` (`max_values`: None, `max_size`: Some(64), added: 2539, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>join_alliance() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `294`
 		//  Estimated: `18048`
-		// Minimum execution time: 44_959_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">45_280_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 41_517_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">42_433_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">18048</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:3 w:1)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: Alliance UnscrupulousAccounts (r:1 w:0)
-	/// Proof: Alliance UnscrupulousAccounts (max_values: Some(1), max_size: Some(3202), added: 3697, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:3 w:1)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `Alliance::UnscrupulousAccounts` (r:1 w:0)
+	/// Proof: `Alliance::UnscrupulousAccounts` (`max_values`: Some(1), `max_size`: Some(3202), added: 3697, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>nominate_ally() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `193`
 		//  Estimated: `18048`
-		// Minimum execution time: 28_173_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">28_414_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 25_950_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">26_631_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">18048</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:2 w:2)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Proposals (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Members (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Prime (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Prime (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:2 w:2)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:0)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Members` (r:0 w:1)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Prime` (r:0 w:1)
+	/// Proof: `AllianceMotion::Prime` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	</span><span class="kw">fn </span>elevate_ally() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `236`
 		//  Estimated: `12362`
-		// Minimum execution time: 27_329_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">27_654_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 24_470_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">25_222_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">12362</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:4 w:2)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Proposals (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Members (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Prime (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Prime (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: Alliance RetiringMembers (r:0 w:1)
-	/// Proof: Alliance RetiringMembers (max_values: None, max_size: Some(52), added: 2527, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:4 w:2)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:0)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Members` (r:0 w:1)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Prime` (r:0 w:1)
+	/// Proof: `AllianceMotion::Prime` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `Alliance::RetiringMembers` (r:0 w:1)
+	/// Proof: `Alliance::RetiringMembers` (`max_values`: None, `max_size`: Some(52), added: 2527, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>give_retirement_notice() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `236`
 		//  Estimated: `23734`
-		// Minimum execution time: 34_347_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">34_721_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 31_519_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">32_827_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">23734</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">5</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance RetiringMembers (r:1 w:1)
-	/// Proof: Alliance RetiringMembers (max_values: None, max_size: Some(52), added: 2527, mode: MaxEncodedLen)
-	/// Storage: Alliance Members (r:1 w:1)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: Alliance DepositOf (r:1 w:1)
-	/// Proof: Alliance DepositOf (max_values: None, max_size: Some(64), added: 2539, mode: MaxEncodedLen)
-	/// Storage: System Account (r:1 w:1)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::RetiringMembers` (r:1 w:1)
+	/// Proof: `Alliance::RetiringMembers` (`max_values`: None, `max_size`: Some(52), added: 2527, mode: `MaxEncodedLen`)
+	/// Storage: `Alliance::Members` (r:1 w:1)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `Alliance::DepositOf` (r:1 w:1)
+	/// Proof: `Alliance::DepositOf` (`max_values`: None, `max_size`: Some(64), added: 2539, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:1 w:1)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>retire() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `517`
 		//  Estimated: `6676`
-		// Minimum execution time: 40_761_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">41_278_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 38_799_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">39_634_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6676</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:3 w:1)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Proposals (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: Alliance DepositOf (r:1 w:1)
-	/// Proof: Alliance DepositOf (max_values: None, max_size: Some(64), added: 2539, mode: MaxEncodedLen)
-	/// Storage: System Account (r:2 w:2)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
-	/// Storage: ParachainInfo ParachainId (r:1 w:0)
-	/// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	/// Storage: PolkadotXcm SupportedVersion (r:1 w:0)
-	/// Proof Skipped: PolkadotXcm SupportedVersion (max_values: None, max_size: None, mode: Measured)
-	/// Storage: PolkadotXcm VersionDiscoveryQueue (r:1 w:1)
-	/// Proof Skipped: PolkadotXcm VersionDiscoveryQueue (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: PolkadotXcm SafeXcmVersion (r:1 w:0)
-	/// Proof Skipped: PolkadotXcm SafeXcmVersion (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: ParachainSystem HostConfiguration (r:1 w:0)
-	/// Proof Skipped: ParachainSystem HostConfiguration (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: ParachainSystem PendingUpwardMessages (r:1 w:1)
-	/// Proof Skipped: ParachainSystem PendingUpwardMessages (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Members (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Prime (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Prime (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:3 w:1)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:0)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `Alliance::DepositOf` (r:1 w:1)
+	/// Proof: `Alliance::DepositOf` (`max_values`: None, `max_size`: Some(64), added: 2539, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:2 w:2)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	/// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	/// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	/// Storage: `PolkadotXcm::SupportedVersion` (r:1 w:0)
+	/// Proof: `PolkadotXcm::SupportedVersion` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	/// Storage: `PolkadotXcm::VersionDiscoveryQueue` (r:1 w:1)
+	/// Proof: `PolkadotXcm::VersionDiscoveryQueue` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `PolkadotXcm::SafeXcmVersion` (r:1 w:0)
+	/// Proof: `PolkadotXcm::SafeXcmVersion` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `ParachainSystem::HostConfiguration` (r:1 w:0)
+	/// Proof: `ParachainSystem::HostConfiguration` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `ParachainSystem::PendingUpwardMessages` (r:1 w:1)
+	/// Proof: `ParachainSystem::PendingUpwardMessages` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Members` (r:0 w:1)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Prime` (r:0 w:1)
+	/// Proof: `AllianceMotion::Prime` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	</span><span class="kw">fn </span>kick_member() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `643`
 		//  Estimated: `18048`
-		// Minimum execution time: 143_275_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">144_436_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 137_442_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">142_142_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">18048</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">13</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">8</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance UnscrupulousAccounts (r:1 w:1)
-	/// Proof: Alliance UnscrupulousAccounts (max_values: Some(1), max_size: Some(3202), added: 3697, mode: MaxEncodedLen)
-	/// Storage: Alliance UnscrupulousWebsites (r:1 w:1)
-	/// Proof: Alliance UnscrupulousWebsites (max_values: Some(1), max_size: Some(25702), added: 26197, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::UnscrupulousAccounts` (r:1 w:1)
+	/// Proof: `Alliance::UnscrupulousAccounts` (`max_values`: Some(1), `max_size`: Some(3202), added: 3697, mode: `MaxEncodedLen`)
+	/// Storage: `Alliance::UnscrupulousWebsites` (r:1 w:1)
+	/// Proof: `Alliance::UnscrupulousWebsites` (`max_values`: Some(1), `max_size`: Some(25702), added: 26197, mode: `MaxEncodedLen`)
 	/// The range of component `n` is `[0, 100]`.
 	/// The range of component `l` is `[0, 255]`.
 	</span><span class="kw">fn </span>add_unscrupulous_items(n: u32, l: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `76`
 		//  Estimated: `27187`
-		// Minimum execution time: 7_977_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">8_071_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 7_189_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">7_387_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">27187</span>))
-			<span class="comment">// Standard Error: 3_235
-			</span>.saturating_add(Weight::from_parts(<span class="number">1_501_097</span>, <span class="number">0</span>).saturating_mul(n.into()))
-			<span class="comment">// Standard Error: 1_267
-			</span>.saturating_add(Weight::from_parts(<span class="number">68_685</span>, <span class="number">0</span>).saturating_mul(l.into()))
+			<span class="comment">// Standard Error: 3_417
+			</span>.saturating_add(Weight::from_parts(<span class="number">1_581_413</span>, <span class="number">0</span>).saturating_mul(n.into()))
+			<span class="comment">// Standard Error: 1_338
+			</span>.saturating_add(Weight::from_parts(<span class="number">67_739</span>, <span class="number">0</span>).saturating_mul(l.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance UnscrupulousAccounts (r:1 w:1)
-	/// Proof: Alliance UnscrupulousAccounts (max_values: Some(1), max_size: Some(3202), added: 3697, mode: MaxEncodedLen)
-	/// Storage: Alliance UnscrupulousWebsites (r:1 w:1)
-	/// Proof: Alliance UnscrupulousWebsites (max_values: Some(1), max_size: Some(25702), added: 26197, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Alliance::UnscrupulousAccounts` (r:1 w:1)
+	/// Proof: `Alliance::UnscrupulousAccounts` (`max_values`: Some(1), `max_size`: Some(3202), added: 3697, mode: `MaxEncodedLen`)
+	/// Storage: `Alliance::UnscrupulousWebsites` (r:1 w:1)
+	/// Proof: `Alliance::UnscrupulousWebsites` (`max_values`: Some(1), `max_size`: Some(25702), added: 26197, mode: `MaxEncodedLen`)
 	/// The range of component `n` is `[0, 100]`.
 	/// The range of component `l` is `[0, 255]`.
 	</span><span class="kw">fn </span>remove_unscrupulous_items(n: u32, l: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0 + l * (100 ±0) + n * (289 ±0)`
 		//  Estimated: `27187`
-		// Minimum execution time: 8_100_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">8_199_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 7_201_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">7_325_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">27187</span>))
-			<span class="comment">// Standard Error: 198_431
-			</span>.saturating_add(Weight::from_parts(<span class="number">16_683_292</span>, <span class="number">0</span>).saturating_mul(n.into()))
-			<span class="comment">// Standard Error: 77_714
-			</span>.saturating_add(Weight::from_parts(<span class="number">464_713</span>, <span class="number">0</span>).saturating_mul(l.into()))
+			<span class="comment">// Standard Error: 183_302
+			</span>.saturating_add(Weight::from_parts(<span class="number">16_886_382</span>, <span class="number">0</span>).saturating_mul(n.into()))
+			<span class="comment">// Standard Error: 71_789
+			</span>.saturating_add(Weight::from_parts(<span class="number">352_937</span>, <span class="number">0</span>).saturating_mul(l.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Alliance Members (r:3 w:2)
-	/// Proof: Alliance Members (max_values: None, max_size: Some(3211), added: 5686, mode: MaxEncodedLen)
-	/// Storage: AllianceMotion Proposals (r:1 w:0)
-	/// Proof Skipped: AllianceMotion Proposals (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Members (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Members (max_values: Some(1), max_size: None, mode: Measured)
-	/// Storage: AllianceMotion Prime (r:0 w:1)
-	/// Proof Skipped: AllianceMotion Prime (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="doccomment">/// Storage: `Alliance::Members` (r:3 w:2)
+	/// Proof: `Alliance::Members` (`max_values`: None, `max_size`: Some(3211), added: 5686, mode: `MaxEncodedLen`)
+	/// Storage: `AllianceMotion::Proposals` (r:1 w:0)
+	/// Proof: `AllianceMotion::Proposals` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Members` (r:0 w:1)
+	/// Proof: `AllianceMotion::Members` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	/// Storage: `AllianceMotion::Prime` (r:0 w:1)
+	/// Proof: `AllianceMotion::Prime` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	</span><span class="kw">fn </span>abdicate_fellow_status() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `236`
 		//  Estimated: `18048`
-		// Minimum execution time: 32_208_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">32_841_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 29_653_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">30_365_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">18048</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))

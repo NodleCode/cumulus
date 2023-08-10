@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/assets/asset-hub-westend/src/weights/pallet_nfts.rs`."><title>pallet_nfts.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="asset_hub_westend_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../asset_hub_westend_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/assets/asset-hub-westend/src/weights/pallet_nfts.rs`."><title>pallet_nfts.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="asset_hub_westend_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../asset_hub_westend_runtime/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -769,6 +769,10 @@
 <a href="#769" id="769">769</a>
 <a href="#770" id="770">770</a>
 <a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -788,25 +792,27 @@
 </span><span class="doccomment">//! Autogenerated weights for `pallet_nfts`
 //!
 //! THIS FILE WAS AUTO-GENERATED USING THE SUBSTRATE BENCHMARK CLI VERSION 4.0.0-dev
-//! DATE: 2023-05-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
+//! DATE: 2023-07-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
 //! WORST CASE MAP SIZE: `1000000`
-//! HOSTNAME: `bm6`, CPU: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-//! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some(&quot;asset-hub-westend-dev&quot;), DB CACHE: 1024
+//! HOSTNAME: `runner-ynta1nyy-project-238-concurrent-0`, CPU: `Intel(R) Xeon(R) CPU @ 2.60GHz`
+//! EXECUTION: ``, WASM-EXECUTION: `Compiled`, CHAIN: `Some(&quot;asset-hub-westend-dev&quot;)`, DB CACHE: 1024
 
 </span><span class="comment">// Executed Command:
-// ./artifacts/polkadot-parachain
+// ./target/production/polkadot-parachain
 // benchmark
 // pallet
 // --chain=asset-hub-westend-dev
-// --execution=wasm
 // --wasm-execution=compiled
 // --pallet=pallet_nfts
+// --no-storage-info
+// --no-median-slopes
+// --no-min-squares
 // --extrinsic=*
 // --steps=50
 // --repeat=20
 // --json
 // --header=./file_header.txt
-// --output=./parachains/runtimes/assets/asset-hub-westend/src/weights/pallet_nfts.rs
+// --output=./parachains/runtimes/assets/asset-hub-westend/src/weights/
 
 </span><span class="attr">#![cfg_attr(rustfmt, rustfmt_skip)]
 #![allow(unused_parens)]
@@ -819,595 +825,597 @@
 <span class="doccomment">/// Weight functions for `pallet_nfts`.
 </span><span class="kw">pub struct </span>WeightInfo&lt;T&gt;(PhantomData&lt;T&gt;);
 <span class="kw">impl</span>&lt;T: frame_system::Config&gt; pallet_nfts::WeightInfo <span class="kw">for </span>WeightInfo&lt;T&gt; {
-	<span class="doccomment">/// Storage: Nfts NextCollectionId (r:1 w:1)
-	/// Proof: Nfts NextCollectionId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionRoleOf (r:0 w:1)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:0 w:1)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionAccount (r:0 w:1)
-	/// Proof: Nfts CollectionAccount (max_values: None, max_size: Some(68), added: 2543, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::NextCollectionId` (r:1 w:1)
+	/// Proof: `Nfts::NextCollectionId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionRoleOf` (r:0 w:1)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:0 w:1)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionAccount` (r:0 w:1)
+	/// Proof: `Nfts::CollectionAccount` (`max_values`: None, `max_size`: Some(68), added: 2543, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>create() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `145`
+		//  Measured:  `179`
 		//  Estimated: `3549`
-		// Minimum execution time: 38_310_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">39_252_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 37_322_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">38_364_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3549</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">5</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts NextCollectionId (r:1 w:1)
-	/// Proof: Nfts NextCollectionId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionRoleOf (r:0 w:1)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:0 w:1)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionAccount (r:0 w:1)
-	/// Proof: Nfts CollectionAccount (max_values: None, max_size: Some(68), added: 2543, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::NextCollectionId` (r:1 w:1)
+	/// Proof: `Nfts::NextCollectionId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionRoleOf` (r:0 w:1)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:0 w:1)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionAccount` (r:0 w:1)
+	/// Proof: `Nfts::CollectionAccount` (`max_values`: None, `max_size`: Some(68), added: 2543, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>force_create() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `42`
+		//  Measured:  `76`
 		//  Estimated: `3549`
-		// Minimum execution time: 22_616_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">23_443_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 22_254_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">22_613_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3549</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">5</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemMetadataOf (r:1 w:0)
-	/// Proof: Nfts ItemMetadataOf (max_values: None, max_size: Some(347), added: 2822, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionRoleOf (r:1 w:1)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:1001 w:1000)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1000 w:1000)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionMetadataOf (r:0 w:1)
-	/// Proof: Nfts CollectionMetadataOf (max_values: None, max_size: Some(294), added: 2769, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:0 w:1)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionAccount (r:0 w:1)
-	/// Proof: Nfts CollectionAccount (max_values: None, max_size: Some(68), added: 2543, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemMetadataOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemMetadataOf` (`max_values`: None, `max_size`: Some(347), added: 2822, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionRoleOf` (r:1 w:1)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:1001 w:1000)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1000 w:1000)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionMetadataOf` (r:0 w:1)
+	/// Proof: `Nfts::CollectionMetadataOf` (`max_values`: None, `max_size`: Some(294), added: 2769, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:0 w:1)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionAccount` (r:0 w:1)
+	/// Proof: `Nfts::CollectionAccount` (`max_values`: None, `max_size`: Some(68), added: 2543, mode: `MaxEncodedLen`)
 	/// The range of component `m` is `[0, 1000]`.
 	/// The range of component `c` is `[0, 1000]`.
 	/// The range of component `a` is `[0, 1000]`.
-	</span><span class="kw">fn </span>destroy(m: u32, _c: u32, a: u32, ) -&gt; Weight {
+	</span><span class="kw">fn </span>destroy(_m: u32, c: u32, a: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `32170 + a * (366 ±0)`
+		//  Measured:  `32204 + a * (366 ±0)`
 		//  Estimated: `2523990 + a * (2954 ±0)`
-		// Minimum execution time: 992_074_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">940_582_602</span>, <span class="number">0</span>)
+		// Minimum execution time: 1_204_644_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">1_122_618_254</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2523990</span>))
-			<span class="comment">// Standard Error: 3_741
-			</span>.saturating_add(Weight::from_parts(<span class="number">256</span>, <span class="number">0</span>).saturating_mul(m.into()))
-			<span class="comment">// Standard Error: 3_741
-			</span>.saturating_add(Weight::from_parts(<span class="number">5_667_401</span>, <span class="number">0</span>).saturating_mul(a.into()))
+			<span class="comment">// Standard Error: 9_641
+			</span>.saturating_add(Weight::from_parts(<span class="number">39_956</span>, <span class="number">0</span>).saturating_mul(c.into()))
+			<span class="comment">// Standard Error: 9_641
+			</span>.saturating_add(Weight::from_parts(<span class="number">6_866_428</span>, <span class="number">0</span>).saturating_mul(a.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1004</span>))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(a.into())))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1005</span>))
 			.saturating_add(T::DbWeight::get().writes((<span class="number">1_u64</span>).saturating_mul(a.into())))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2954</span>).saturating_mul(a.into()))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:1)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts Account (r:0 w:1)
-	/// Proof: Nfts Account (max_values: None, max_size: Some(88), added: 2563, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Account` (r:0 w:1)
+	/// Proof: `Nfts::Account` (`max_values`: None, `max_size`: Some(88), added: 2563, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>mint() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `421`
+		//  Measured:  `455`
 		//  Estimated: `4326`
-		// Minimum execution time: 49_283_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">49_608_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 47_903_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">48_938_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:1)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts Account (r:0 w:1)
-	/// Proof: Nfts Account (max_values: None, max_size: Some(88), added: 2563, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Account` (r:0 w:1)
+	/// Proof: `Nfts::Account` (`max_values`: None, `max_size`: Some(88), added: 2563, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>force_mint() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `421`
+		//  Measured:  `455`
 		//  Estimated: `4326`
-		// Minimum execution time: 47_755_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">48_168_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 46_662_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">47_673_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts ItemConfigOf (r:1 w:1)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemMetadataOf (r:1 w:0)
-	/// Proof: Nfts ItemMetadataOf (max_values: None, max_size: Some(347), added: 2822, mode: MaxEncodedLen)
-	/// Storage: Nfts Account (r:0 w:1)
-	/// Proof: Nfts Account (max_values: None, max_size: Some(88), added: 2563, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemPriceOf (r:0 w:1)
-	/// Proof: Nfts ItemPriceOf (max_values: None, max_size: Some(89), added: 2564, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemAttributesApprovalsOf (r:0 w:1)
-	/// Proof: Nfts ItemAttributesApprovalsOf (max_values: None, max_size: Some(1001), added: 3476, mode: MaxEncodedLen)
-	/// Storage: Nfts PendingSwapOf (r:0 w:1)
-	/// Proof: Nfts PendingSwapOf (max_values: None, max_size: Some(71), added: 2546, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Attribute` (r:1 w:0)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemMetadataOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemMetadataOf` (`max_values`: None, `max_size`: Some(347), added: 2822, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Account` (r:0 w:1)
+	/// Proof: `Nfts::Account` (`max_values`: None, `max_size`: Some(88), added: 2563, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemPriceOf` (r:0 w:1)
+	/// Proof: `Nfts::ItemPriceOf` (`max_values`: None, `max_size`: Some(89), added: 2564, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemAttributesApprovalsOf` (r:0 w:1)
+	/// Proof: `Nfts::ItemAttributesApprovalsOf` (`max_values`: None, `max_size`: Some(1001), added: 3476, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::PendingSwapOf` (r:0 w:1)
+	/// Proof: `Nfts::PendingSwapOf` (`max_values`: None, `max_size`: Some(71), added: 2546, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>burn() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `530`
+		//  Measured:  `564`
 		//  Estimated: `4326`
-		// Minimum execution time: 49_183_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">49_758_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 53_042_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">54_352_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
-			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
+			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">7</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:0)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:1 w:0)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:0)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts Account (r:0 w:2)
-	/// Proof: Nfts Account (max_values: None, max_size: Some(88), added: 2563, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemPriceOf (r:0 w:1)
-	/// Proof: Nfts ItemPriceOf (max_values: None, max_size: Some(89), added: 2564, mode: MaxEncodedLen)
-	/// Storage: Nfts PendingSwapOf (r:0 w:1)
-	/// Proof: Nfts PendingSwapOf (max_values: None, max_size: Some(71), added: 2546, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:0)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:1 w:0)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Account` (r:0 w:2)
+	/// Proof: `Nfts::Account` (`max_values`: None, `max_size`: Some(88), added: 2563, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemPriceOf` (r:0 w:1)
+	/// Proof: `Nfts::ItemPriceOf` (`max_values`: None, `max_size`: Some(89), added: 2564, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::PendingSwapOf` (r:0 w:1)
+	/// Proof: `Nfts::PendingSwapOf` (`max_values`: None, `max_size`: Some(71), added: 2546, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>transfer() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `559`
+		//  Measured:  `593`
 		//  Estimated: `4326`
-		// Minimum execution time: 40_454_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">40_858_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 40_570_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">43_020_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">5</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:0)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts Item (r:5000 w:5000)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:0)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Item` (r:5000 w:5000)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
 	/// The range of component `i` is `[0, 5000]`.
 	</span><span class="kw">fn </span>redeposit(i: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `729 + i * (108 ±0)`
+		//  Measured:  `763 + i * (108 ±0)`
 		//  Estimated: `3549 + i * (3336 ±0)`
-		// Minimum execution time: 16_765_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">16_884_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 15_982_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">16_291_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3549</span>))
-			<span class="comment">// Standard Error: 13_552
-			</span>.saturating_add(Weight::from_parts(<span class="number">15_383_176</span>, <span class="number">0</span>).saturating_mul(i.into()))
+			<span class="comment">// Standard Error: 23_954
+			</span>.saturating_add(Weight::from_parts(<span class="number">17_559_013</span>, <span class="number">0</span>).saturating_mul(i.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(i.into())))
 			.saturating_add(T::DbWeight::get().writes((<span class="number">1_u64</span>).saturating_mul(i.into())))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3336</span>).saturating_mul(i.into()))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:1)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>lock_item_transfer() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `401`
+		//  Measured:  `435`
 		//  Estimated: `3534`
-		// Minimum execution time: 20_317_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">20_603_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 20_084_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">20_572_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3534</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:1)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>unlock_item_transfer() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `401`
+		//  Measured:  `435`
 		//  Estimated: `3534`
-		// Minimum execution time: 20_127_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">20_356_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 20_007_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">20_221_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3534</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:0)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:1)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:0)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>lock_collection() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `306`
+		//  Measured:  `340`
 		//  Estimated: `3549`
-		// Minimum execution time: 17_350_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">17_626_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 16_815_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">17_191_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3549</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts OwnershipAcceptance (r:1 w:1)
-	/// Proof: Nfts OwnershipAcceptance (max_values: None, max_size: Some(52), added: 2527, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionAccount (r:0 w:2)
-	/// Proof: Nfts CollectionAccount (max_values: None, max_size: Some(68), added: 2543, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::OwnershipAcceptance` (r:1 w:1)
+	/// Proof: `Nfts::OwnershipAcceptance` (`max_values`: None, `max_size`: Some(52), added: 2527, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionAccount` (r:0 w:2)
+	/// Proof: `Nfts::CollectionAccount` (`max_values`: None, `max_size`: Some(68), added: 2543, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>transfer_ownership() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `354`
+		//  Measured:  `388`
 		//  Estimated: `3549`
-		// Minimum execution time: 23_107_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">23_524_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 22_234_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">22_888_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3549</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionRoleOf (r:2 w:4)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionRoleOf` (r:2 w:4)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>set_team() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `335`
+		//  Measured:  `369`
 		//  Estimated: `6078`
-		// Minimum execution time: 39_318_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">39_996_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 38_473_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">39_578_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6078</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">5</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionAccount (r:0 w:2)
-	/// Proof: Nfts CollectionAccount (max_values: None, max_size: Some(68), added: 2543, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionAccount` (r:0 w:2)
+	/// Proof: `Nfts::CollectionAccount` (`max_values`: None, `max_size`: Some(68), added: 2543, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>force_collection_owner() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `277`
+		//  Measured:  `311`
 		//  Estimated: `3549`
-		// Minimum execution time: 18_386_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">18_612_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 17_377_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">17_887_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3549</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:0)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:0 w:1)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:0)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:0 w:1)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>force_collection_config() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `242`
+		//  Measured:  `276`
 		//  Estimated: `3549`
-		// Minimum execution time: 14_945_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">15_330_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 14_575_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">14_890_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3549</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:1)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>lock_item_properties() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `401`
+		//  Measured:  `435`
 		//  Estimated: `3534`
-		// Minimum execution time: 20_130_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">20_506_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 18_864_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">19_401_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3534</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:0)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:1 w:1)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:1 w:1)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>set_attribute() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `505`
+		//  Measured:  `539`
 		//  Estimated: `3944`
-		// Minimum execution time: 50_086_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">50_663_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 48_949_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">50_054_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3944</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:1 w:1)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:1 w:1)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>force_set_attribute() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `310`
+		//  Measured:  `344`
 		//  Estimated: `3944`
-		// Minimum execution time: 27_703_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">27_983_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 25_545_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">26_189_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3944</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Attribute (r:1 w:1)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:0)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Attribute` (r:1 w:1)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>clear_attribute() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `949`
+		//  Measured:  `983`
 		//  Estimated: `3944`
-		// Minimum execution time: 46_689_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">47_446_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 45_215_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">46_030_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3944</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:1 w:0)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemAttributesApprovalsOf (r:1 w:1)
-	/// Proof: Nfts ItemAttributesApprovalsOf (max_values: None, max_size: Some(1001), added: 3476, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:1 w:0)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemAttributesApprovalsOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemAttributesApprovalsOf` (`max_values`: None, `max_size`: Some(1001), added: 3476, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>approve_item_attributes() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `347`
+		//  Measured:  `381`
 		//  Estimated: `4466`
-		// Minimum execution time: 18_389_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">18_666_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 17_084_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">17_758_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4466</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:1 w:0)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemAttributesApprovalsOf (r:1 w:1)
-	/// Proof: Nfts ItemAttributesApprovalsOf (max_values: None, max_size: Some(1001), added: 3476, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:1001 w:1000)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
-	/// Storage: System Account (r:1 w:1)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:1 w:0)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemAttributesApprovalsOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemAttributesApprovalsOf` (`max_values`: None, `max_size`: Some(1001), added: 3476, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:1001 w:1000)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:1 w:1)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
 	/// The range of component `n` is `[0, 1000]`.
 	</span><span class="kw">fn </span>cancel_item_attributes_approval(n: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `726 + n * (398 ±0)`
+		//  Measured:  `760 + n * (398 ±0)`
 		//  Estimated: `4466 + n * (2954 ±0)`
-		// Minimum execution time: 27_274_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">27_603_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 25_696_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">26_074_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4466</span>))
-			<span class="comment">// Standard Error: 3_583
-			</span>.saturating_add(Weight::from_parts(<span class="number">5_552_652</span>, <span class="number">0</span>).saturating_mul(n.into()))
+			<span class="comment">// Standard Error: 7_263
+			</span>.saturating_add(Weight::from_parts(<span class="number">6_492_893</span>, <span class="number">0</span>).saturating_mul(n.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(n.into())))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes((<span class="number">1_u64</span>).saturating_mul(n.into())))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2954</span>).saturating_mul(n.into()))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:0)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemMetadataOf (r:1 w:1)
-	/// Proof: Nfts ItemMetadataOf (max_values: None, max_size: Some(347), added: 2822, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemMetadataOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemMetadataOf` (`max_values`: None, `max_size`: Some(347), added: 2822, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>set_metadata() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `505`
+		//  Measured:  `539`
 		//  Estimated: `3812`
-		// Minimum execution time: 41_699_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">42_130_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 40_890_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">41_530_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3812</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">5</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemMetadataOf (r:1 w:1)
-	/// Proof: Nfts ItemMetadataOf (max_values: None, max_size: Some(347), added: 2822, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:0)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemMetadataOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemMetadataOf` (`max_values`: None, `max_size`: Some(347), added: 2822, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>clear_metadata() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `815`
+		//  Measured:  `849`
 		//  Estimated: `3812`
-		// Minimum execution time: 39_843_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">40_263_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 38_847_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">39_924_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3812</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionMetadataOf (r:1 w:1)
-	/// Proof: Nfts CollectionMetadataOf (max_values: None, max_size: Some(294), added: 2769, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionMetadataOf` (r:1 w:1)
+	/// Proof: `Nfts::CollectionMetadataOf` (`max_values`: None, `max_size`: Some(294), added: 2769, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>set_collection_metadata() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `364`
+		//  Measured:  `398`
 		//  Estimated: `3759`
-		// Minimum execution time: 39_138_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">39_467_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 36_693_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">37_689_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3759</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:0)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionMetadataOf (r:1 w:1)
-	/// Proof: Nfts CollectionMetadataOf (max_values: None, max_size: Some(294), added: 2769, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:0)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionMetadataOf` (r:1 w:1)
+	/// Proof: `Nfts::CollectionMetadataOf` (`max_values`: None, `max_size`: Some(294), added: 2769, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>clear_collection_metadata() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `682`
+		//  Measured:  `716`
 		//  Estimated: `3759`
-		// Minimum execution time: 37_291_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">37_747_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 36_168_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">36_757_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3759</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>approve_transfer() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `376`
+		//  Measured:  `410`
 		//  Estimated: `4326`
-		// Minimum execution time: 22_575_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">22_957_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 20_589_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">21_153_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>cancel_approval() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `384`
+		//  Measured:  `418`
 		//  Estimated: `4326`
-		// Minimum execution time: 19_630_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">19_901_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 18_133_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">18_701_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>clear_all_transfer_approvals() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `384`
+		//  Measured:  `418`
 		//  Estimated: `4326`
-		// Minimum execution time: 18_787_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">19_071_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 16_809_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">17_391_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts OwnershipAcceptance (r:1 w:1)
-	/// Proof: Nfts OwnershipAcceptance (max_values: None, max_size: Some(52), added: 2527, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::OwnershipAcceptance` (r:1 w:1)
+	/// Proof: `Nfts::OwnershipAcceptance` (`max_values`: None, `max_size`: Some(52), added: 2527, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>set_accept_ownership() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `42`
+		//  Measured:  `76`
 		//  Estimated: `3517`
-		// Minimum execution time: 16_183_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">16_588_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 14_878_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">15_275_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3517</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionConfigOf (r:1 w:1)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:0)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:0)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>set_collection_max_supply() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `306`
+		//  Measured:  `340`
 		//  Estimated: `3549`
-		// Minimum execution time: 19_707_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">19_925_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 18_388_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">18_950_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3549</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:1 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:1)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>update_mint_settings() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `289`
+		//  Measured:  `323`
 		//  Estimated: `3538`
-		// Minimum execution time: 19_159_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">19_430_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 18_190_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">18_552_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">3538</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:1 w:0)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:0)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemPriceOf (r:0 w:1)
-	/// Proof: Nfts ItemPriceOf (max_values: None, max_size: Some(89), added: 2564, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:1 w:0)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemPriceOf` (r:0 w:1)
+	/// Proof: `Nfts::ItemPriceOf` (`max_values`: None, `max_size`: Some(89), added: 2564, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>set_price() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `484`
+		//  Measured:  `518`
 		//  Estimated: `4326`
-		// Minimum execution time: 23_770_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">24_281_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 22_986_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">23_601_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">3</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemPriceOf (r:1 w:1)
-	/// Proof: Nfts ItemPriceOf (max_values: None, max_size: Some(89), added: 2564, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:0)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:1 w:0)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:0)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts Account (r:0 w:2)
-	/// Proof: Nfts Account (max_values: None, max_size: Some(88), added: 2563, mode: MaxEncodedLen)
-	/// Storage: Nfts PendingSwapOf (r:0 w:1)
-	/// Proof: Nfts PendingSwapOf (max_values: None, max_size: Some(71), added: 2546, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemPriceOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemPriceOf` (`max_values`: None, `max_size`: Some(89), added: 2564, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:0)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:1 w:0)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Account` (r:0 w:2)
+	/// Proof: `Nfts::Account` (`max_values`: None, `max_size`: Some(88), added: 2563, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::PendingSwapOf` (r:0 w:1)
+	/// Proof: `Nfts::PendingSwapOf` (`max_values`: None, `max_size`: Some(71), added: 2546, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>buy_item() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `671`
+		//  Measured:  `705`
 		//  Estimated: `4326`
-		// Minimum execution time: 49_633_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">50_363_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 49_098_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">50_262_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">6</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">5</span>))
@@ -1417,122 +1425,122 @@
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `0`
-		// Minimum execution time: 2_515_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">4_116_276</span>, <span class="number">0</span>)
+		// Minimum execution time: 2_208_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">3_312_261</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">0</span>))
-			<span class="comment">// Standard Error: 9_140
-			</span>.saturating_add(Weight::from_parts(<span class="number">3_634_187</span>, <span class="number">0</span>).saturating_mul(n.into()))
+			<span class="comment">// Standard Error: 6_242
+			</span>.saturating_add(Weight::from_parts(<span class="number">3_672_096</span>, <span class="number">0</span>).saturating_mul(n.into()))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:2 w:0)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts PendingSwapOf (r:0 w:1)
-	/// Proof: Nfts PendingSwapOf (max_values: None, max_size: Some(71), added: 2546, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:2 w:0)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::PendingSwapOf` (r:0 w:1)
+	/// Proof: `Nfts::PendingSwapOf` (`max_values`: None, `max_size`: Some(71), added: 2546, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>create_swap() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `460`
+		//  Measured:  `494`
 		//  Estimated: `7662`
-		// Minimum execution time: 22_105_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">22_488_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 20_906_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">21_412_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">7662</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts PendingSwapOf (r:1 w:1)
-	/// Proof: Nfts PendingSwapOf (max_values: None, max_size: Some(71), added: 2546, mode: MaxEncodedLen)
-	/// Storage: Nfts Item (r:1 w:0)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::PendingSwapOf` (r:1 w:1)
+	/// Proof: `Nfts::PendingSwapOf` (`max_values`: None, `max_size`: Some(71), added: 2546, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Item` (r:1 w:0)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>cancel_swap() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `479`
+		//  Measured:  `513`
 		//  Estimated: `4326`
-		// Minimum execution time: 20_850_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">21_320_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 20_250_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">20_703_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4326</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:2 w:2)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts PendingSwapOf (r:1 w:2)
-	/// Proof: Nfts PendingSwapOf (max_values: None, max_size: Some(71), added: 2546, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:0)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:2 w:0)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:2 w:0)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: Nfts Account (r:0 w:4)
-	/// Proof: Nfts Account (max_values: None, max_size: Some(88), added: 2563, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemPriceOf (r:0 w:2)
-	/// Proof: Nfts ItemPriceOf (max_values: None, max_size: Some(89), added: 2564, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:2 w:2)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::PendingSwapOf` (r:1 w:2)
+	/// Proof: `Nfts::PendingSwapOf` (`max_values`: None, `max_size`: Some(71), added: 2546, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:0)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:2 w:0)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:2 w:0)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Account` (r:0 w:4)
+	/// Proof: `Nfts::Account` (`max_values`: None, `max_size`: Some(88), added: 2563, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemPriceOf` (r:0 w:2)
+	/// Proof: `Nfts::ItemPriceOf` (`max_values`: None, `max_size`: Some(89), added: 2564, mode: `MaxEncodedLen`)
 	</span><span class="kw">fn </span>claim_swap() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `800`
+		//  Measured:  `834`
 		//  Estimated: `7662`
-		// Minimum execution time: 82_411_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">82_891_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 83_471_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">85_349_000</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">7662</span>))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">9</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">10</span>))
 	}
-	<span class="doccomment">/// Storage: Nfts CollectionRoleOf (r:2 w:0)
-	/// Proof: Nfts CollectionRoleOf (max_values: None, max_size: Some(69), added: 2544, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts Item (r:1 w:1)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemConfigOf (r:1 w:1)
-	/// Proof: Nfts ItemConfigOf (max_values: None, max_size: Some(48), added: 2523, mode: MaxEncodedLen)
-	/// Storage: System Account (r:1 w:1)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:10 w:10)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemMetadataOf (r:1 w:1)
-	/// Proof: Nfts ItemMetadataOf (max_values: None, max_size: Some(347), added: 2822, mode: MaxEncodedLen)
-	/// Storage: Nfts Account (r:0 w:1)
-	/// Proof: Nfts Account (max_values: None, max_size: Some(88), added: 2563, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::CollectionRoleOf` (r:2 w:0)
+	/// Proof: `Nfts::CollectionRoleOf` (`max_values`: None, `max_size`: Some(69), added: 2544, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Item` (r:1 w:1)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemConfigOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemConfigOf` (`max_values`: None, `max_size`: Some(48), added: 2523, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:1 w:1)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:10 w:10)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemMetadataOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemMetadataOf` (`max_values`: None, `max_size`: Some(347), added: 2822, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Account` (r:0 w:1)
+	/// Proof: `Nfts::Account` (`max_values`: None, `max_size`: Some(88), added: 2563, mode: `MaxEncodedLen`)
 	/// The range of component `n` is `[0, 10]`.
 	</span><span class="kw">fn </span>mint_pre_signed(n: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `524`
+		//  Measured:  `558`
 		//  Estimated: `6078 + n * (2954 ±0)`
-		// Minimum execution time: 131_511_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">136_312_961</span>, <span class="number">0</span>)
+		// Minimum execution time: 140_728_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">148_945_062</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">6078</span>))
-			<span class="comment">// Standard Error: 23_681
-			</span>.saturating_add(Weight::from_parts(<span class="number">29_674_702</span>, <span class="number">0</span>).saturating_mul(n.into()))
+			<span class="comment">// Standard Error: 49_446
+			</span>.saturating_add(Weight::from_parts(<span class="number">30_948_884</span>, <span class="number">0</span>).saturating_mul(n.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">8</span>))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(n.into())))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">6</span>))
 			.saturating_add(T::DbWeight::get().writes((<span class="number">1_u64</span>).saturating_mul(n.into())))
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">2954</span>).saturating_mul(n.into()))
 	}
-	<span class="doccomment">/// Storage: Nfts Item (r:1 w:0)
-	/// Proof: Nfts Item (max_values: None, max_size: Some(861), added: 3336, mode: MaxEncodedLen)
-	/// Storage: Nfts ItemAttributesApprovalsOf (r:1 w:1)
-	/// Proof: Nfts ItemAttributesApprovalsOf (max_values: None, max_size: Some(1001), added: 3476, mode: MaxEncodedLen)
-	/// Storage: Nfts CollectionConfigOf (r:1 w:0)
-	/// Proof: Nfts CollectionConfigOf (max_values: None, max_size: Some(73), added: 2548, mode: MaxEncodedLen)
-	/// Storage: Nfts Collection (r:1 w:1)
-	/// Proof: Nfts Collection (max_values: None, max_size: Some(84), added: 2559, mode: MaxEncodedLen)
-	/// Storage: Nfts Attribute (r:10 w:10)
-	/// Proof: Nfts Attribute (max_values: None, max_size: Some(479), added: 2954, mode: MaxEncodedLen)
-	/// Storage: System Account (r:1 w:1)
-	/// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
+	<span class="doccomment">/// Storage: `Nfts::Item` (r:1 w:0)
+	/// Proof: `Nfts::Item` (`max_values`: None, `max_size`: Some(861), added: 3336, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::ItemAttributesApprovalsOf` (r:1 w:1)
+	/// Proof: `Nfts::ItemAttributesApprovalsOf` (`max_values`: None, `max_size`: Some(1001), added: 3476, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::CollectionConfigOf` (r:1 w:0)
+	/// Proof: `Nfts::CollectionConfigOf` (`max_values`: None, `max_size`: Some(73), added: 2548, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Collection` (r:1 w:1)
+	/// Proof: `Nfts::Collection` (`max_values`: None, `max_size`: Some(84), added: 2559, mode: `MaxEncodedLen`)
+	/// Storage: `Nfts::Attribute` (r:10 w:10)
+	/// Proof: `Nfts::Attribute` (`max_values`: None, `max_size`: Some(479), added: 2954, mode: `MaxEncodedLen`)
+	/// Storage: `System::Account` (r:1 w:1)
+	/// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
 	/// The range of component `n` is `[0, 10]`.
 	</span><span class="kw">fn </span>set_attributes_pre_signed(n: u32, ) -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `554`
+		//  Measured:  `588`
 		//  Estimated: `4466 + n * (2954 ±0)`
-		// Minimum execution time: 76_717_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">88_114_044</span>, <span class="number">0</span>)
+		// Minimum execution time: 82_713_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">95_912_559</span>, <span class="number">0</span>)
 			.saturating_add(Weight::from_parts(<span class="number">0</span>, <span class="number">4466</span>))
-			<span class="comment">// Standard Error: 61_294
-			</span>.saturating_add(Weight::from_parts(<span class="number">29_187_148</span>, <span class="number">0</span>).saturating_mul(n.into()))
+			<span class="comment">// Standard Error: 73_934
+			</span>.saturating_add(Weight::from_parts(<span class="number">30_039_875</span>, <span class="number">0</span>).saturating_mul(n.into()))
 			.saturating_add(T::DbWeight::get().reads(<span class="number">4</span>))
 			.saturating_add(T::DbWeight::get().reads((<span class="number">1_u64</span>).saturating_mul(n.into())))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))

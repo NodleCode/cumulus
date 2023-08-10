@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/assets/asset-hub-westend/src/weights/xcm/pallet_xcm_benchmarks_fungible.rs`."><title>pallet_xcm_benchmarks_fungible.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="asset_hub_westend_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../asset_hub_westend_runtime/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `parachains/runtimes/assets/asset-hub-westend/src/weights/xcm/pallet_xcm_benchmarks_fungible.rs`."><title>pallet_xcm_benchmarks_fungible.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="asset_hub_westend_runtime" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.1 (eb26296b5 2023-08-03)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../../asset_hub_westend_runtime/index.html"><img class="rust-logo" src="../../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -186,6 +186,8 @@
 <a href="#186" id="186">186</a>
 <a href="#187" id="187">187</a>
 <a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -205,20 +207,22 @@
 </span><span class="doccomment">//! Autogenerated weights for `pallet_xcm_benchmarks::fungible`
 //!
 //! THIS FILE WAS AUTO-GENERATED USING THE SUBSTRATE BENCHMARK CLI VERSION 4.0.0-dev
-//! DATE: 2023-05-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
+//! DATE: 2023-07-31, STEPS: `50`, REPEAT: `20`, LOW RANGE: `[]`, HIGH RANGE: `[]`
 //! WORST CASE MAP SIZE: `1000000`
-//! HOSTNAME: `bm6`, CPU: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-//! EXECUTION: Some(Wasm), WASM-EXECUTION: Compiled, CHAIN: Some(&quot;asset-hub-westend-dev&quot;), DB CACHE: 1024
+//! HOSTNAME: `runner-ynta1nyy-project-238-concurrent-0`, CPU: `Intel(R) Xeon(R) CPU @ 2.60GHz`
+//! EXECUTION: , WASM-EXECUTION: Compiled, CHAIN: Some(&quot;asset-hub-westend-dev&quot;), DB CACHE: 1024
 
 </span><span class="comment">// Executed Command:
-// ./artifacts/polkadot-parachain
+// ./target/production/polkadot-parachain
 // benchmark
 // pallet
 // --template=./templates/xcm-bench-template.hbs
 // --chain=asset-hub-westend-dev
-// --execution=wasm
 // --wasm-execution=compiled
 // --pallet=pallet_xcm_benchmarks::fungible
+// --no-storage-info
+// --no-median-slopes
+// --no-min-squares
 // --extrinsic=*
 // --steps=50
 // --repeat=20
@@ -236,48 +240,48 @@
 <span class="doccomment">/// Weights for `pallet_xcm_benchmarks::fungible`.
 </span><span class="kw">pub struct </span>WeightInfo&lt;T&gt;(PhantomData&lt;T&gt;);
 <span class="kw">impl</span>&lt;T: frame_system::Config&gt; WeightInfo&lt;T&gt; {
-	<span class="comment">// Storage: System Account (r:1 w:1)
-	// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
+	<span class="comment">// Storage: `System::Account` (r:1 w:1)
+	// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
 	</span><span class="kw">pub fn </span>withdraw_asset() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `101`
 		//  Estimated: `3593`
-		// Minimum execution time: 25_496_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">25_876_000</span>, <span class="number">3593</span>)
+		// Minimum execution time: 25_411_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">25_663_000</span>, <span class="number">3593</span>)
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="comment">// Storage: System Account (r:2 w:2)
-	// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
+	<span class="comment">// Storage: `System::Account` (r:2 w:2)
+	// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
 	</span><span class="kw">pub fn </span>transfer_asset() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `101`
 		//  Estimated: `6196`
-		// Minimum execution time: 49_292_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">50_180_000</span>, <span class="number">6196</span>)
+		// Minimum execution time: 49_478_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">50_417_000</span>, <span class="number">6196</span>)
 			.saturating_add(T::DbWeight::get().reads(<span class="number">2</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
-	<span class="comment">// Storage: System Account (r:2 w:2)
-	// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
-	// Storage: ParachainInfo ParachainId (r:1 w:0)
-	// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	// Storage: PolkadotXcm SupportedVersion (r:1 w:0)
-	// Proof Skipped: PolkadotXcm SupportedVersion (max_values: None, max_size: None, mode: Measured)
-	// Storage: PolkadotXcm VersionDiscoveryQueue (r:1 w:1)
-	// Proof Skipped: PolkadotXcm VersionDiscoveryQueue (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: PolkadotXcm SafeXcmVersion (r:1 w:0)
-	// Proof Skipped: PolkadotXcm SafeXcmVersion (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: ParachainSystem HostConfiguration (r:1 w:0)
-	// Proof Skipped: ParachainSystem HostConfiguration (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: ParachainSystem PendingUpwardMessages (r:1 w:1)
-	// Proof Skipped: ParachainSystem PendingUpwardMessages (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="comment">// Storage: `System::Account` (r:2 w:2)
+	// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	// Storage: `PolkadotXcm::SupportedVersion` (r:1 w:0)
+	// Proof: `PolkadotXcm::SupportedVersion` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	// Storage: `PolkadotXcm::VersionDiscoveryQueue` (r:1 w:1)
+	// Proof: `PolkadotXcm::VersionDiscoveryQueue` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `PolkadotXcm::SafeXcmVersion` (r:1 w:0)
+	// Proof: `PolkadotXcm::SafeXcmVersion` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `ParachainSystem::HostConfiguration` (r:1 w:0)
+	// Proof: `ParachainSystem::HostConfiguration` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `ParachainSystem::PendingUpwardMessages` (r:1 w:1)
+	// Proof: `ParachainSystem::PendingUpwardMessages` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	</span><span class="kw">pub fn </span>transfer_reserve_asset() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `210`
+		//  Measured:  `246`
 		//  Estimated: `6196`
-		// Minimum execution time: 71_420_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">72_513_000</span>, <span class="number">6196</span>)
+		// Minimum execution time: 72_958_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">74_503_000</span>, <span class="number">6196</span>)
 			.saturating_add(T::DbWeight::get().reads(<span class="number">8</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">4</span>))
 	}
@@ -290,24 +294,24 @@
 		// Minimum execution time: 500_000_000_000 picoseconds.
 		</span>Weight::from_parts(<span class="number">500_000_000_000</span>, <span class="number">0</span>)
 	}
-	<span class="comment">// Storage: ParachainInfo ParachainId (r:1 w:0)
-	// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	// Storage: PolkadotXcm SupportedVersion (r:1 w:0)
-	// Proof Skipped: PolkadotXcm SupportedVersion (max_values: None, max_size: None, mode: Measured)
-	// Storage: PolkadotXcm VersionDiscoveryQueue (r:1 w:1)
-	// Proof Skipped: PolkadotXcm VersionDiscoveryQueue (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: PolkadotXcm SafeXcmVersion (r:1 w:0)
-	// Proof Skipped: PolkadotXcm SafeXcmVersion (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: ParachainSystem HostConfiguration (r:1 w:0)
-	// Proof Skipped: ParachainSystem HostConfiguration (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: ParachainSystem PendingUpwardMessages (r:1 w:1)
-	// Proof Skipped: ParachainSystem PendingUpwardMessages (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="comment">// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	// Storage: `PolkadotXcm::SupportedVersion` (r:1 w:0)
+	// Proof: `PolkadotXcm::SupportedVersion` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	// Storage: `PolkadotXcm::VersionDiscoveryQueue` (r:1 w:1)
+	// Proof: `PolkadotXcm::VersionDiscoveryQueue` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `PolkadotXcm::SafeXcmVersion` (r:1 w:0)
+	// Proof: `PolkadotXcm::SafeXcmVersion` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `ParachainSystem::HostConfiguration` (r:1 w:0)
+	// Proof: `ParachainSystem::HostConfiguration` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `ParachainSystem::PendingUpwardMessages` (r:1 w:1)
+	// Proof: `ParachainSystem::PendingUpwardMessages` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	</span><span class="kw">pub fn </span>initiate_reserve_withdraw() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `109`
-		//  Estimated: `3574`
-		// Minimum execution time: 382_848_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">398_418_000</span>, <span class="number">3574</span>)
+		//  Measured:  `145`
+		//  Estimated: `3610`
+		// Minimum execution time: 456_993_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">469_393_000</span>, <span class="number">3610</span>)
 			.saturating_add(T::DbWeight::get().reads(<span class="number">6</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}
@@ -315,61 +319,61 @@
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `0`
-		// Minimum execution time: 3_711_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">3_818_000</span>, <span class="number">0</span>)
+		// Minimum execution time: 3_580_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">3_717_000</span>, <span class="number">0</span>)
 	}
-	<span class="comment">// Storage: System Account (r:1 w:1)
-	// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
+	<span class="comment">// Storage: `System::Account` (r:1 w:1)
+	// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
 	</span><span class="kw">pub fn </span>deposit_asset() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
 		//  Measured:  `0`
 		//  Estimated: `3593`
-		// Minimum execution time: 26_293_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">26_737_000</span>, <span class="number">3593</span>)
+		// Minimum execution time: 25_087_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">25_788_000</span>, <span class="number">3593</span>)
 			.saturating_add(T::DbWeight::get().reads(<span class="number">1</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">1</span>))
 	}
-	<span class="comment">// Storage: System Account (r:1 w:1)
-	// Proof: System Account (max_values: None, max_size: Some(128), added: 2603, mode: MaxEncodedLen)
-	// Storage: ParachainInfo ParachainId (r:1 w:0)
-	// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	// Storage: PolkadotXcm SupportedVersion (r:1 w:0)
-	// Proof Skipped: PolkadotXcm SupportedVersion (max_values: None, max_size: None, mode: Measured)
-	// Storage: PolkadotXcm VersionDiscoveryQueue (r:1 w:1)
-	// Proof Skipped: PolkadotXcm VersionDiscoveryQueue (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: PolkadotXcm SafeXcmVersion (r:1 w:0)
-	// Proof Skipped: PolkadotXcm SafeXcmVersion (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: ParachainSystem HostConfiguration (r:1 w:0)
-	// Proof Skipped: ParachainSystem HostConfiguration (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: ParachainSystem PendingUpwardMessages (r:1 w:1)
-	// Proof Skipped: ParachainSystem PendingUpwardMessages (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="comment">// Storage: `System::Account` (r:1 w:1)
+	// Proof: `System::Account` (`max_values`: None, `max_size`: Some(128), added: 2603, mode: `MaxEncodedLen`)
+	// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	// Storage: `PolkadotXcm::SupportedVersion` (r:1 w:0)
+	// Proof: `PolkadotXcm::SupportedVersion` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	// Storage: `PolkadotXcm::VersionDiscoveryQueue` (r:1 w:1)
+	// Proof: `PolkadotXcm::VersionDiscoveryQueue` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `PolkadotXcm::SafeXcmVersion` (r:1 w:0)
+	// Proof: `PolkadotXcm::SafeXcmVersion` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `ParachainSystem::HostConfiguration` (r:1 w:0)
+	// Proof: `ParachainSystem::HostConfiguration` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `ParachainSystem::PendingUpwardMessages` (r:1 w:1)
+	// Proof: `ParachainSystem::PendingUpwardMessages` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	</span><span class="kw">pub fn </span>deposit_reserve_asset() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `109`
-		//  Estimated: `3593`
-		// Minimum execution time: 50_188_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">50_712_000</span>, <span class="number">3593</span>)
+		//  Measured:  `145`
+		//  Estimated: `3610`
+		// Minimum execution time: 50_824_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">52_309_000</span>, <span class="number">3610</span>)
 			.saturating_add(T::DbWeight::get().reads(<span class="number">7</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">3</span>))
 	}
-	<span class="comment">// Storage: ParachainInfo ParachainId (r:1 w:0)
-	// Proof: ParachainInfo ParachainId (max_values: Some(1), max_size: Some(4), added: 499, mode: MaxEncodedLen)
-	// Storage: PolkadotXcm SupportedVersion (r:1 w:0)
-	// Proof Skipped: PolkadotXcm SupportedVersion (max_values: None, max_size: None, mode: Measured)
-	// Storage: PolkadotXcm VersionDiscoveryQueue (r:1 w:1)
-	// Proof Skipped: PolkadotXcm VersionDiscoveryQueue (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: PolkadotXcm SafeXcmVersion (r:1 w:0)
-	// Proof Skipped: PolkadotXcm SafeXcmVersion (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: ParachainSystem HostConfiguration (r:1 w:0)
-	// Proof Skipped: ParachainSystem HostConfiguration (max_values: Some(1), max_size: None, mode: Measured)
-	// Storage: ParachainSystem PendingUpwardMessages (r:1 w:1)
-	// Proof Skipped: ParachainSystem PendingUpwardMessages (max_values: Some(1), max_size: None, mode: Measured)
+	<span class="comment">// Storage: `ParachainInfo::ParachainId` (r:1 w:0)
+	// Proof: `ParachainInfo::ParachainId` (`max_values`: Some(1), `max_size`: Some(4), added: 499, mode: `MaxEncodedLen`)
+	// Storage: `PolkadotXcm::SupportedVersion` (r:1 w:0)
+	// Proof: `PolkadotXcm::SupportedVersion` (`max_values`: None, `max_size`: None, mode: `Measured`)
+	// Storage: `PolkadotXcm::VersionDiscoveryQueue` (r:1 w:1)
+	// Proof: `PolkadotXcm::VersionDiscoveryQueue` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `PolkadotXcm::SafeXcmVersion` (r:1 w:0)
+	// Proof: `PolkadotXcm::SafeXcmVersion` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `ParachainSystem::HostConfiguration` (r:1 w:0)
+	// Proof: `ParachainSystem::HostConfiguration` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
+	// Storage: `ParachainSystem::PendingUpwardMessages` (r:1 w:1)
+	// Proof: `ParachainSystem::PendingUpwardMessages` (`max_values`: Some(1), `max_size`: None, mode: `Measured`)
 	</span><span class="kw">pub fn </span>initiate_teleport() -&gt; Weight {
 		<span class="comment">// Proof Size summary in bytes:
-		//  Measured:  `109`
-		//  Estimated: `3574`
-		// Minimum execution time: 29_852_000 picoseconds.
-		</span>Weight::from_parts(<span class="number">30_308_000</span>, <span class="number">3574</span>)
+		//  Measured:  `145`
+		//  Estimated: `3610`
+		// Minimum execution time: 31_854_000 picoseconds.
+		</span>Weight::from_parts(<span class="number">32_553_000</span>, <span class="number">3610</span>)
 			.saturating_add(T::DbWeight::get().reads(<span class="number">6</span>))
 			.saturating_add(T::DbWeight::get().writes(<span class="number">2</span>))
 	}

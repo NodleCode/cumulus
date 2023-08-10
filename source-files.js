@@ -10,7 +10,7 @@ var sourcesIndex = JSON.parse('{\
 "bp_bridge_hub_cumulus":["",[],["lib.rs"]],\
 "bp_bridge_hub_rococo":["",[],["lib.rs"]],\
 "bp_bridge_hub_wococo":["",[],["lib.rs"]],\
-"bp_header_chain":["",[],["justification.rs","lib.rs","storage_keys.rs"]],\
+"bp_header_chain":["",[["justification",[["verification",[],["equivocation.rs","mod.rs","optimizer.rs","strict.rs"]]],["mod.rs"]]],["lib.rs","storage_keys.rs"]],\
 "bp_messages":["",[],["lib.rs","source_chain.rs","storage_keys.rs","target_chain.rs"]],\
 "bp_parachains":["",[],["lib.rs"]],\
 "bp_polkadot_core":["",[],["lib.rs","parachains.rs"]],\

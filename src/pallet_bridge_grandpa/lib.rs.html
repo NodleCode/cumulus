@@ -1405,6 +1405,59 @@
 <a href="#1405" id="1405">1405</a>
 <a href="#1406" id="1406">1406</a>
 <a href="#1407" id="1407">1407</a>
+<a href="#1408" id="1408">1408</a>
+<a href="#1409" id="1409">1409</a>
+<a href="#1410" id="1410">1410</a>
+<a href="#1411" id="1411">1411</a>
+<a href="#1412" id="1412">1412</a>
+<a href="#1413" id="1413">1413</a>
+<a href="#1414" id="1414">1414</a>
+<a href="#1415" id="1415">1415</a>
+<a href="#1416" id="1416">1416</a>
+<a href="#1417" id="1417">1417</a>
+<a href="#1418" id="1418">1418</a>
+<a href="#1419" id="1419">1419</a>
+<a href="#1420" id="1420">1420</a>
+<a href="#1421" id="1421">1421</a>
+<a href="#1422" id="1422">1422</a>
+<a href="#1423" id="1423">1423</a>
+<a href="#1424" id="1424">1424</a>
+<a href="#1425" id="1425">1425</a>
+<a href="#1426" id="1426">1426</a>
+<a href="#1427" id="1427">1427</a>
+<a href="#1428" id="1428">1428</a>
+<a href="#1429" id="1429">1429</a>
+<a href="#1430" id="1430">1430</a>
+<a href="#1431" id="1431">1431</a>
+<a href="#1432" id="1432">1432</a>
+<a href="#1433" id="1433">1433</a>
+<a href="#1434" id="1434">1434</a>
+<a href="#1435" id="1435">1435</a>
+<a href="#1436" id="1436">1436</a>
+<a href="#1437" id="1437">1437</a>
+<a href="#1438" id="1438">1438</a>
+<a href="#1439" id="1439">1439</a>
+<a href="#1440" id="1440">1440</a>
+<a href="#1441" id="1441">1441</a>
+<a href="#1442" id="1442">1442</a>
+<a href="#1443" id="1443">1443</a>
+<a href="#1444" id="1444">1444</a>
+<a href="#1445" id="1445">1445</a>
+<a href="#1446" id="1446">1446</a>
+<a href="#1447" id="1447">1447</a>
+<a href="#1448" id="1448">1448</a>
+<a href="#1449" id="1449">1449</a>
+<a href="#1450" id="1450">1450</a>
+<a href="#1451" id="1451">1451</a>
+<a href="#1452" id="1452">1452</a>
+<a href="#1453" id="1453">1453</a>
+<a href="#1454" id="1454">1454</a>
+<a href="#1455" id="1455">1455</a>
+<a href="#1456" id="1456">1456</a>
+<a href="#1457" id="1457">1457</a>
+<a href="#1458" id="1458">1458</a>
+<a href="#1459" id="1459">1459</a>
+<a href="#1460" id="1460">1460</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -1446,8 +1499,8 @@
 </span><span class="kw">pub use </span>storage_types::StoredAuthoritySet;
 
 <span class="kw">use </span>bp_header_chain::{
-	justification::GrandpaJustification, ChainWithGrandpa, GrandpaConsensusLogReader, HeaderChain,
-	InitializationData, StoredHeaderData, StoredHeaderDataBuilder,
+	justification::GrandpaJustification, AuthoritySet, ChainWithGrandpa, GrandpaConsensusLogReader,
+	HeaderChain, HeaderGrandpaInfo, InitializationData, StoredHeaderData, StoredHeaderDataBuilder,
 };
 <span class="kw">use </span>bp_runtime::{BlockNumberOf, HashOf, HasherOf, HeaderId, HeaderOf, OwnedBridgeModule};
 <span class="kw">use </span>finality_grandpa::voter_set::VoterSet;
@@ -1456,7 +1509,7 @@
 	traits::{Header <span class="kw">as </span>HeaderT, Zero},
 	SaturatedConversion,
 };
-<span class="kw">use </span>sp_std::{boxed::Box, convert::TryInto};
+<span class="kw">use </span>sp_std::{boxed::Box, convert::TryInto, prelude::<span class="kw-2">*</span>};
 
 <span class="kw">mod </span>call_ext;
 <span class="attr">#[cfg(test)]
@@ -1601,11 +1654,12 @@
 			<span class="kw">let </span>authority_set = &lt;CurrentAuthoritySet&lt;T, I&gt;&gt;::get();
 			<span class="kw">let </span>unused_proof_size = authority_set.unused_proof_size();
 			<span class="kw">let </span>set_id = authority_set.set_id;
-			verify_justification::&lt;T, I&gt;(<span class="kw-2">&amp;</span>justification, hash, number, authority_set.into())<span class="question-mark">?</span>;
+			<span class="kw">let </span>authority_set: AuthoritySet = authority_set.into();
+			verify_justification::&lt;T, I&gt;(<span class="kw-2">&amp;</span>justification, hash, number, authority_set)<span class="question-mark">?</span>;
 
-			<span class="kw">let </span>is_authorities_change_enacted =
+			<span class="kw">let </span>maybe_new_authority_set =
 				try_enact_authority_change::&lt;T, I&gt;(<span class="kw-2">&amp;</span>finality_target, set_id)<span class="question-mark">?</span>;
-			<span class="kw">let </span>may_refund_call_fee = is_authorities_change_enacted &amp;&amp;
+			<span class="kw">let </span>may_refund_call_fee = maybe_new_authority_set.is_some() &amp;&amp;
 				<span class="comment">// if we have seen too many mandatory headers in this block, we don&#39;t want to refund
 				</span><span class="self">Self</span>::free_mandatory_headers_remaining() &gt; <span class="number">0 </span>&amp;&amp;
 				<span class="comment">// if arguments out of expected bounds, we don&#39;t want to refund
@@ -1644,7 +1698,14 @@
 			<span class="kw">let </span>actual_weight = pre_dispatch_weight
 				.set_proof_size(pre_dispatch_weight.proof_size().saturating_sub(unused_proof_size));
 
-			<span class="self">Self</span>::deposit_event(Event::UpdatedBestFinalizedHeader { number, hash });
+			<span class="self">Self</span>::deposit_event(Event::UpdatedBestFinalizedHeader {
+				number,
+				hash,
+				grandpa_info: HeaderGrandpaInfo {
+					justification,
+					authority_set: maybe_new_authority_set,
+				},
+			});
 
 			<span class="prelude-val">Ok</span>(PostDispatchInfo { actual_weight: <span class="prelude-val">Some</span>(actual_weight), pays_fee })
 		}
@@ -1809,6 +1870,8 @@
 		</span>UpdatedBestFinalizedHeader {
 			number: BridgedBlockNumber&lt;T, I&gt;,
 			hash: BridgedBlockHash&lt;T, I&gt;,
+			<span class="doccomment">/// The Grandpa info associated to the new best finalized header.
+			</span>grandpa_info: HeaderGrandpaInfo&lt;BridgedHeader&lt;T, I&gt;&gt;,
 		},
 	}
 
@@ -1844,9 +1907,7 @@
 	</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>try_enact_authority_change&lt;T: Config&lt;I&gt;, I: <span class="lifetime">&#39;static</span>&gt;(
 		header: <span class="kw-2">&amp;</span>BridgedHeader&lt;T, I&gt;,
 		current_set_id: sp_consensus_grandpa::SetId,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;bool, sp_runtime::DispatchError&gt; {
-		<span class="kw">let </span><span class="kw-2">mut </span>change_enacted = <span class="bool-val">false</span>;
-
+	) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;AuthoritySet&gt;, DispatchError&gt; {
 		<span class="comment">// We don&#39;t support forced changes - at that point governance intervention is required.
 		</span><span class="macro">ensure!</span>(
 			GrandpaConsensusLogReader::&lt;BridgedBlockNumber&lt;T, I&gt;&gt;::find_forced_change(
@@ -1875,7 +1936,6 @@
 			<span class="comment">// Since our header schedules a change and we know the delay is 0, it must also enact
 			// the change.
 			</span>&lt;CurrentAuthoritySet&lt;T, I&gt;&gt;::put(<span class="kw-2">&amp;</span>next_authorities);
-			change_enacted = <span class="bool-val">true</span>;
 
 			<span class="macro">log::info!</span>(
 				target: LOG_TARGET,
@@ -1884,9 +1944,11 @@
 				current_set_id + <span class="number">1</span>,
 				next_authorities,
 			);
+
+			<span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(next_authorities.into()))
 		};
 
-		<span class="prelude-val">Ok</span>(change_enacted)
+		<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
 	}
 
 	<span class="doccomment">/// Verify a GRANDPA justification (finality proof) for a given header.
@@ -2010,10 +2072,22 @@
 	}
 }
 
-<span class="kw">impl</span>&lt;T: Config&lt;I&gt;, I: <span class="lifetime">&#39;static</span>&gt; Pallet&lt;T, I&gt; {
-	<span class="doccomment">/// Get the best finalized block number.
-	</span><span class="kw">pub fn </span>best_finalized_number() -&gt; <span class="prelude-ty">Option</span>&lt;BridgedBlockNumber&lt;T, I&gt;&gt; {
-		BestFinalized::&lt;T, I&gt;::get().map(|id| id.number())
+<span class="kw">impl</span>&lt;T: Config&lt;I&gt;, I: <span class="lifetime">&#39;static</span>&gt; Pallet&lt;T, I&gt;
+<span class="kw">where
+	</span>&lt;T <span class="kw">as </span>frame_system::Config&gt;::RuntimeEvent: TryInto&lt;Event&lt;T, I&gt;&gt;,
+{
+	<span class="doccomment">/// Get the GRANDPA justifications accepted in the current block.
+	</span><span class="kw">pub fn </span>synced_headers_grandpa_info() -&gt; Vec&lt;HeaderGrandpaInfo&lt;BridgedHeader&lt;T, I&gt;&gt;&gt; {
+		frame_system::Pallet::&lt;T&gt;::read_events_no_consensus()
+			.filter_map(|event| {
+				<span class="kw">if let </span>Event::&lt;T, I&gt;::UpdatedBestFinalizedHeader { grandpa_info, .. } =
+					event.event.try_into().ok()<span class="question-mark">?
+				</span>{
+					<span class="kw">return </span><span class="prelude-val">Some</span>(grandpa_info)
+				}
+				<span class="prelude-val">None
+			</span>})
+			.collect()
 	}
 }
 
@@ -2320,9 +2394,17 @@
 					event: TestEvent::Grandpa(Event::UpdatedBestFinalizedHeader {
 						number: <span class="kw-2">*</span>header.number(),
 						hash: header.hash(),
+						grandpa_info: HeaderGrandpaInfo {
+							justification: justification.clone(),
+							authority_set: <span class="prelude-val">None</span>,
+						},
 					}),
 					topics: <span class="macro">vec!</span>[],
 				}],
+			);
+			<span class="macro">assert_eq!</span>(
+				Pallet::&lt;TestRuntime&gt;::synced_headers_grandpa_info(),
+				<span class="macro">vec!</span>[HeaderGrandpaInfo { justification, authority_set: <span class="prelude-val">None </span>}]
 			);
 		})
 	}
@@ -2429,7 +2511,7 @@
 			</span><span class="kw">let </span>result = Pallet::&lt;TestRuntime&gt;::submit_finality_proof(
 				RuntimeOrigin::signed(<span class="number">1</span>),
 				Box::new(header.clone()),
-				justification,
+				justification.clone(),
 			);
 			<span class="macro">assert_ok!</span>(result);
 			<span class="macro">assert_eq!</span>(result.unwrap().pays_fee, frame_support::dispatch::Pays::No);
@@ -2443,6 +2525,30 @@
 				&lt;CurrentAuthoritySet&lt;TestRuntime&gt;&gt;::get(),
 				StoredAuthoritySet::&lt;TestRuntime, ()&gt;::try_new(next_authorities, next_set_id)
 					.unwrap(),
+			);
+
+			<span class="comment">// Here
+			</span><span class="macro">assert_eq!</span>(
+				System::events(),
+				<span class="macro">vec!</span>[EventRecord {
+					phase: Phase::Initialization,
+					event: TestEvent::Grandpa(Event::UpdatedBestFinalizedHeader {
+						number: <span class="kw-2">*</span>header.number(),
+						hash: header.hash(),
+						grandpa_info: HeaderGrandpaInfo {
+							justification: justification.clone(),
+							authority_set: <span class="prelude-val">Some</span>(&lt;CurrentAuthoritySet&lt;TestRuntime&gt;&gt;::get().into()),
+						},
+					}),
+					topics: <span class="macro">vec!</span>[],
+				}],
+			);
+			<span class="macro">assert_eq!</span>(
+				Pallet::&lt;TestRuntime&gt;::synced_headers_grandpa_info(),
+				<span class="macro">vec!</span>[HeaderGrandpaInfo {
+					justification,
+					authority_set: <span class="prelude-val">Some</span>(&lt;CurrentAuthoritySet&lt;TestRuntime&gt;&gt;::get().into()),
+				}]
 			);
 		})
 	}

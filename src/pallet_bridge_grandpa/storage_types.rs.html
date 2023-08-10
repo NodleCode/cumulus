@@ -156,7 +156,7 @@
 
 <span class="kw">use </span>bp_header_chain::{AuthoritySet, ChainWithGrandpa};
 <span class="kw">use </span>codec::{Decode, Encode, MaxEncodedLen};
-<span class="kw">use </span>frame_support::{traits::Get, BoundedVec, RuntimeDebugNoBound};
+<span class="kw">use </span>frame_support::{traits::Get, BoundedVec, CloneNoBound, RuntimeDebugNoBound};
 <span class="kw">use </span>scale_info::TypeInfo;
 <span class="kw">use </span>sp_consensus_grandpa::{AuthorityId, AuthorityList, AuthorityWeight, SetId};
 <span class="kw">use </span>sp_std::marker::PhantomData;
@@ -175,7 +175,7 @@
 }
 
 <span class="doccomment">/// A bounded GRANDPA Authority List and ID.
-</span><span class="attr">#[derive(Clone, Decode, Encode, Eq, TypeInfo, MaxEncodedLen, RuntimeDebugNoBound)]
+</span><span class="attr">#[derive(CloneNoBound, Decode, Encode, Eq, TypeInfo, MaxEncodedLen, RuntimeDebugNoBound)]
 #[scale_info(skip_type_params(T, I))]
 </span><span class="kw">pub struct </span>StoredAuthoritySet&lt;T: Config&lt;I&gt;, I: <span class="lifetime">&#39;static</span>&gt; {
 	<span class="doccomment">/// List of GRANDPA authorities for the current round.

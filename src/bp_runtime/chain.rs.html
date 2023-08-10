@@ -381,6 +381,23 @@
 <a href="#381" id="381">381</a>
 <a href="#382" id="382">382</a>
 <a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -662,10 +679,11 @@
 ///     - `&lt;ThisChain&gt;FinalityApi`
 /// - constants that are stringified names of runtime API methods:
 ///     - `BEST_FINALIZED_&lt;THIS_CHAIN&gt;_HEADER_METHOD`
+///     - `&lt;THIS_CHAIN&gt;_ACCEPTED_&lt;CONSENSUS&gt;_FINALITY_PROOFS_METHOD`
 /// The name of the chain has to be specified in snake case (e.g. `rialto_parachain`).
 </span><span class="attr">#[macro_export]
 </span><span class="macro">macro_rules! </span>decl_bridge_finality_runtime_apis {
-	(<span class="macro-nonterminal">$chain</span>: ident) =&gt; {
+	(<span class="macro-nonterminal">$chain</span>: ident $(, <span class="macro-nonterminal">$consensus</span>: ident =&gt; <span class="macro-nonterminal">$justification_type</span>: ty)<span class="question-mark">?</span>) =&gt; {
 		<span class="macro">bp_runtime::paste::item! </span>{
 			<span class="kw">mod </span>[&lt;<span class="macro-nonterminal">$chain </span>_finality_api&gt;] {
 				<span class="kw">use super</span>::<span class="kw-2">*</span>;
@@ -674,7 +692,14 @@
 				</span><span class="kw">pub const </span>[&lt;BEST_FINALIZED_ <span class="macro-nonterminal">$chain</span>:upper _HEADER_METHOD&gt;]: <span class="kw-2">&amp;</span>str =
 					<span class="macro">stringify!</span>([&lt;<span class="macro-nonterminal">$chain</span>:camel FinalityApi_best_finalized&gt;]);
 
-				<span class="macro">sp_api::decl_runtime_apis! </span>{
+				$(
+					<span class="doccomment">/// Name of the `&lt;ThisChain&gt;FinalityApi::accepted_&lt;consensus&gt;_finality_proofs`
+					/// runtime method.
+					</span><span class="kw">pub const </span>[&lt;<span class="macro-nonterminal">$chain</span>:upper _SYNCED_HEADERS_ <span class="macro-nonterminal">$consensus</span>:upper _INFO_METHOD&gt;]: <span class="kw-2">&amp;</span>str =
+						<span class="macro">stringify!</span>([&lt;<span class="macro-nonterminal">$chain</span>:camel FinalityApi_synced_headers_ <span class="macro-nonterminal">$consensus</span>:lower _info&gt;]);
+				)<span class="question-mark">?
+
+				</span><span class="macro">sp_api::decl_runtime_apis! </span>{
 					<span class="doccomment">/// API for querying information about the finalized chain headers.
 					///
 					/// This API is implemented by runtimes that are receiving messages from this chain, not by this
@@ -682,12 +707,21 @@
 					</span><span class="kw">pub trait </span>[&lt;<span class="macro-nonterminal">$chain</span>:camel FinalityApi&gt;] {
 						<span class="doccomment">/// Returns number and hash of the best finalized header known to the bridge module.
 						</span><span class="kw">fn </span>best_finalized() -&gt; <span class="prelude-ty">Option</span>&lt;bp_runtime::HeaderId&lt;Hash, BlockNumber&gt;&gt;;
-					}
+
+						$(
+							<span class="doccomment">/// Returns the justifications accepted in the current block.
+							</span><span class="kw">fn </span>[&lt;synced_headers_ <span class="macro-nonterminal">$consensus</span>:lower _info&gt;](
+							) -&gt; Vec&lt;<span class="macro-nonterminal">$justification_type</span>&gt;;
+						)<span class="question-mark">?
+					</span>}
 				}
 			}
 
 			<span class="kw">pub use </span>[&lt;<span class="macro-nonterminal">$chain </span>_finality_api&gt;]::<span class="kw-2">*</span>;
 		}
+	};
+	(<span class="macro-nonterminal">$chain</span>: ident, grandpa) =&gt; {
+		<span class="macro">decl_bridge_finality_runtime_apis!</span>(<span class="macro-nonterminal">$chain</span>, grandpa =&gt; bp_header_chain::HeaderGrandpaInfo&lt;Header&gt;);
 	};
 }
 
@@ -759,8 +793,8 @@
 /// The name of the chain has to be specified in snake case (e.g. `rialto_parachain`).
 </span><span class="attr">#[macro_export]
 </span><span class="macro">macro_rules! </span>decl_bridge_runtime_apis {
-	(<span class="macro-nonterminal">$chain</span>: ident) =&gt; {
-		<span class="macro">bp_runtime::decl_bridge_finality_runtime_apis!</span>(<span class="macro-nonterminal">$chain</span>);
+	(<span class="macro-nonterminal">$chain</span>: ident $(, <span class="macro-nonterminal">$consensus</span>: ident)<span class="question-mark">?</span>) =&gt; {
+		<span class="macro">bp_runtime::decl_bridge_finality_runtime_apis!</span>(<span class="macro-nonterminal">$chain </span>$(, <span class="macro-nonterminal">$consensus</span>)<span class="question-mark">?</span>);
 		<span class="macro">bp_runtime::decl_bridge_messages_runtime_apis!</span>(<span class="macro-nonterminal">$chain</span>);
 	};
 }

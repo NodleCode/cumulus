@@ -1602,6 +1602,26 @@
 <a href="#1602" id="1602">1602</a>
 <a href="#1603" id="1603">1603</a>
 <a href="#1604" id="1604">1604</a>
+<a href="#1605" id="1605">1605</a>
+<a href="#1606" id="1606">1606</a>
+<a href="#1607" id="1607">1607</a>
+<a href="#1608" id="1608">1608</a>
+<a href="#1609" id="1609">1609</a>
+<a href="#1610" id="1610">1610</a>
+<a href="#1611" id="1611">1611</a>
+<a href="#1612" id="1612">1612</a>
+<a href="#1613" id="1613">1613</a>
+<a href="#1614" id="1614">1614</a>
+<a href="#1615" id="1615">1615</a>
+<a href="#1616" id="1616">1616</a>
+<a href="#1617" id="1617">1617</a>
+<a href="#1618" id="1618">1618</a>
+<a href="#1619" id="1619">1619</a>
+<a href="#1620" id="1620">1620</a>
+<a href="#1621" id="1621">1621</a>
+<a href="#1622" id="1622">1622</a>
+<a href="#1623" id="1623">1623</a>
+<a href="#1624" id="1624">1624</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -2295,12 +2315,13 @@
 	<span class="kw">use super</span>::<span class="kw-2">*</span>;
 	<span class="kw">use </span><span class="kw">crate</span>::mock::{
 		run_test, test_relay_header, BigParachainHeader, RegularParachainHasher,
-		RegularParachainHeader, RuntimeEvent <span class="kw">as </span>TestEvent, RuntimeOrigin, TestRuntime,
-		UNTRACKED_PARACHAIN_ID,
+		RegularParachainHeader, RelayBlockHeader, RuntimeEvent <span class="kw">as </span>TestEvent, RuntimeOrigin,
+		TestRuntime, UNTRACKED_PARACHAIN_ID,
 	};
 	<span class="kw">use </span>bp_test_utils::prepare_parachain_heads_proof;
 	<span class="kw">use </span>codec::Encode;
 
+	<span class="kw">use </span>bp_header_chain::{justification::GrandpaJustification, HeaderGrandpaInfo};
 	<span class="kw">use </span>bp_parachains::{
 		BestParaHeadHash, BridgeParachainCall, ImportedParaHeadsKeyProvider, ParasInfoKeyProvider,
 	};
@@ -2344,7 +2365,10 @@
 		test_relay_header(<span class="number">0</span>, state_root).hash()
 	}
 
-	<span class="kw">fn </span>proceed(num: RelayBlockNumber, state_root: RelayBlockHash) -&gt; ParaHash {
+	<span class="kw">fn </span>proceed(
+		num: RelayBlockNumber,
+		state_root: RelayBlockHash,
+	) -&gt; (ParaHash, GrandpaJustification&lt;RelayBlockHeader&gt;) {
 		pallet_bridge_grandpa::Pallet::&lt;TestRuntime, BridgesGrandpaPalletInstance&gt;::on_initialize(
 			<span class="number">0</span>,
 		);
@@ -2356,11 +2380,11 @@
 			pallet_bridge_grandpa::Pallet::&lt;TestRuntime, BridgesGrandpaPalletInstance&gt;::submit_finality_proof(
 				RuntimeOrigin::signed(<span class="number">1</span>),
 				Box::new(header),
-				justification,
+				justification.clone(),
 			)
 		);
 
-		hash
+		(hash, justification)
 	}
 
 	<span class="kw">fn </span>initial_best_head(parachain: u32) -&gt; ParaInfo {
@@ -2597,7 +2621,7 @@
 			);
 
 			<span class="comment">// import head#10 of parachain#1 at relay block #1
-			</span><span class="kw">let </span>relay_1_hash = proceed(<span class="number">1</span>, state_root_10);
+			</span><span class="kw">let </span>(relay_1_hash, justification) = proceed(<span class="number">1</span>, state_root_10);
 			<span class="macro">assert_ok!</span>(import_parachain_1_head(<span class="number">1</span>, state_root_10, parachains_10, proof_10));
 			<span class="macro">assert_eq!</span>(
 				ParasInfo::&lt;TestRuntime&gt;::get(ParaId(<span class="number">1</span>)),
@@ -2636,6 +2660,10 @@
 							pallet_bridge_grandpa::Event::UpdatedBestFinalizedHeader {
 								number: <span class="number">1</span>,
 								hash: relay_1_hash,
+								grandpa_info: HeaderGrandpaInfo {
+									justification,
+									authority_set: <span class="prelude-val">None</span>,
+								},
 							}
 						),
 						topics: <span class="macro">vec!</span>[],
@@ -2753,7 +2781,7 @@
 
 			<span class="comment">// try to import head#0 of parachain#1 at relay block#1
 			// =&gt; call succeeds, but nothing is changed
-			</span><span class="kw">let </span>relay_1_hash = proceed(<span class="number">1</span>, state_root);
+			</span><span class="kw">let </span>(relay_1_hash, justification) = proceed(<span class="number">1</span>, state_root);
 			<span class="macro">assert_ok!</span>(import_parachain_1_head(<span class="number">1</span>, state_root, parachains, proof));
 			<span class="macro">assert_eq!</span>(ParasInfo::&lt;TestRuntime&gt;::get(ParaId(<span class="number">1</span>)), <span class="prelude-val">Some</span>(initial_best_head(<span class="number">1</span>)));
 			<span class="macro">assert_eq!</span>(
@@ -2773,6 +2801,10 @@
 							pallet_bridge_grandpa::Event::UpdatedBestFinalizedHeader {
 								number: <span class="number">1</span>,
 								hash: relay_1_hash,
+								grandpa_info: HeaderGrandpaInfo {
+									justification,
+									authority_set: <span class="prelude-val">None</span>,
+								}
 							}
 						),
 						topics: <span class="macro">vec!</span>[],
@@ -2801,7 +2833,7 @@
 			</span>initialize(state_root_5);
 
 			<span class="comment">// head#10 of parachain#1 at relay block#1
-			</span><span class="kw">let </span>relay_1_hash = proceed(<span class="number">1</span>, state_root_10);
+			</span><span class="kw">let </span>(relay_1_hash, justification) = proceed(<span class="number">1</span>, state_root_10);
 			<span class="macro">assert_ok!</span>(import_parachain_1_head(<span class="number">1</span>, state_root_10, parachains_10, proof_10));
 			<span class="macro">assert_eq!</span>(
 				ParasInfo::&lt;TestRuntime&gt;::get(ParaId(<span class="number">1</span>)),
@@ -2822,6 +2854,10 @@
 							pallet_bridge_grandpa::Event::UpdatedBestFinalizedHeader {
 								number: <span class="number">1</span>,
 								hash: relay_1_hash,
+								grandpa_info: HeaderGrandpaInfo {
+									justification: justification.clone(),
+									authority_set: <span class="prelude-val">None</span>,
+								}
 							}
 						),
 						topics: <span class="macro">vec!</span>[],
@@ -2859,6 +2895,10 @@
 							pallet_bridge_grandpa::Event::UpdatedBestFinalizedHeader {
 								number: <span class="number">1</span>,
 								hash: relay_1_hash,
+								grandpa_info: HeaderGrandpaInfo {
+									justification,
+									authority_set: <span class="prelude-val">None</span>,
+								}
 							}
 						),
 						topics: <span class="macro">vec!</span>[],

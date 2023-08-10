@@ -2,7 +2,7 @@
     parachain_config: Configuration,
     polkadot_config: Configuration,
     collator_options: CollatorOptions,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     hwbench: <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;HwBench&gt;
 ) -&gt; Result&lt;(TaskManager, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;TFullClient&lt;Block, RuntimeApi, NativeElseWasmExecutor&lt;<a class="struct" href="struct.ParachainNativeExecutor.html" title="struct parachain_template_node::service::ParachainNativeExecutor">ParachainNativeExecutor</a>&gt;&gt;&gt;)&gt;</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Start a node with the given parachain <code>Configuration</code> and relay chain <code>Configuration</code>.</p>
 <p>This is the actual implementation that is abstract over the executor and the runtime api.</p>

@@ -63,6 +63,7 @@
 <a href="#63" id="63">63</a>
 <a href="#64" id="64">64</a>
 <a href="#65" id="65">65</a>
+<a href="#66" id="66">66</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -91,6 +92,7 @@
 <span class="kw">use </span>bp_header_chain::ChainWithGrandpa;
 <span class="kw">use </span>bp_runtime::{decl_bridge_finality_runtime_apis, Chain};
 <span class="kw">use </span>frame_support::weights::Weight;
+<span class="kw">use </span>sp_std::prelude::Vec;
 
 <span class="doccomment">/// Wococo Chain
 </span><span class="kw">pub struct </span>Wococo;
@@ -127,5 +129,5 @@
 <span class="doccomment">/// Name of the With-Wococo GRANDPA pallet instance that is deployed at bridged chains.
 </span><span class="kw">pub const </span>WITH_WOCOCO_GRANDPA_PALLET_NAME: <span class="kw-2">&amp;</span>str = <span class="string">&quot;BridgeWococoGrandpa&quot;</span>;
 
-<span class="macro">decl_bridge_finality_runtime_apis!</span>(wococo);
+<span class="macro">decl_bridge_finality_runtime_apis!</span>(wococo, grandpa);
 </code></pre></div></section></main></body></html>

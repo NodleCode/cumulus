@@ -2061,47 +2061,6 @@
 <a href="#2061" id="2061">2061</a>
 <a href="#2062" id="2062">2062</a>
 <a href="#2063" id="2063">2063</a>
-<a href="#2064" id="2064">2064</a>
-<a href="#2065" id="2065">2065</a>
-<a href="#2066" id="2066">2066</a>
-<a href="#2067" id="2067">2067</a>
-<a href="#2068" id="2068">2068</a>
-<a href="#2069" id="2069">2069</a>
-<a href="#2070" id="2070">2070</a>
-<a href="#2071" id="2071">2071</a>
-<a href="#2072" id="2072">2072</a>
-<a href="#2073" id="2073">2073</a>
-<a href="#2074" id="2074">2074</a>
-<a href="#2075" id="2075">2075</a>
-<a href="#2076" id="2076">2076</a>
-<a href="#2077" id="2077">2077</a>
-<a href="#2078" id="2078">2078</a>
-<a href="#2079" id="2079">2079</a>
-<a href="#2080" id="2080">2080</a>
-<a href="#2081" id="2081">2081</a>
-<a href="#2082" id="2082">2082</a>
-<a href="#2083" id="2083">2083</a>
-<a href="#2084" id="2084">2084</a>
-<a href="#2085" id="2085">2085</a>
-<a href="#2086" id="2086">2086</a>
-<a href="#2087" id="2087">2087</a>
-<a href="#2088" id="2088">2088</a>
-<a href="#2089" id="2089">2089</a>
-<a href="#2090" id="2090">2090</a>
-<a href="#2091" id="2091">2091</a>
-<a href="#2092" id="2092">2092</a>
-<a href="#2093" id="2093">2093</a>
-<a href="#2094" id="2094">2094</a>
-<a href="#2095" id="2095">2095</a>
-<a href="#2096" id="2096">2096</a>
-<a href="#2097" id="2097">2097</a>
-<a href="#2098" id="2098">2098</a>
-<a href="#2099" id="2099">2099</a>
-<a href="#2100" id="2100">2100</a>
-<a href="#2101" id="2101">2101</a>
-<a href="#2102" id="2102">2102</a>
-<a href="#2103" id="2103">2103</a>
-<a href="#2104" id="2104">2104</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -2257,7 +2216,7 @@
 		</span><span class="doccomment">/// Target header chain.
 		</span><span class="kw">type </span>TargetHeaderChain: TargetHeaderChain&lt;<span class="self">Self</span>::OutboundPayload, <span class="self">Self</span>::AccountId&gt;;
 		<span class="doccomment">/// Message payload verifier.
-		</span><span class="kw">type </span>LaneMessageVerifier: LaneMessageVerifier&lt;<span class="self">Self</span>::RuntimeOrigin, <span class="self">Self</span>::OutboundPayload&gt;;
+		</span><span class="kw">type </span>LaneMessageVerifier: LaneMessageVerifier&lt;<span class="self">Self</span>::OutboundPayload&gt;;
 		<span class="doccomment">/// Delivery confirmation payments.
 		</span><span class="kw">type </span>DeliveryConfirmationPayments: DeliveryConfirmationPayments&lt;<span class="self">Self</span>::AccountId&gt;;
 
@@ -2747,8 +2706,7 @@
 	}
 }
 
-<span class="kw">impl</span>&lt;T, I&gt; bp_messages::source_chain::MessagesBridge&lt;T::RuntimeOrigin, T::OutboundPayload&gt;
-	<span class="kw">for </span>Pallet&lt;T, I&gt;
+<span class="kw">impl</span>&lt;T, I&gt; bp_messages::source_chain::MessagesBridge&lt;T::OutboundPayload&gt; <span class="kw">for </span>Pallet&lt;T, I&gt;
 <span class="kw">where
 	</span>T: Config&lt;I&gt;,
 	I: <span class="lifetime">&#39;static</span>,
@@ -2756,17 +2714,15 @@
 	<span class="kw">type </span>Error = sp_runtime::DispatchErrorWithPostInfo&lt;PostDispatchInfo&gt;;
 
 	<span class="kw">fn </span>send_message(
-		sender: T::RuntimeOrigin,
 		lane: LaneId,
 		message: T::OutboundPayload,
 	) -&gt; <span class="prelude-ty">Result</span>&lt;SendMessageArtifacts, <span class="self">Self</span>::Error&gt; {
-		<span class="kw">crate</span>::send_message::&lt;T, I&gt;(sender, lane, message)
+		<span class="kw">crate</span>::send_message::&lt;T, I&gt;(lane, message)
 	}
 }
 
 <span class="doccomment">/// Function that actually sends message.
 </span><span class="kw">fn </span>send_message&lt;T: Config&lt;I&gt;, I: <span class="lifetime">&#39;static</span>&gt;(
-	submitter: T::RuntimeOrigin,
 	lane_id: LaneId,
 	payload: T::OutboundPayload,
 ) -&gt; sp_std::result::Result&lt;
@@ -2792,18 +2748,16 @@
 
 	<span class="comment">// now let&#39;s enforce any additional lane rules
 	</span><span class="kw">let </span><span class="kw-2">mut </span>lane = outbound_lane::&lt;T, I&gt;(lane_id);
-	T::LaneMessageVerifier::verify_message(<span class="kw-2">&amp;</span>submitter, <span class="kw-2">&amp;</span>lane_id, <span class="kw-2">&amp;</span>lane.data(), <span class="kw-2">&amp;</span>payload).map_err(
-		|err| {
-			<span class="macro">log::trace!</span>(
-				target: LOG_TARGET,
-				<span class="string">&quot;Message to lane {:?} is rejected by lane verifier: {:?}&quot;</span>,
-				lane_id,
-				err,
-			);
+	T::LaneMessageVerifier::verify_message(<span class="kw-2">&amp;</span>lane_id, <span class="kw-2">&amp;</span>lane.data(), <span class="kw-2">&amp;</span>payload).map_err(|err| {
+		<span class="macro">log::trace!</span>(
+			target: LOG_TARGET,
+			<span class="string">&quot;Message to lane {:?} is rejected by lane verifier: {:?}&quot;</span>,
+			lane_id,
+			err,
+		);
 
-			Error::&lt;T, I&gt;::MessageRejectedByLaneVerifier(err)
-		},
-	)<span class="question-mark">?</span>;
+		Error::&lt;T, I&gt;::MessageRejectedByLaneVerifier(err)
+	})<span class="question-mark">?</span>;
 
 	<span class="comment">// finally, save message in outbound storage and emit event
 	</span><span class="kw">let </span>encoded_payload = payload.encode();
@@ -3019,7 +2973,7 @@
 
 		<span class="kw">let </span>message_nonce =
 			outbound_lane::&lt;TestRuntime, ()&gt;(TEST_LANE_ID).data().latest_generated_nonce + <span class="number">1</span>;
-		send_message::&lt;TestRuntime, ()&gt;(RuntimeOrigin::signed(<span class="number">1</span>), TEST_LANE_ID, REGULAR_PAYLOAD)
+		send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, REGULAR_PAYLOAD)
 			.expect(<span class="string">&quot;send_message has failed&quot;</span>);
 
 		<span class="comment">// check event with assigned nonce
@@ -3086,11 +3040,7 @@
 			));
 
 			<span class="macro">assert_noop!</span>(
-				send_message::&lt;TestRuntime, ()&gt;(
-					RuntimeOrigin::signed(<span class="number">1</span>),
-					TEST_LANE_ID,
-					REGULAR_PAYLOAD,
-				),
+				send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, REGULAR_PAYLOAD,),
 				Error::&lt;TestRuntime, ()&gt;::NotOperatingNormally,
 			);
 
@@ -3140,11 +3090,7 @@
 			);
 
 			<span class="macro">assert_noop!</span>(
-				send_message::&lt;TestRuntime, ()&gt;(
-					RuntimeOrigin::signed(<span class="number">1</span>),
-					TEST_LANE_ID,
-					REGULAR_PAYLOAD,
-				),
+				send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, REGULAR_PAYLOAD,),
 				Error::&lt;TestRuntime, ()&gt;::NotOperatingNormally,
 			);
 
@@ -3194,11 +3140,7 @@
 				.extra
 				.extend_from_slice(<span class="kw-2">&amp;</span>[<span class="number">0u8</span>; MAX_OUTBOUND_PAYLOAD_SIZE <span class="kw">as </span>usize]);
 			<span class="macro">assert_noop!</span>(
-				send_message::&lt;TestRuntime, ()&gt;(
-					RuntimeOrigin::signed(<span class="number">1</span>),
-					TEST_LANE_ID,
-					message_payload.clone(),
-				),
+				send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, message_payload.clone(),),
 				Error::&lt;TestRuntime, ()&gt;::MessageRejectedByPallet(
 					VerificationError::MessageTooLarge
 				),
@@ -3209,11 +3151,7 @@
 				message_payload.extra.pop();
 			}
 			<span class="macro">assert_eq!</span>(message_payload.encoded_size() <span class="kw">as </span>u32, MAX_OUTBOUND_PAYLOAD_SIZE);
-			<span class="macro">assert_ok!</span>(send_message::&lt;TestRuntime, ()&gt;(
-				RuntimeOrigin::signed(<span class="number">1</span>),
-				TEST_LANE_ID,
-				message_payload,
-			),);
+			<span class="macro">assert_ok!</span>(send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, message_payload,),);
 		})
 	}
 
@@ -3222,11 +3160,7 @@
 		run_test(|| {
 			<span class="comment">// messages with this payload are rejected by target chain verifier
 			</span><span class="macro">assert_noop!</span>(
-				send_message::&lt;TestRuntime, ()&gt;(
-					RuntimeOrigin::signed(<span class="number">1</span>),
-					TEST_LANE_ID,
-					PAYLOAD_REJECTED_BY_TARGET_CHAIN,
-				),
+				send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, PAYLOAD_REJECTED_BY_TARGET_CHAIN,),
 				Error::&lt;TestRuntime, ()&gt;::MessageRejectedByChainVerifier(VerificationError::Other(
 					mock::TEST_ERROR
 				)),
@@ -3241,7 +3175,7 @@
 			</span><span class="kw">let </span><span class="kw-2">mut </span>message = REGULAR_PAYLOAD;
 			message.reject_by_lane_verifier = <span class="bool-val">true</span>;
 			<span class="macro">assert_noop!</span>(
-				send_message::&lt;TestRuntime, ()&gt;(RuntimeOrigin::signed(<span class="number">1</span>), TEST_LANE_ID, message,),
+				send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, message,),
 				Error::&lt;TestRuntime, ()&gt;::MessageRejectedByLaneVerifier(VerificationError::Other(
 					mock::TEST_ERROR
 				)),
@@ -3397,16 +3331,8 @@
 	<span class="attr">#[test]
 	</span><span class="kw">fn </span>receive_messages_delivery_proof_rewards_relayers() {
 		run_test(|| {
-			<span class="macro">assert_ok!</span>(send_message::&lt;TestRuntime, ()&gt;(
-				RuntimeOrigin::signed(<span class="number">1</span>),
-				TEST_LANE_ID,
-				REGULAR_PAYLOAD,
-			));
-			<span class="macro">assert_ok!</span>(send_message::&lt;TestRuntime, ()&gt;(
-				RuntimeOrigin::signed(<span class="number">1</span>),
-				TEST_LANE_ID,
-				REGULAR_PAYLOAD,
-			));
+			<span class="macro">assert_ok!</span>(send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, REGULAR_PAYLOAD,));
+			<span class="macro">assert_ok!</span>(send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, REGULAR_PAYLOAD,));
 
 			<span class="comment">// this reports delivery of message 1 =&gt; reward is paid to TEST_RELAYER_A
 			</span><span class="kw">let </span>single_message_delivery_proof = TestMessagesDeliveryProof(<span class="prelude-val">Ok</span>((
@@ -4003,11 +3929,7 @@
 			</span>send_regular_message();
 			receive_messages_delivery_proof();
 			<span class="comment">// send + receive confirmation for lane 2
-			</span><span class="macro">assert_ok!</span>(send_message::&lt;TestRuntime, ()&gt;(
-				RuntimeOrigin::signed(<span class="number">1</span>),
-				TEST_LANE_ID_2,
-				REGULAR_PAYLOAD,
-			));
+			</span><span class="macro">assert_ok!</span>(send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID_2, REGULAR_PAYLOAD,));
 			<span class="macro">assert_ok!</span>(Pallet::&lt;TestRuntime&gt;::receive_messages_delivery_proof(
 				RuntimeOrigin::signed(<span class="number">1</span>),
 				TestMessagesDeliveryProof(<span class="prelude-val">Ok</span>((
@@ -4083,11 +4005,7 @@
 	</span><span class="kw">fn </span>outbound_message_from_unconfigured_lane_is_rejected() {
 		run_test(|| {
 			<span class="macro">assert_noop!</span>(
-				send_message::&lt;TestRuntime, ()&gt;(
-					RuntimeOrigin::signed(<span class="number">1</span>),
-					TEST_LANE_ID_3,
-					REGULAR_PAYLOAD,
-				),
+				send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID_3, REGULAR_PAYLOAD,),
 				Error::&lt;TestRuntime, ()&gt;::InactiveOutboundLane,
 			);
 		});

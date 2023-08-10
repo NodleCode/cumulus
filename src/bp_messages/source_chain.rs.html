@@ -189,16 +189,6 @@
 <a href="#189" id="189">189</a>
 <a href="#190" id="190">190</a>
 <a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-<a href="#193" id="193">193</a>
-<a href="#194" id="194">194</a>
-<a href="#195" id="195">195</a>
-<a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a>
-<a href="#198" id="198">198</a>
-<a href="#199" id="199">199</a>
-<a href="#200" id="200">200</a>
-<a href="#201" id="201">201</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -272,11 +262,10 @@
 /// Lane3 until some block, ...), then it may be built using this verifier.
 ///
 /// Any fee requirements should also be enforced here.
-</span><span class="kw">pub trait </span>LaneMessageVerifier&lt;SenderOrigin, Payload&gt; {
+</span><span class="kw">pub trait </span>LaneMessageVerifier&lt;Payload&gt; {
 	<span class="doccomment">/// Verify message payload and return Ok(()) if message is valid and allowed to be sent over the
 	/// lane.
 	</span><span class="kw">fn </span>verify_message(
-		submitter: <span class="kw-2">&amp;</span>SenderOrigin,
 		lane: <span class="kw-2">&amp;</span>LaneId,
 		outbound_data: <span class="kw-2">&amp;</span>OutboundLaneData,
 		payload: <span class="kw-2">&amp;</span>Payload,
@@ -325,32 +314,24 @@
 }
 
 <span class="doccomment">/// Messages bridge API to be used from other pallets.
-</span><span class="kw">pub trait </span>MessagesBridge&lt;SenderOrigin, Payload&gt; {
+</span><span class="kw">pub trait </span>MessagesBridge&lt;Payload&gt; {
 	<span class="doccomment">/// Error type.
 	</span><span class="kw">type </span>Error: Debug;
 
 	<span class="doccomment">/// Send message over the bridge.
 	///
 	/// Returns unique message nonce or error if send has failed.
-	</span><span class="kw">fn </span>send_message(
-		sender: SenderOrigin,
-		lane: LaneId,
-		message: Payload,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;SendMessageArtifacts, <span class="self">Self</span>::Error&gt;;
+	</span><span class="kw">fn </span>send_message(lane: LaneId, message: Payload) -&gt; <span class="prelude-ty">Result</span>&lt;SendMessageArtifacts, <span class="self">Self</span>::Error&gt;;
 }
 
 <span class="doccomment">/// Bridge that does nothing when message is being sent.
 </span><span class="attr">#[derive(Eq, RuntimeDebug, PartialEq)]
 </span><span class="kw">pub struct </span>NoopMessagesBridge;
 
-<span class="kw">impl</span>&lt;SenderOrigin, Payload&gt; MessagesBridge&lt;SenderOrigin, Payload&gt; <span class="kw">for </span>NoopMessagesBridge {
+<span class="kw">impl</span>&lt;Payload&gt; MessagesBridge&lt;Payload&gt; <span class="kw">for </span>NoopMessagesBridge {
 	<span class="kw">type </span>Error = <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str;
 
-	<span class="kw">fn </span>send_message(
-		_sender: SenderOrigin,
-		_lane: LaneId,
-		_message: Payload,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;SendMessageArtifacts, <span class="self">Self</span>::Error&gt; {
+	<span class="kw">fn </span>send_message(_lane: LaneId, _message: Payload) -&gt; <span class="prelude-ty">Result</span>&lt;SendMessageArtifacts, <span class="self">Self</span>::Error&gt; {
 		<span class="prelude-val">Ok</span>(SendMessageArtifacts { nonce: <span class="number">0 </span>})
 	}
 }
@@ -377,9 +358,8 @@
 	}
 }
 
-<span class="kw">impl</span>&lt;SenderOrigin, Payload&gt; LaneMessageVerifier&lt;SenderOrigin, Payload&gt; <span class="kw">for </span>ForbidOutboundMessages {
+<span class="kw">impl</span>&lt;Payload&gt; LaneMessageVerifier&lt;Payload&gt; <span class="kw">for </span>ForbidOutboundMessages {
 	<span class="kw">fn </span>verify_message(
-		_submitter: <span class="kw-2">&amp;</span>SenderOrigin,
 		_lane: <span class="kw-2">&amp;</span>LaneId,
 		_outbound_data: <span class="kw-2">&amp;</span>OutboundLaneData,
 		_payload: <span class="kw-2">&amp;</span>Payload,

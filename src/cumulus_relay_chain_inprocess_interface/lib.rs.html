@@ -468,6 +468,7 @@
 <a href="#468" id="468">468</a>
 <a href="#469" id="469">469</a>
 <a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -735,7 +736,7 @@
 <span class="doccomment">/// Build the Polkadot full node using the given `config`.
 </span><span class="attr">#[sc_tracing::logging::prefix_logs_with(<span class="string">&quot;Relaychain&quot;</span>)]
 </span><span class="kw">fn </span>build_polkadot_full_node(
-	config: Configuration,
+	<span class="kw-2">mut </span>config: Configuration,
 	parachain_config: <span class="kw-2">&amp;</span>Configuration,
 	telemetry_worker_handle: <span class="prelude-ty">Option</span>&lt;TelemetryWorkerHandle&gt;,
 	hwbench: <span class="prelude-ty">Option</span>&lt;sc_sysinfo::HwBench&gt;,
@@ -747,13 +748,14 @@
 		(polkadot_service::IsCollator::No, <span class="prelude-val">None</span>)
 	};
 
+	<span class="comment">// Disable BEEFY. It should not be required by the internal relay chain node.
+	</span>config.disable_beefy = <span class="bool-val">true</span>;
+
 	<span class="kw">let </span>relay_chain_full_node = polkadot_service::build_full(
 		config,
 		polkadot_service::NewFullParams {
 			is_collator,
 			grandpa_pause: <span class="prelude-val">None</span>,
-			<span class="comment">// Disable BEEFY. It should not be required by the internal relay chain node.
-			</span>enable_beefy: <span class="bool-val">false</span>,
 			jaeger_agent: <span class="prelude-val">None</span>,
 			telemetry_worker_handle,
 

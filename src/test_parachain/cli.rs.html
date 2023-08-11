@@ -334,6 +334,10 @@
 <a href="#334" id="334">334</a>
 <a href="#335" id="335">335</a>
 <a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2022 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -554,6 +558,10 @@
 
 	<span class="kw">fn </span>disable_grandpa(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; CliResult&lt;bool&gt; {
 		<span class="self">self</span>.base.base.disable_grandpa()
+	}
+
+	<span class="kw">fn </span>disable_beefy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; CliResult&lt;bool&gt; {
+		<span class="self">self</span>.base.base.disable_beefy()
 	}
 
 	<span class="kw">fn </span>max_runtime_instances(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; CliResult&lt;<span class="prelude-ty">Option</span>&lt;usize&gt;&gt; {

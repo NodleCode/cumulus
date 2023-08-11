@@ -437,6 +437,10 @@
 <a href="#437" id="437">437</a>
 <a href="#438" id="438">438</a>
 <a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -830,6 +834,10 @@
 
 	<span class="kw">fn </span>disable_grandpa(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; sc_cli::Result&lt;bool&gt; {
 		<span class="self">self</span>.base.disable_grandpa()
+	}
+
+	<span class="kw">fn </span>disable_beefy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; sc_cli::Result&lt;bool&gt; {
+		<span class="self">self</span>.base.disable_beefy()
 	}
 
 	<span class="kw">fn </span>rpc_max_connections(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; sc_cli::Result&lt;u32&gt; {

@@ -321,6 +321,8 @@
 <a href="#321" id="321">321</a>
 <a href="#322" id="322">322</a>
 <a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2023 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -378,7 +380,8 @@
 		JustTry,
 	&gt;;
 
-<span class="doccomment">/// [`MatchedConvertedConcreteId`] converter dedicated for storing `ForeignAssets` with `AssetId` as `MultiLocation`.
+<span class="doccomment">/// [`MatchedConvertedConcreteId`] converter dedicated for storing `ForeignAssets` with `AssetId` as
+/// `MultiLocation`.
 ///
 /// Excludes by default:
 /// - parent as relay chain
@@ -391,7 +394,8 @@
 			<span class="comment">// Excludes relay/parent chain currency
 			</span>Equals&lt;ParentLocation&gt;,
 			<span class="comment">// Here we rely on fact that something like this works:
-			// assert!(MultiLocation::new(1, X1(Parachain(100))).starts_with(&amp;MultiLocation::parent()));
+			// assert!(MultiLocation::new(1,
+			// X1(Parachain(100))).starts_with(&amp;MultiLocation::parent()));
 			// assert!(X1(Parachain(100)).starts_with(&amp;Here));
 			</span>StartsWith&lt;LocalMultiLocationPattern&gt;,
 			<span class="comment">// Here we can exclude more stuff or leave it as `()`

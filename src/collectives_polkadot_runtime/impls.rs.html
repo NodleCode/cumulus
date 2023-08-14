@@ -224,6 +224,8 @@
 <a href="#224" id="224">224</a>
 <a href="#225" id="225">225</a>
 <a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2021 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -261,7 +263,8 @@
 </span><span class="kw">pub type </span>BalanceOf&lt;T&gt; =
 	&lt;pallet_balances::Pallet&lt;T&gt; <span class="kw">as </span>Currency&lt;&lt;T <span class="kw">as </span>frame_system::Config&gt;::AccountId&gt;&gt;::Balance;
 
-<span class="doccomment">/// Implements `OnUnbalanced::on_unbalanced` to teleport slashed assets to relay chain treasury account.
+<span class="doccomment">/// Implements `OnUnbalanced::on_unbalanced` to teleport slashed assets to relay chain treasury
+/// account.
 </span><span class="kw">pub struct </span>ToParentTreasury&lt;TreasuryAccount, PalletAccount, T&gt;(
 	PhantomData&lt;(TreasuryAccount, PalletAccount, T)&gt;,
 );
@@ -413,8 +416,9 @@
 		}
 	}
 
-	<span class="doccomment">/// Type that wraps a type implementing the [`Pay`] trait to decorate its [`Pay::ensure_successful`]
-	/// function with a provided implementation of the [`EnsureSuccessful`] trait.
+	<span class="doccomment">/// Type that wraps a type implementing the [`Pay`] trait to decorate its
+	/// [`Pay::ensure_successful`] function with a provided implementation of the
+	/// [`EnsureSuccessful`] trait.
 	</span><span class="kw">pub struct </span>PayWithEnsure&lt;O, E&gt;(PhantomData&lt;(O, E)&gt;);
 	<span class="kw">impl</span>&lt;O, E&gt; Pay <span class="kw">for </span>PayWithEnsure&lt;O, E&gt;
 	<span class="kw">where

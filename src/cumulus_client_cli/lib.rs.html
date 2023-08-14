@@ -441,6 +441,7 @@
 <a href="#441" id="441">441</a>
 <a href="#442" id="442">442</a>
 <a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -750,7 +751,8 @@
 }
 
 <span class="kw">impl </span>RunCmd {
-	<span class="doccomment">/// Create a [`NormalizedRunCmd`] which merges the `collator` cli argument into `validator` to have only one.
+	<span class="doccomment">/// Create a [`NormalizedRunCmd`] which merges the `collator` cli argument into `validator` to
+	/// have only one.
 	</span><span class="kw">pub fn </span>normalize(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; NormalizedRunCmd {
 		<span class="kw">let </span><span class="kw-2">mut </span>new_base = <span class="self">self</span>.base.clone();
 

@@ -1637,6 +1637,7 @@
 <a href="#1637" id="1637">1637</a>
 <a href="#1638" id="1638">1638</a>
 <a href="#1639" id="1639">1639</a>
+<a href="#1640" id="1640">1640</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -1970,7 +1971,8 @@
 
 <span class="doccomment">/// Start a shell node with the given parachain `Configuration` and relay chain `Configuration`.
 ///
-/// This is the actual implementation that is abstract over the executor and the runtime api for shell nodes.
+/// This is the actual implementation that is abstract over the executor and the runtime api for
+/// shell nodes.
 </span><span class="attr">#[sc_tracing::logging::prefix_logs_with(<span class="string">&quot;Parachain&quot;</span>)]
 </span><span class="kw">async fn </span>start_shell_node_impl&lt;RuntimeApi, RB, BIQ, BIC&gt;(
 	parachain_config: Configuration,

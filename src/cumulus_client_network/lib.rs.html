@@ -509,6 +509,7 @@
 <a href="#509" id="509">509</a>
 <a href="#510" id="510">510</a>
 <a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Polkadot.
 
@@ -598,7 +599,8 @@
 <span class="kw">impl </span>BlockAnnounceData {
 	<span class="doccomment">/// Validate that the receipt, statement and announced header match.
 	///
-	/// This will not check the signature, for this you should use [`BlockAnnounceData::check_signature`].
+	/// This will not check the signature, for this you should use
+	/// [`BlockAnnounceData::check_signature`].
 	</span><span class="kw">fn </span>validate(<span class="kw-2">&amp;</span><span class="self">self</span>, encoded_header: Vec&lt;u8&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), Validation&gt; {
 		<span class="kw">let </span>candidate_hash =
 			<span class="kw">if let </span>CompactStatement::Seconded(h) = <span class="self">self</span>.statement.unchecked_payload() {
@@ -703,9 +705,9 @@
 
 <span class="doccomment">/// Parachain specific block announce validator.
 ///
-/// This is not required when the collation mechanism itself is sybil-resistant, as it is a spam protection
-/// mechanism used to prevent nodes from dealing with unbounded numbers of blocks. For sybil-resistant
-/// collation mechanisms, this will only slow things down.
+/// This is not required when the collation mechanism itself is sybil-resistant, as it is a spam
+/// protection mechanism used to prevent nodes from dealing with unbounded numbers of blocks. For
+/// sybil-resistant collation mechanisms, this will only slow things down.
 ///
 /// This block announce validator is required if the parachain is running
 /// with the relay chain provided consensus to make sure each node only
@@ -983,8 +985,8 @@
 	/// announcements which come tagged with seconded messages.
 	///
 	/// This is useful for backwards compatibility when upgrading nodes: old nodes will continue
-	/// to broadcast announcements with seconded messages, so these announcements shouldn&#39;t be rejected
-	/// and the peers not punished.
+	/// to broadcast announcements with seconded messages, so these announcements shouldn&#39;t be
+	/// rejected and the peers not punished.
 	</span><span class="kw">pub fn </span>allow_seconded_messages() -&gt; <span class="self">Self </span>{
 		AssumeSybilResistance(<span class="bool-val">true</span>)
 	}

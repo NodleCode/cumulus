@@ -242,6 +242,8 @@
 <a href="#242" id="242">242</a>
 <a href="#243" id="243">243</a>
 <a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -357,14 +359,16 @@
 	</span><span class="comment">// Promotions and the induction of new members are serviced by `FellowshipCore` pallet instance.
 	</span><span class="kw">type </span>PromoteOrigin = frame_system::EnsureNever&lt;pallet_ranked_collective::Rank&gt;;
 	<span class="attr">#[cfg(feature = <span class="string">&quot;runtime-benchmarks&quot;</span>)]
-	</span><span class="comment">// The maximum value of `u16` set as a success value for the root to ensure the benchmarks will pass.
+	</span><span class="comment">// The maximum value of `u16` set as a success value for the root to ensure the benchmarks will
+	// pass.
 	</span><span class="kw">type </span>PromoteOrigin = EnsureRootWithSuccess&lt;<span class="self">Self</span>::AccountId, ConstU16&lt;<span class="number">65535</span>&gt;&gt;;
 
 	<span class="comment">// Demotion is by any of:
 	// - Root can demote arbitrarily.
 	// - the FellowshipAdmin origin (i.e. token holder referendum);
 	//
-	// The maximum value of `u16` set as a success value for the root to ensure the benchmarks will pass.
+	// The maximum value of `u16` set as a success value for the root to ensure the benchmarks will
+	// pass.
 	</span><span class="kw">type </span>DemoteOrigin = EitherOf&lt;
 		EnsureRootWithSuccess&lt;<span class="self">Self</span>::AccountId, ConstU16&lt;<span class="number">65535</span>&gt;&gt;,
 		MapSuccess&lt;

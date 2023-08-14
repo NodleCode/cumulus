@@ -1192,6 +1192,8 @@
 <a href="#1192" id="1192">1192</a>
 <a href="#1193" id="1193">1193</a>
 <a href="#1194" id="1194">1194</a>
+<a href="#1195" id="1195">1195</a>
+<a href="#1196" id="1196">1196</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2020-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -1381,8 +1383,8 @@
 			<span class="prelude-val">Ok</span>(())
 		}
 
-		<span class="doccomment">/// Overwrites the number of pages of messages which must be in the queue for the other side to be told to
-		/// suspend their sending.
+		<span class="doccomment">/// Overwrites the number of pages of messages which must be in the queue for the other side
+		/// to be told to suspend their sending.
 		///
 		/// - `origin`: Must pass `Root`.
 		/// - `new`: Desired value for `QueueConfigData.suspend_value`
@@ -1395,8 +1397,8 @@
 			<span class="prelude-val">Ok</span>(())
 		}
 
-		<span class="doccomment">/// Overwrites the number of pages of messages which must be in the queue after which we drop any further
-		/// messages from the channel.
+		<span class="doccomment">/// Overwrites the number of pages of messages which must be in the queue after which we
+		/// drop any further messages from the channel.
 		///
 		/// - `origin`: Must pass `Root`.
 		/// - `new`: Desired value for `QueueConfigData.drop_threshold`
@@ -1409,8 +1411,8 @@
 			<span class="prelude-val">Ok</span>(())
 		}
 
-		<span class="doccomment">/// Overwrites the number of pages of messages which the queue must be reduced to before it signals that
-		/// message sending may recommence after it has been suspended.
+		<span class="doccomment">/// Overwrites the number of pages of messages which the queue must be reduced to before it
+		/// signals that message sending may recommence after it has been suspended.
 		///
 		/// - `origin`: Must pass `Root`.
 		/// - `new`: Desired value for `QueueConfigData.resume_threshold`
@@ -1437,7 +1439,8 @@
 		}
 
 		<span class="doccomment">/// Overwrites the speed to which the available weight approaches the maximum weight.
-		/// A lower number results in a faster progression. A value of 1 makes the entire weight available initially.
+		/// A lower number results in a faster progression. A value of 1 makes the entire weight
+		/// available initially.
 		///
 		/// - `origin`: Must pass `Root`.
 		/// - `new`: Desired value for `QueueConfigData.weight_restrict_decay`.
@@ -1451,7 +1454,8 @@
 		}
 
 		<span class="doccomment">/// Overwrite the maximum amount of weight any individual message may consume.
-		/// Messages above this weight go into the overweight queue and may only be serviced explicitly.
+		/// Messages above this weight go into the overweight queue and may only be serviced
+		/// explicitly.
 		///
 		/// - `origin`: Must pass `Root`.
 		/// - `new`: Desired value for `QueueConfigData.xcmp_max_individual_weight`.
@@ -1873,8 +1877,8 @@
 									Overweight::&lt;T&gt;::count() &lt; MAX_OVERWEIGHT_MESSAGES;
 								weight_used.saturating_accrue(T::DbWeight::get().reads(<span class="number">1</span>));
 								<span class="kw">if </span>is_under_limit {
-									<span class="comment">// overweight - add to overweight queue and continue with message
-									// execution consuming the message.
+									<span class="comment">// overweight - add to overweight queue and continue with
+									// message execution consuming the message.
 									</span><span class="kw">let </span>msg_len = last_remaining_fragments
 										.len()
 										.saturating_sub(remaining_fragments.len());

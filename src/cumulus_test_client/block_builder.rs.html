@@ -168,6 +168,7 @@
 <a href="#168" id="168">168</a>
 <a href="#169" id="169">169</a>
 <a href="#170" id="170">170</a>
+<a href="#171" id="171">171</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2020-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -320,7 +321,8 @@
 <span class="doccomment">/// Extension trait for the [`BlockBuilder`](sc_block_builder::BlockBuilder) to build directly a
 /// [`ParachainBlockData`].
 </span><span class="kw">pub trait </span>BuildParachainBlockData {
-	<span class="doccomment">/// Directly build the [`ParachainBlockData`] from the block that comes out of the block builder.
+	<span class="doccomment">/// Directly build the [`ParachainBlockData`] from the block that comes out of the block
+	/// builder.
 	</span><span class="kw">fn </span>build_parachain_block(<span class="self">self</span>, parent_state_root: Hash) -&gt; ParachainBlockData&lt;Block&gt;;
 }
 

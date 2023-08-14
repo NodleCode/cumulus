@@ -1269,6 +1269,12 @@
 <a href="#1269" id="1269">1269</a>
 <a href="#1270" id="1270">1270</a>
 <a href="#1271" id="1271">1271</a>
+<a href="#1272" id="1272">1272</a>
+<a href="#1273" id="1273">1273</a>
+<a href="#1274" id="1274">1274</a>
+<a href="#1275" id="1275">1275</a>
+<a href="#1276" id="1276">1276</a>
+<a href="#1277" id="1277">1277</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2020 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -1818,10 +1824,12 @@
 		</span>Unauthorized,
 	}
 
-	<span class="doccomment">/// In case of a scheduled upgrade, this storage field contains the validation code to be applied.
+	<span class="doccomment">/// In case of a scheduled upgrade, this storage field contains the validation code to be
+	/// applied.
 	///
-	/// As soon as the relay chain gives us the go-ahead signal, we will overwrite the [`:code`][sp_core::storage::well_known_keys::CODE]
-	/// which will result the next block process with the new validation code. This concludes the upgrade process.
+	/// As soon as the relay chain gives us the go-ahead signal, we will overwrite the
+	/// [`:code`][sp_core::storage::well_known_keys::CODE] which will result the next block process
+	/// with the new validation code. This concludes the upgrade process.
 	</span><span class="attr">#[pallet::storage]
 	#[pallet::getter(<span class="kw">fn </span>new_validation_function)]
 	</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>PendingValidationCode&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, Vec&lt;u8&gt;, ValueQuery&gt;;
@@ -2142,8 +2150,8 @@
 
 	<span class="doccomment">/// Process all inbound horizontal messages relayed by the collator.
 	///
-	/// This is similar to `Pallet::process_inbound_downward_messages`, but works on multiple inbound
-	/// channels.
+	/// This is similar to `Pallet::process_inbound_downward_messages`, but works on multiple
+	/// inbound channels.
 	///
 	/// **Panics** if either any of horizontal messages submitted by the collator was sent from
 	///            a para which has no open channel to this parachain or if after processing
@@ -2259,7 +2267,8 @@
 	<span class="doccomment">/// The implementation of the runtime upgrade functionality for parachains.
 	</span><span class="kw">pub fn </span>schedule_code_upgrade(validation_function: Vec&lt;u8&gt;) -&gt; DispatchResult {
 		<span class="comment">// Ensure that `ValidationData` exists. We do not care about the validation data per se,
-		// but we do care about the [`UpgradeRestrictionSignal`] which arrives with the same inherent.
+		// but we do care about the [`UpgradeRestrictionSignal`] which arrives with the same
+		// inherent.
 		</span><span class="macro">ensure!</span>(&lt;ValidationData&lt;T&gt;&gt;::exists(), Error::&lt;T&gt;::ValidationDataNotAvailable,);
 		<span class="macro">ensure!</span>(&lt;UpgradeRestrictionSignal&lt;T&gt;&gt;::get().is_none(), Error::&lt;T&gt;::ProhibitedByPolkadot);
 
@@ -2283,7 +2292,8 @@
 
 	<span class="doccomment">/// Returns the [`CollationInfo`] of the current active block.
 	///
-	/// The given `header` is the header of the built block we are collecting the collation info for.
+	/// The given `header` is the header of the built block we are collecting the collation info
+	/// for.
 	///
 	/// This is expected to be used by the
 	/// [`CollectCollationInfo`](cumulus_primitives_core::CollectCollationInfo) runtime api.
@@ -2446,7 +2456,8 @@
 </span><span class="kw">pub trait </span>OnSystemEvent {
 	<span class="doccomment">/// Called in each blocks once when the validation data is set by the inherent.
 	</span><span class="kw">fn </span>on_validation_data(data: <span class="kw-2">&amp;</span>PersistedValidationData);
-	<span class="doccomment">/// Called when the validation code is being applied, aka from the next block on this is the new runtime.
+	<span class="doccomment">/// Called when the validation code is being applied, aka from the next block on this is the new
+	/// runtime.
 	</span><span class="kw">fn </span>on_validation_code_applied();
 }
 
@@ -2469,8 +2480,8 @@
 	</span><span class="kw">fn </span>current_relay_chain_state() -&gt; RelayChainState;
 }
 
-<span class="doccomment">/// Implements [`BlockNumberProvider`] that returns relay chain block number fetched from validation data.
-/// When validation data is not available (e.g. within on_initialize), 0 will be returned.
+<span class="doccomment">/// Implements [`BlockNumberProvider`] that returns relay chain block number fetched from validation
+/// data. When validation data is not available (e.g. within on_initialize), 0 will be returned.
 ///
 /// **NOTE**: This has been deprecated, please use [`RelaychainDataProvider`]
 </span><span class="attr">#[deprecated = <span class="string">&quot;Use `RelaychainDataProvider` instead&quot;</span>]
@@ -2512,9 +2523,10 @@
 	}
 }
 
-<span class="doccomment">/// Implements [`BlockNumberProvider`] and [`RelaychainStateProvider`] that returns relevant relay data fetched from
-/// validation data.
-/// NOTE: When validation data is not available (e.g. within on_initialize), default values will be returned.
+<span class="doccomment">/// Implements [`BlockNumberProvider`] and [`RelaychainStateProvider`] that returns relevant relay
+/// data fetched from validation data.
+/// NOTE: When validation data is not available (e.g. within on_initialize), default values will be
+/// returned.
 </span><span class="kw">pub struct </span>RelaychainDataProvider&lt;T&gt;(sp_std::marker::PhantomData&lt;T&gt;);
 
 <span class="kw">impl</span>&lt;T: Config&gt; BlockNumberProvider <span class="kw">for </span>RelaychainDataProvider&lt;T&gt; {

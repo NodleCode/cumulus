@@ -1299,6 +1299,12 @@
 <a href="#1299" id="1299">1299</a>
 <a href="#1300" id="1300">1300</a>
 <a href="#1301" id="1301">1301</a>
+<a href="#1302" id="1302">1302</a>
+<a href="#1303" id="1303">1303</a>
+<a href="#1304" id="1304">1304</a>
+<a href="#1305" id="1305">1305</a>
+<a href="#1306" id="1306">1306</a>
+<a href="#1307" id="1307">1307</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2023 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -1574,7 +1580,8 @@
 	}
 );
 
-<span class="doccomment">/// Test-case makes sure that `Runtime` can receive teleported assets from sibling parachain relay chain
+<span class="doccomment">/// Test-case makes sure that `Runtime` can receive teleported assets from sibling parachain relay
+/// chain
 </span><span class="kw">pub fn </span>teleports_for_foreign_assets_works&lt;
 	Runtime,
 	XcmConfig,
@@ -1896,7 +1903,8 @@
 	}
 );
 
-<span class="doccomment">/// Test-case makes sure that `Runtime`&#39;s `xcm::AssetTransactor` can handle native relay chain currency
+<span class="doccomment">/// Test-case makes sure that `Runtime`&#39;s `xcm::AssetTransactor` can handle native relay chain
+/// currency
 </span><span class="kw">pub fn </span>asset_transactor_transfer_with_local_consensus_currency_works&lt;Runtime, XcmConfig&gt;(
 	collator_session_keys: CollatorSessionKeys&lt;Runtime&gt;,
 	source_account: AccountIdOf&lt;Runtime&gt;,
@@ -2008,7 +2016,8 @@
 	}
 );
 
-<span class="doccomment">///Test-case makes sure that `Runtime`&#39;s `xcm::AssetTransactor` can handle native relay chain currency
+<span class="doccomment">///Test-case makes sure that `Runtime`&#39;s `xcm::AssetTransactor` can handle native relay chain
+/// currency
 </span><span class="kw">pub fn </span>asset_transactor_transfer_with_pallet_assets_instance_works&lt;
 	Runtime,
 	XcmConfig,
@@ -2128,7 +2137,8 @@
 			);
 			additional_checks_before();
 
-			<span class="comment">// transfer_asset (deposit/withdraw) ALICE -&gt; CHARLIE (not ok - Charlie does not have ExistentialDeposit)
+			<span class="comment">// transfer_asset (deposit/withdraw) ALICE -&gt; CHARLIE (not ok - Charlie does not have
+			// ExistentialDeposit)
 			</span><span class="macro">assert_noop!</span>(
 				RuntimeHelper::&lt;XcmConfig&gt;::do_transfer(
 					MultiLocation {
@@ -2404,7 +2414,8 @@
 				freezer: bob_account.clone().into(),
 			});
 
-			<span class="comment">// lets simulate this was triggered by relay chain from local consensus sibling parachain
+			<span class="comment">// lets simulate this was triggered by relay chain from local consensus sibling
+			// parachain
 			</span><span class="kw">let </span>xcm = Xcm(<span class="macro">vec!</span>[
 				WithdrawAsset(buy_execution_fee.clone().into()),
 				BuyExecution { fees: buy_execution_fee.clone(), weight_limit: Unlimited },
@@ -2507,7 +2518,8 @@
 				pallet_assets::Error::&lt;Runtime, ForeignAssetsPalletInstance&gt;::NoPermission
 			);
 
-			<span class="comment">// lets try create asset for different parachain(3333) (foreign_creator(2222) can create just his assets)
+			<span class="comment">// lets try create asset for different parachain(3333) (foreign_creator(2222) can create
+			// just his assets)
 			</span><span class="kw">let </span>foreign_asset_id_multilocation =
 				MultiLocation { parents: <span class="number">1</span>, interior: X2(Parachain(<span class="number">3333</span>), GeneralIndex(<span class="number">1234567</span>)) };
 			<span class="kw">let </span>asset_id = AssetIdConverter::convert(<span class="kw-2">&amp;</span>foreign_asset_id_multilocation).unwrap();

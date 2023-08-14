@@ -929,6 +929,8 @@
 <a href="#929" id="929">929</a>
 <a href="#930" id="930">930</a>
 <a href="#931" id="931">931</a>
+<a href="#932" id="932">932</a>
+<a href="#933" id="933">933</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -1174,7 +1176,8 @@
 	HrmpChannelOpener: frame_support::inherent::ProvideInherent&lt;
 		Call = cumulus_pallet_parachain_system::Call&lt;Runtime&gt;,
 	&gt;,
-	<span class="comment">// MessageDispatcher: MessageDispatch&lt;AccountIdOf&lt;Runtime&gt;, DispatchLevelResult = XcmBlobMessageDispatchResult, DispatchPayload = XcmAsPlainPayload&gt;,
+	<span class="comment">// MessageDispatcher: MessageDispatch&lt;AccountIdOf&lt;Runtime&gt;, DispatchLevelResult =
+	// XcmBlobMessageDispatchResult, DispatchPayload = XcmAsPlainPayload&gt;,
 	</span>RuntimeNetwork: Get&lt;NetworkId&gt;,
 	BridgedNetwork: Get&lt;NetworkId&gt;,
 {
@@ -1770,7 +1773,8 @@
 		)
 	}
 
-	<span class="doccomment">/// Helper that creates InitializationData mock data, that can be used to initialize bridge GRANDPA pallet
+	<span class="doccomment">/// Helper that creates InitializationData mock data, that can be used to initialize bridge
+	/// GRANDPA pallet
 	</span><span class="kw">pub fn </span>initialization_data&lt;
 		Runtime: pallet_bridge_grandpa::Config&lt;GrandpaPalletInstance&gt;,
 		GrandpaPalletInstance: <span class="lifetime">&#39;static</span>,

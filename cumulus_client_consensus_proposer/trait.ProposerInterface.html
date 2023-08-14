@@ -32,8 +32,8 @@
     'life2: 'async_trait,</span></h4></section></summary><div class="docblock"><p>Propose a collation using the supplied <code>InherentData</code> and the provided
 <code>ParachainInherentData</code>.</p>
 <p>Also specify any required inherent digests, the maximum proposal duration,
-and the block size limit in bytes. See the documentation on [<code>sp_consensus::Proposer::propose</code>]
-for more details on how to interpret these parameters.</p>
+and the block size limit in bytes. See the documentation on
+[<code>sp_consensus::Proposer::propose</code>] for more details on how to interpret these parameters.</p>
 <p>The <code>InherentData</code> and <code>Digest</code> are left deliberately general in order to accommodate
 all possible collator selection algorithms or inherent creation mechanisms,
 while the <code>ParachainInherentData</code> is made explicit so it will be constructed appropriately.</p>

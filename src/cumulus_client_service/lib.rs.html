@@ -458,6 +458,8 @@
 <a href="#458" id="458">458</a>
 <a href="#459" id="459">459</a>
 <a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2020-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -837,7 +839,8 @@
 	})
 }
 
-<span class="doccomment">/// Creates a new background task to wait for the relay chain to sync up and retrieve the parachain header
+<span class="doccomment">/// Creates a new background task to wait for the relay chain to sync up and retrieve the parachain
+/// header
 </span><span class="kw">fn </span>warp_sync_get&lt;B, RCInterface&gt;(
 	para_id: ParaId,
 	relay_chain_interface: RCInterface,
@@ -873,7 +876,8 @@
 	receiver
 }
 
-<span class="doccomment">/// Waits for the relay chain to have finished syncing and then gets the parachain header that corresponds to the last finalized relay chain block.
+<span class="doccomment">/// Waits for the relay chain to have finished syncing and then gets the parachain header that
+/// corresponds to the last finalized relay chain block.
 </span><span class="kw">async fn </span>wait_for_target_block&lt;B, RCInterface&gt;(
 	sender: oneshot::Sender&lt;&lt;B <span class="kw">as </span>BlockT&gt;::Header&gt;,
 	para_id: ParaId,

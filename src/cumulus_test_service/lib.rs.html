@@ -901,6 +901,7 @@
 <a href="#901" id="901">901</a>
 <a href="#902" id="902">902</a>
 <a href="#903" id="903">903</a>
+<a href="#904" id="904">904</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -1376,8 +1377,8 @@
 	</span><span class="kw">pub </span>client: Arc&lt;Client&gt;,
 	<span class="doccomment">/// Node&#39;s network.
 	</span><span class="kw">pub </span>network: Arc&lt;NetworkService&lt;Block, H256&gt;&gt;,
-	<span class="doccomment">/// The `MultiaddrWithPeerId` to this node. This is useful if you want to pass it as &quot;boot node&quot;
-	/// to other nodes.
+	<span class="doccomment">/// The `MultiaddrWithPeerId` to this node. This is useful if you want to pass it as &quot;boot
+	/// node&quot; to other nodes.
 	</span><span class="kw">pub </span>addr: MultiaddrWithPeerId,
 	<span class="doccomment">/// RPCHandlers to make RPC queries.
 	</span><span class="kw">pub </span>rpc_handlers: RpcHandlers,
@@ -1415,7 +1416,8 @@
 	///
 	/// `para_id` - The parachain id this node is running for.
 	/// `tokio_handle` - The tokio handler to use.
-	/// `key` - The key that will be used to generate the name and that will be passed as `dev_seed`.
+	/// `key` - The key that will be used to generate the name and that will be passed as
+	/// `dev_seed`.
 	</span><span class="kw">pub fn </span>new(para_id: ParaId, tokio_handle: tokio::runtime::Handle, key: Sr25519Keyring) -&gt; <span class="self">Self </span>{
 		TestNodeBuilder {
 			key,

@@ -912,6 +912,7 @@
 <a href="#912" id="912">912</a>
 <a href="#913" id="913">913</a>
 <a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2020-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -1220,8 +1221,8 @@
 	}
 
 	<span class="doccomment">/// For an incoming downward message, this just adapts an XCM executor and executes DMP messages
-	/// immediately up until some `MaxWeight` at which point it errors. Their origin is asserted to be
-	/// the `Parent` location.
+	/// immediately up until some `MaxWeight` at which point it errors. Their origin is asserted to
+	/// be the `Parent` location.
 	</span><span class="kw">impl</span>&lt;T: Config&gt; DmpMessageHandler <span class="kw">for </span>Pallet&lt;T&gt; {
 		<span class="kw">fn </span>handle_dmp_messages(
 			iter: <span class="kw">impl </span>Iterator&lt;Item = (RelayBlockNumber, Vec&lt;u8&gt;)&gt;,
@@ -1281,8 +1282,9 @@
 										required_weight,
 									});
 									page_index.overweight_count += <span class="number">1</span>;
-									<span class="comment">// Not needed for control flow, but only to ensure that the compiler
-									// understands that we won&#39;t attempt to re-use `data` later.
+									<span class="comment">// Not needed for control flow, but only to ensure that the
+									// compiler understands that we won&#39;t attempt to re-use `data`
+									// later.
 									</span><span class="kw">continue
 								</span>} <span class="kw">else </span>{
 									<span class="comment">// not overweight. stop executing inline and enqueue normally

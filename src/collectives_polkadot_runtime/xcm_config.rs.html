@@ -315,6 +315,7 @@
 <a href="#315" id="315">315</a>
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -530,7 +531,8 @@
 			<span class="comment">// Allow XCMs with some computed origins to pass through.
 			</span>WithComputedOrigin&lt;
 				(
-					<span class="comment">// If the message is one that immediately attemps to pay for execution, then allow it.
+					<span class="comment">// If the message is one that immediately attemps to pay for execution, then
+					// allow it.
 					</span>AllowTopLevelPaidExecutionFrom&lt;Everything&gt;,
 					<span class="comment">// Parent and its pluralities (i.e. governance bodies) get free execution.
 					</span>AllowExplicitUnpaidExecutionFrom&lt;ParentOrParentsPlurality&gt;,

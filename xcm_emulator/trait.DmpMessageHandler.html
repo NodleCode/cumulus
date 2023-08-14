@@ -12,8 +12,8 @@
 <p>Also, process messages up to some <code>max_weight</code>.</p>
 </div></details></div><h2 id="foreign-impls" class="small-section-header">Implementations on Foreign Types<a href="#foreign-impls" class="anchor">§</a></h2><details class="toggle implementors-toggle"><summary><section id="impl-DmpMessageHandler-for-Pallet%3CT%3E" class="impl"><a href="#impl-DmpMessageHandler-for-Pallet%3CT%3E" class="anchor">§</a><h3 class="code-header">impl&lt;T&gt; <a class="trait" href="trait.DmpMessageHandler.html" title="trait xcm_emulator::DmpMessageHandler">DmpMessageHandler</a> for Pallet&lt;T&gt;<span class="where fmt-newline">where
     T: Config,</span></h3></section></summary><div class="docblock"><p>For an incoming downward message, this just adapts an XCM executor and executes DMP messages
-immediately up until some <code>MaxWeight</code> at which point it errors. Their origin is asserted to be
-the <code>Parent</code> location.</p>
+immediately up until some <code>MaxWeight</code> at which point it errors. Their origin is asserted to
+be the <code>Parent</code> location.</p>
 </div><div class="impl-items"><section id="method.handle_dmp_messages" class="method trait-impl"><a href="#method.handle_dmp_messages" class="anchor">§</a><h4 class="code-header">fn <a href="#tymethod.handle_dmp_messages" class="fn">handle_dmp_messages</a>(
     iter: impl <a class="trait" href="https://doc.rust-lang.org/1.71.1/core/iter/traits/iterator/trait.Iterator.html" title="trait core::iter::traits::iterator::Iterator">Iterator</a>&lt;Item = (<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.u32.html">u32</a>, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.u8.html">u8</a>, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/alloc/struct.Global.html" title="struct alloc::alloc::Global">Global</a>&gt;)&gt;,
     limit: <a class="struct" href="opaque/struct.Weight.html" title="struct xcm_emulator::opaque::Weight">Weight</a>

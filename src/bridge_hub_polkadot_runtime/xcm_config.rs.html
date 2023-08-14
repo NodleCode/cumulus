@@ -273,6 +273,8 @@
 <a href="#273" id="273">273</a>
 <a href="#274" id="274">274</a>
 <a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -441,9 +443,11 @@
 			</span>AllowKnownQueryResponses&lt;PolkadotXcm&gt;,
 			WithComputedOrigin&lt;
 				(
-					<span class="comment">// If the message is one that immediately attemps to pay for execution, then allow it.
+					<span class="comment">// If the message is one that immediately attemps to pay for execution, then
+					// allow it.
 					</span>AllowTopLevelPaidExecutionFrom&lt;Everything&gt;,
-					<span class="comment">// Parent, its pluralities (i.e. governance bodies), and the Fellows plurality get free execution.
+					<span class="comment">// Parent, its pluralities (i.e. governance bodies), and the Fellows plurality
+					// get free execution.
 					</span>AllowExplicitUnpaidExecutionFrom&lt;(ParentOrParentsPlurality, FellowsPlurality)&gt;,
 					<span class="comment">// Subscriptions for version tracking are OK.
 					</span>AllowSubscriptionsFrom&lt;ParentOrSiblings&gt;,

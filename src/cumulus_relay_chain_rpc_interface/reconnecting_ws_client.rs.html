@@ -575,6 +575,8 @@
 <a href="#575" id="575">575</a>
 <a href="#576" id="576">576</a>
 <a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2022 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -980,9 +982,11 @@
 
 	<span class="doccomment">/// Run this worker to drive notification streams.
 	/// The worker does the following:
-	/// - Listen for [`RpcDispatcherMessage`], perform requests and register new listeners for the notification streams
-	/// - Distribute incoming import, best head and finalization notifications to registered listeners.
-	///   If an error occurs during sending, the receiver has been closed and we remove the sender from the list.
+	/// - Listen for [`RpcDispatcherMessage`], perform requests and register new listeners for the
+	///   notification streams
+	/// - Distribute incoming import, best head and finalization notifications to registered
+	///   listeners. If an error occurs during sending, the receiver has been closed and we remove
+	///   the sender from the list.
 	/// - Find a new valid RPC server to connect to in case the websocket connection is terminated.
 	///   If the worker is not able to connec to an RPC server from the list, the worker shuts down.
 	</span><span class="kw">async fn </span>run(<span class="kw-2">mut </span><span class="self">self</span>) {

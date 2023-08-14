@@ -344,6 +344,9 @@
 <a href="#344" id="344">344</a>
 <a href="#345" id="345">345</a>
 <a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -393,7 +396,8 @@
 	/// If the value is absent on the relay chain this will be set to all zeros.
 	</span><span class="kw">pub </span>dmq_mqc_head: relay_chain::Hash,
 
-	<span class="doccomment">/// The current capacity of the upward message queue of the current parachain on the relay chain.
+	<span class="doccomment">/// The current capacity of the upward message queue of the current parachain on the relay
+	/// chain.
 	</span><span class="kw">pub </span>relay_dispatch_queue_remaining_capacity: RelayDispatchQueueRemainingCapacity,
 
 	<span class="doccomment">/// Information about all the inbound HRMP channels.
@@ -541,9 +545,10 @@
 
 		<span class="comment">// TODO paritytech/polkadot#6283: Remove all usages of `relay_dispatch_queue_size`
 		//
-		// When the relay chain and all parachains support `relay_dispatch_queue_remaining_capacity`,
-		// this code here needs to be removed and above needs to be changed to `read_entry` that
-		// returns an error if `relay_dispatch_queue_remaining_capacity` can not be found/decoded.
+		// When the relay chain and all parachains support
+		// `relay_dispatch_queue_remaining_capacity`, this code here needs to be removed and above
+		// needs to be changed to `read_entry` that returns an error if
+		// `relay_dispatch_queue_remaining_capacity` can not be found/decoded.
 		//
 		// For now we just fallback to the old dispatch queue size on `ReadEntryErr::Absent`.
 		// `ReadEntryErr::Decode` and `ReadEntryErr::Proof` are potentially subject to meddling
@@ -605,8 +610,9 @@
 			egress_channels.push((recipient, hrmp_channel));
 		}
 
-		<span class="comment">// NOTE that ingress_channels and egress_channels promise to be sorted. We satisfy this property
-		// by relying on the fact that `ingress_channel_index` and `egress_channel_index` are themselves sorted.
+		<span class="comment">// NOTE that ingress_channels and egress_channels promise to be sorted. We satisfy this
+		// property by relying on the fact that `ingress_channel_index` and `egress_channel_index`
+		// are themselves sorted.
 		</span><span class="prelude-val">Ok</span>(MessagingStateSnapshot {
 			dmq_mqc_head,
 			relay_dispatch_queue_remaining_capacity,
@@ -666,12 +672,12 @@
 		.map_err(Error::UpgradeRestriction)
 	}
 
-	<span class="doccomment">/// Read an entry given by the key and try to decode it. If the value specified by the key according
-	/// to the proof is empty, the `fallback` value will be returned.
+	<span class="doccomment">/// Read an entry given by the key and try to decode it. If the value specified by the key
+	/// according to the proof is empty, the `fallback` value will be returned.
 	///
-	/// Returns `Err` in case the backend can&#39;t return the value under the specific key (likely due to
-	/// a malformed proof), in case the decoding fails, or in case where the value is empty in the relay
-	/// chain state and no fallback was provided.
+	/// Returns `Err` in case the backend can&#39;t return the value under the specific key (likely due
+	/// to a malformed proof), in case the decoding fails, or in case where the value is empty in
+	/// the relay chain state and no fallback was provided.
 	</span><span class="kw">pub fn </span>read_entry&lt;T&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>[u8], fallback: <span class="prelude-ty">Option</span>&lt;T&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;T, Error&gt;
 	<span class="kw">where
 		</span>T: Decode,
@@ -681,8 +687,8 @@
 
 	<span class="doccomment">/// Read an optional entry given by the key and try to decode it.
 	///
-	/// Returns `Err` in case the backend can&#39;t return the value under the specific key (likely due to
-	/// a malformed proof) or if the value couldn&#39;t be decoded.
+	/// Returns `Err` in case the backend can&#39;t return the value under the specific key (likely due
+	/// to a malformed proof) or if the value couldn&#39;t be decoded.
 	</span><span class="kw">pub fn </span>read_optional_entry&lt;T&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, key: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;T&gt;, Error&gt;
 	<span class="kw">where
 		</span>T: Decode,

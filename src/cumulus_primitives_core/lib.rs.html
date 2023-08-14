@@ -348,6 +348,8 @@
 <a href="#348" id="348">348</a>
 <a href="#349" id="349">349</a>
 <a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2020-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -490,9 +492,9 @@
 <span class="doccomment">/// The &quot;quality of service&quot; considerations for message sending.
 </span><span class="attr">#[derive(Eq, PartialEq, Clone, Copy, Encode, Decode, RuntimeDebug)]
 </span><span class="kw">pub enum </span>ServiceQuality {
-	<span class="doccomment">/// Ensure that this message is dispatched in the same relative order as any other messages that
-	/// were also sent with `Ordered`. This only guarantees message ordering on the dispatch side,
-	/// and not necessarily on the execution side.
+	<span class="doccomment">/// Ensure that this message is dispatched in the same relative order as any other messages
+	/// that were also sent with `Ordered`. This only guarantees message ordering on the dispatch
+	/// side, and not necessarily on the execution side.
 	</span>Ordered,
 	<span class="doccomment">/// Ensure that the message is dispatched as soon as possible, which could result in it being
 	/// dispatched before other messages which are larger and/or rely on relative ordering.
@@ -619,8 +621,8 @@
 		DigestItem::Consensus(RPSR_CONSENSUS_ID, (storage_root, number.into()).encode())
 	}
 
-	<span class="doccomment">/// Extract the relay-parent storage root and number from the provided header digest. Returns `None`
-	/// if none were found.
+	<span class="doccomment">/// Extract the relay-parent storage root and number from the provided header digest. Returns
+	/// `None` if none were found.
 	</span><span class="kw">pub fn </span>extract_relay_parent_storage_root(
 		digest: <span class="kw-2">&amp;</span>Digest,
 	) -&gt; <span class="prelude-ty">Option</span>&lt;(relay_chain::Hash, relay_chain::BlockNumber)&gt; {
@@ -649,7 +651,8 @@
 	</span><span class="kw">pub </span>new_validation_code: <span class="prelude-ty">Option</span>&lt;relay_chain::ValidationCode&gt;,
 	<span class="doccomment">/// The number of messages processed from the DMQ.
 	</span><span class="kw">pub </span>processed_downward_messages: u32,
-	<span class="doccomment">/// The mark which specifies the block number up to which all inbound HRMP messages are processed.
+	<span class="doccomment">/// The mark which specifies the block number up to which all inbound HRMP messages are
+	/// processed.
 	</span><span class="kw">pub </span>hrmp_watermark: relay_chain::BlockNumber,
 }
 
@@ -678,7 +681,8 @@
 	</span><span class="kw">pub </span>new_validation_code: <span class="prelude-ty">Option</span>&lt;relay_chain::ValidationCode&gt;,
 	<span class="doccomment">/// The number of messages processed from the DMQ.
 	</span><span class="kw">pub </span>processed_downward_messages: u32,
-	<span class="doccomment">/// The mark which specifies the block number up to which all inbound HRMP messages are processed.
+	<span class="doccomment">/// The mark which specifies the block number up to which all inbound HRMP messages are
+	/// processed.
 	</span><span class="kw">pub </span>hrmp_watermark: relay_chain::BlockNumber,
 	<span class="doccomment">/// The head data, aka encoded header, of the block that corresponds to the collation.
 	</span><span class="kw">pub </span>head_data: HeadData,

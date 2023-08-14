@@ -503,6 +503,10 @@
 <a href="#503" id="503">503</a>
 <a href="#504" id="504">504</a>
 <a href="#505" id="505">505</a>
+<a href="#506" id="506">506</a>
+<a href="#507" id="507">507</a>
+<a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -617,8 +621,10 @@
 		<span class="comment">// Ignore `TrustBackedAssets` explicitly
 		</span>StartsWith&lt;TrustBackedAssetsPalletLocation&gt;,
 		<span class="comment">// Ignore assets that start explicitly with our `GlobalConsensus(NetworkId)`, means:
-		// - foreign assets from our consensus should be: `MultiLocation {parents: 1, X*(Parachain(xyz), ..)}`
-		// - foreign assets outside our consensus with the same `GlobalConsensus(NetworkId)` won&#39;t be accepted here
+		// - foreign assets from our consensus should be: `MultiLocation {parents: 1,
+		//   X*(Parachain(xyz), ..)}`
+		// - foreign assets outside our consensus with the same `GlobalConsensus(NetworkId)` won&#39;t
+		//   be accepted here
 		</span>StartsWithExplicitGlobalConsensus&lt;UniversalLocationNetworkId&gt;,
 	),
 	Balance,
@@ -860,7 +866,8 @@
 			<span class="comment">// Allow XCMs with some computed origins to pass through.
 			</span>WithComputedOrigin&lt;
 				(
-					<span class="comment">// If the message is one that immediately attemps to pay for execution, then allow it.
+					<span class="comment">// If the message is one that immediately attemps to pay for execution, then
+					// allow it.
 					</span>AllowTopLevelPaidExecutionFrom&lt;Everything&gt;,
 					<span class="comment">// Parent and its pluralities (i.e. governance bodies) get free execution.
 					</span>AllowExplicitUnpaidExecutionFrom&lt;ParentOrParentsPlurality&gt;,
@@ -960,7 +967,8 @@
 	<span class="kw">type </span>XcmRouter = XcmRouter;
 	<span class="comment">// We support local origins dispatching XCM executions in principle...
 	</span><span class="kw">type </span>ExecuteXcmOrigin = EnsureXcmOrigin&lt;RuntimeOrigin, LocalOriginToLocation&gt;;
-	<span class="comment">// ... but disallow generic XCM execution. As a result only teleports and reserve transfers are allowed.
+	<span class="comment">// ... but disallow generic XCM execution. As a result only teleports and reserve transfers are
+	// allowed.
 	</span><span class="kw">type </span>XcmExecuteFilter = Nothing;
 	<span class="kw">type </span>XcmExecutor = XcmExecutor&lt;XcmConfig&gt;;
 	<span class="kw">type </span>XcmTeleportFilter = Everything;

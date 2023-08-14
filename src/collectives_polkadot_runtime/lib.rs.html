@@ -924,7 +924,6 @@
 <a href="#924" id="924">924</a>
 <a href="#925" id="925">925</a>
 <a href="#926" id="926">926</a>
-<a href="#927" id="927">927</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -947,15 +946,14 @@
 //!
 //! ### Governance
 //!
-//! As a common good parachain, Collectives defers its governance (namely, its `Root` origin), to its
-//! Relay Chain parent, Polkadot.
+//! As a common good parachain, Collectives defers its governance (namely, its `Root` origin), to
+//! its Relay Chain parent, Polkadot.
 //!
 //! ### Collator Selection
 //!
 //! Collectives uses `pallet-collator-selection`, a simple first-come-first-served registration
 //! system where collators can reserve a small bond to join the block producer set. There is no
 //! slashing. Collective members are generally expected to run collators.
-//!
 
 </span><span class="attr">#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
 #![recursion_limit = <span class="string">&quot;256&quot;</span>]

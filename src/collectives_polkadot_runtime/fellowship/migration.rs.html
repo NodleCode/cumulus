@@ -432,43 +432,43 @@
 	</span><span class="kw">fn </span>check_fellowship_addresses() {
 		<span class="kw">let </span>fellowship_addresses = FellowshipAddresses::get();
 		<span class="kw">let </span>kusama_fellowship_ss58: [(Rank, <span class="kw">_</span>); <span class="number">47</span>] = [
-			(<span class="number">6</span>, <span class="string">&quot;16SDAKg9N6kKAbhgDyxBXdHEwpwHUHs2CNEiLNGeZV55qHna&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16832707-4
-			</span>(<span class="number">6</span>, <span class="string">&quot;12MrP337azmkTdfCUKe5XLnSQrbgEKqqfZ4PQC7CZTJKAWR3&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16967809-2
+			(<span class="number">6</span>, <span class="string">&quot;16SDAKg9N6kKAbhgDyxBXdHEwpwHUHs2CNEiLNGeZV55qHna&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16832707-4 */
+			</span>(<span class="number">6</span>, <span class="string">&quot;12MrP337azmkTdfCUKe5XLnSQrbgEKqqfZ4PQC7CZTJKAWR3&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16967809-2 */
 			</span>(<span class="number">6</span>, <span class="string">&quot;FFFF3gBSSDFSvK2HBq4qgLH75DHqXWPHeCnR1BSksAMacBs&quot;</span>),
 			(<span class="number">5</span>, <span class="string">&quot;G7YVCdxZb8JLpAm9WMnJdNuojNT84AzU62zmvx5P1FMNtg2&quot;</span>),
-			(<span class="number">5</span>, <span class="string">&quot;15G1iXDLgFyfnJ51FKq1ts44TduMyUtekvzQi9my4hgYt2hs&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16917610-2
+			(<span class="number">5</span>, <span class="string">&quot;15G1iXDLgFyfnJ51FKq1ts44TduMyUtekvzQi9my4hgYt2hs&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16917610-2 */
 			</span>(<span class="number">5</span>, <span class="string">&quot;Dcm1BqR4N7nHuV43TXdET7pNibt1Nzm42FggPHpxKRven53&quot;</span>),
-			(<span class="number">5</span>, <span class="string">&quot;1363HWTPzDrzAQ6ChFiMU6mP4b6jmQid2ae55JQcKtZnpLGv&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16961180-2
+			(<span class="number">5</span>, <span class="string">&quot;1363HWTPzDrzAQ6ChFiMU6mP4b6jmQid2ae55JQcKtZnpLGv&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16961180-2 */
 			</span>(<span class="number">4</span>, <span class="string">&quot;EGVQCe73TpFyAZx5uKfE1222XfkT3BSKozjgcqzLBnc5eYo&quot;</span>),
-			(<span class="number">4</span>, <span class="string">&quot;1eTPAR2TuqLyidmPT9rMmuycHVm9s9czu78sePqg2KHMDrE&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16921712-3
-			</span>(<span class="number">4</span>, <span class="string">&quot;14DsLzVyTUTDMm2eP3czwPbH53KgqnQRp3CJJZS9GR7yxGDP&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16917519-2
-			</span>(<span class="number">3</span>, <span class="string">&quot;13aYUFHB3umoPoxBEAHSv451iR3RpsNi3t5yBZjX2trCtTp6&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16917832-3
+			(<span class="number">4</span>, <span class="string">&quot;1eTPAR2TuqLyidmPT9rMmuycHVm9s9czu78sePqg2KHMDrE&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16921712-3 */
+			</span>(<span class="number">4</span>, <span class="string">&quot;14DsLzVyTUTDMm2eP3czwPbH53KgqnQRp3CJJZS9GR7yxGDP&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16917519-2 */
+			</span>(<span class="number">3</span>, <span class="string">&quot;13aYUFHB3umoPoxBEAHSv451iR3RpsNi3t5yBZjX2trCtTp6&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16917832-3 */
 			</span>(<span class="number">3</span>, <span class="string">&quot;H25aCspunTUqAt4D1gC776vKZ8FX3MvQJ3Jde6qDXPQaFxk&quot;</span>),
 			(<span class="number">3</span>, <span class="string">&quot;GtLQoW4ZqcjExMPq6qB22bYc6NaX1yMzRuGWpSRiHqnzRb9&quot;</span>),
-			(<span class="number">3</span>, <span class="string">&quot;15db5ksZgmhWE9U8MDq4wLKUdFivLVBybztWV8nmaJvv3NU1&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16876631-2
+			(<span class="number">3</span>, <span class="string">&quot;15db5ksZgmhWE9U8MDq4wLKUdFivLVBybztWV8nmaJvv3NU1&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16876631-2 */
 			</span>(<span class="number">3</span>, <span class="string">&quot;HfFpz4QUxfbocHudf8UU7cMgHqkHpf855Me5X846PZAsAYE&quot;</span>),
-			(<span class="number">3</span>, <span class="string">&quot;14ShUZUYUR35RBZW6uVVt1zXDxmSQddkeDdXf1JkMA6P721N&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16918890-8
-			</span>(<span class="number">3</span>, <span class="string">&quot;12YzxR5TvGzfMVZNnhAJ5Hwi5zExpRWMKv2MuMwZTrddvgoi&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16924324-3
+			(<span class="number">3</span>, <span class="string">&quot;14ShUZUYUR35RBZW6uVVt1zXDxmSQddkeDdXf1JkMA6P721N&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16918890-8 */
+			</span>(<span class="number">3</span>, <span class="string">&quot;12YzxR5TvGzfMVZNnhAJ5Hwi5zExpRWMKv2MuMwZTrddvgoi&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16924324-3 */
 			</span>(<span class="number">2</span>, <span class="string">&quot;Ddb9puChKMHq4gM6o47E551wAmaNeu6kHngX1jzNNqAw782&quot;</span>),
-			(<span class="number">2</span>, <span class="string">&quot;15DCWHQknBjc5YPFoVj8Pn2KoqrqYywJJ95BYNYJ4Fj3NLqz&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16834952-2
-			</span>(<span class="number">2</span>, <span class="string">&quot;14ajTQdrtCA8wZmC4PgD8Y1B2Gy8L4Z3oi2fodxq9FehcFrM&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16944257-2
+			(<span class="number">2</span>, <span class="string">&quot;15DCWHQknBjc5YPFoVj8Pn2KoqrqYywJJ95BYNYJ4Fj3NLqz&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16834952-2 */
+			</span>(<span class="number">2</span>, <span class="string">&quot;14ajTQdrtCA8wZmC4PgD8Y1B2Gy8L4Z3oi2fodxq9FehcFrM&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16944257-2 */
 			</span>(<span class="number">2</span>, <span class="string">&quot;HxhDbS3grLurk1dhDgPiuDaRowHY1xHCU8Vu8on3fdg85tx&quot;</span>),
 			(<span class="number">2</span>, <span class="string">&quot;HTk3eccL7WBkiyxz1gBcqQRghsJigoDMD7mnQaz1UAbMpQV&quot;</span>),
 			(<span class="number">2</span>, <span class="string">&quot;EcNWrSPSDcVBRymwr26kk4JVFg92PdoU5Xwp87W2FgFSt9c&quot;</span>),
 			(<span class="number">2</span>, <span class="string">&quot;D8sM6vKjWaeKy2zCPYWGkLLbWdUtWQrXBTQqr4dSYnVQo21&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;GfbnnEgRU94n9ed4RFZ6Z9dBAWs5obykigJSwXKU9hsT2uU&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;HA5NtttvyZsxo4wGxGoJJSMaWtdEFZAuGUMFHVWD7fgenPv&quot;</span>),
-			(<span class="number">1</span>, <span class="string">&quot;14mDeKZ7qp9hqBjjDg51c8BFrf9o69om8piSSRwj2fT5Yb1i&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16919020-4
-			</span>(<span class="number">1</span>, <span class="string">&quot;16a357f5Sxab3V2ne4emGQvqJaCLeYpTMx3TCjnQhmJQ71DX&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16836396-5
-			</span>(<span class="number">1</span>, <span class="string">&quot;14Ak9rrF6RKHHoLLRUYMnzcvvi1t8E1yAMa7tcmiwUfaqzYK&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16921990-3
+			(<span class="number">1</span>, <span class="string">&quot;14mDeKZ7qp9hqBjjDg51c8BFrf9o69om8piSSRwj2fT5Yb1i&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16919020-4 */
+			</span>(<span class="number">1</span>, <span class="string">&quot;16a357f5Sxab3V2ne4emGQvqJaCLeYpTMx3TCjnQhmJQ71DX&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16836396-5 */
+			</span>(<span class="number">1</span>, <span class="string">&quot;14Ak9rrF6RKHHoLLRUYMnzcvvi1t8E1yAMa7tcmiwUfaqzYK&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16921990-3 */
 			</span>(<span class="number">1</span>, <span class="string">&quot;FJq9JpA9P7EXbmfsN9YiewJaDbQyL6vQyksGtJvzfbn6zf8&quot;</span>),
-			(<span class="number">1</span>, <span class="string">&quot;15oLanodWWweiZJSoDTEBtrX7oGfq6e8ct5y5E6fVRDPhUgj&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16876423-7
+			(<span class="number">1</span>, <span class="string">&quot;15oLanodWWweiZJSoDTEBtrX7oGfq6e8ct5y5E6fVRDPhUgj&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16876423-7 */
 			</span>(<span class="number">1</span>, <span class="string">&quot;EaBqDJJNsZmYdQ4xn1vomPJVNh7fjA6UztZeEjn7ZzdeT7V&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;HTxCvXKVvUZ7PQq175kCRRLu7XkGfTfErrdNXr1ZuuwVZWv&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;HZe91A6a1xqbKaw6ofx3GFepJjhVXHrwHEwn6YUDDFphpX9&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;GRy2P3kBEzSHCbmDJfquku1cyUyhZaAqojRcNE4A4U3MnLd&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;HYwiBo7Mcv7uUDg4MUoKm2fxzv4dMLAtmmNfzHV8qcQJpAE&quot;</span>),
-			(<span class="number">1</span>, <span class="string">&quot;1ThiBx5DDxFhoD9GY6tz5Fp4Y7Xn1xfLmDddcoFQghDvvjg&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16918130-2
+			(<span class="number">1</span>, <span class="string">&quot;1ThiBx5DDxFhoD9GY6tz5Fp4Y7Xn1xfLmDddcoFQghDvvjg&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16918130-2 */
 			</span>(<span class="number">1</span>, <span class="string">&quot;DfqY6XQUSETTszBQ1juocTcG9iiDoXhvq1CoVadBSUqTGJS&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;EnpgVWGGQVrFdSB2qeXRVdtccV6U5ZscNELBoERbkFD8Wi6&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;H5BuqCmucJhUUuvjAzPazeVwVCtUSXVQdc5Dnx2q5zD7rVn&quot;</span>),
@@ -476,9 +476,9 @@
 			(<span class="number">1</span>, <span class="string">&quot;CzuUtvKhZNZBjyAXeYviaRXwrLhVrsupJ9PrWmdq7BJTjGR&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;FCunn2Rx8JqfT5g6noUKKazph4jLDba5rUee7o3ZmJ362Ju&quot;</span>),
 			(<span class="number">1</span>, <span class="string">&quot;HyPMjWRHCpJS7x2SZ2R6M2XG5ZiCiZag4U4r7gBHRsE5mTc&quot;</span>),
-			(<span class="number">1</span>, <span class="string">&quot;1682A5hxfiS1Kn1jrUnMYv14T9EuEnsgnBbujGfYbeEbSK3w&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16919077-2
-			</span>(<span class="number">1</span>, <span class="string">&quot;13xS6fK6MHjApLnjdX7TJYw1niZmiXasSN91bNtiXQjgEtNx&quot;</span>), <span class="comment">// proof https://kusama.subscan.io/extrinsic/16918212-7
-			</span>(<span class="number">1</span>, <span class="string">&quot;15qE2YAQCs5Y962RHE7RzNjQxU6Pei21nhkkSM9Sojq1hHps&quot;</span>), <span class="comment">// https://kusama.subscan.io/extrinsic/17352973-2
+			(<span class="number">1</span>, <span class="string">&quot;1682A5hxfiS1Kn1jrUnMYv14T9EuEnsgnBbujGfYbeEbSK3w&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16919077-2 */
+			</span>(<span class="number">1</span>, <span class="string">&quot;13xS6fK6MHjApLnjdX7TJYw1niZmiXasSN91bNtiXQjgEtNx&quot;</span>), <span class="comment">/* proof https://kusama.subscan.io/extrinsic/16918212-7 */
+			</span>(<span class="number">1</span>, <span class="string">&quot;15qE2YAQCs5Y962RHE7RzNjQxU6Pei21nhkkSM9Sojq1hHps&quot;</span>), <span class="comment">/* https://kusama.subscan.io/extrinsic/17352973-2 */
 		</span>];
 
 		<span class="kw">for </span>(index, val) <span class="kw">in </span>kusama_fellowship_ss58.iter().enumerate() {

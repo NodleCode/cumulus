@@ -469,6 +469,8 @@
 <a href="#469" id="469">469</a>
 <a href="#470" id="470">470</a>
 <a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -515,7 +517,8 @@
 <span class="doccomment">/// The timeout in seconds after that the waiting for a block should be aborted.
 </span><span class="kw">const </span>TIMEOUT_IN_SECONDS: u64 = <span class="number">6</span>;
 
-<span class="doccomment">/// Provides an implementation of the [`RelayChainInterface`] using a local in-process relay chain node.
+<span class="doccomment">/// Provides an implementation of the [`RelayChainInterface`] using a local in-process relay chain
+/// node.
 </span><span class="attr">#[derive(Clone)]
 </span><span class="kw">pub struct </span>RelayChainInProcessInterface {
 	full_client: Arc&lt;FullClient&gt;,
@@ -659,8 +662,8 @@
 
 	<span class="doccomment">/// Wait for a given relay chain block in an async way.
 	///
-	/// The caller needs to pass the hash of a block it waits for and the function will return when the
-	/// block is available or an error occurred.
+	/// The caller needs to pass the hash of a block it waits for and the function will return when
+	/// the block is available or an error occurred.
 	///
 	/// The waiting for the block is implemented as follows:
 	///
@@ -670,10 +673,11 @@
 	///
 	/// 3. If the block isn&#39;t imported yet, add an import notification listener.
 	///
-	/// 4. Poll the import notification listener until the block is imported or the timeout is fired.
+	/// 4. Poll the import notification listener until the block is imported or the timeout is
+	/// fired.
 	///
-	/// The timeout is set to 6 seconds. This should be enough time to import the block in the current
-	/// round and if not, the new round of the relay chain already started anyway.
+	/// The timeout is set to 6 seconds. This should be enough time to import the block in the
+	/// current round and if not, the new round of the relay chain already started anyway.
 	</span><span class="kw">async fn </span>wait_for_block(<span class="kw-2">&amp;</span><span class="self">self</span>, hash: PHash) -&gt; RelayChainResult&lt;()&gt; {
 		<span class="kw">let </span><span class="kw-2">mut </span>listener =
 			<span class="kw">match </span>check_block_in_chain(<span class="self">self</span>.backend.clone(), <span class="self">self</span>.full_client.clone(), hash)<span class="question-mark">? </span>{

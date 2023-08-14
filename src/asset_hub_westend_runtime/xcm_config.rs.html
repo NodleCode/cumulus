@@ -593,6 +593,9 @@
 <a href="#593" id="593">593</a>
 <a href="#594" id="594">594</a>
 <a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -713,8 +716,10 @@
 		<span class="comment">// Ignore `TrustBackedAssets` explicitly
 		</span>StartsWith&lt;TrustBackedAssetsPalletLocation&gt;,
 		<span class="comment">// Ignore asset which starts explicitly with our `GlobalConsensus(NetworkId)`, means:
-		// - foreign assets from our consensus should be: `MultiLocation {parents: 1, X*(Parachain(xyz), ..)}
-		// - foreign assets outside our consensus with the same `GlobalConsensus(NetworkId)` wont be accepted here
+		// - foreign assets from our consensus should be: `MultiLocation {parents: 1,
+		//   X*(Parachain(xyz), ..)}
+		// - foreign assets outside our consensus with the same `GlobalConsensus(NetworkId)` wont
+		//   be accepted here
 		</span>StartsWithExplicitGlobalConsensus&lt;UniversalLocationNetworkId&gt;,
 	),
 	Balance,
@@ -1012,7 +1017,8 @@
 			<span class="comment">// Allow XCMs with some computed origins to pass through.
 			</span>WithComputedOrigin&lt;
 				(
-					<span class="comment">// If the message is one that immediately attemps to pay for execution, then allow it.
+					<span class="comment">// If the message is one that immediately attemps to pay for execution, then
+					// allow it.
 					</span>AllowTopLevelPaidExecutionFrom&lt;Everything&gt;,
 					<span class="comment">// Parent and its pluralities (i.e. governance bodies) get free execution.
 					</span>AllowExplicitUnpaidExecutionFrom&lt;ParentOrParentsPlurality&gt;,

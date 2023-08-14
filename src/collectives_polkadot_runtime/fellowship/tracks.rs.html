@@ -529,6 +529,7 @@
 <a href="#529" id="529">529</a>
 <a href="#530" id="530">530</a>
 <a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -599,7 +600,8 @@
 			</span>regular @ <span class="number">1</span>..=<span class="number">9 </span>=&gt; regular,
 			<span class="comment">// A retention vote; the track ID turns out to be 8 more than the minimum required rank.
 			</span>retention @ <span class="number">11</span>..=<span class="number">16 </span>=&gt; retention - <span class="number">8</span>,
-			<span class="comment">// A promotion vote; the track ID turns out to be 18 more than the minimum required rank.
+			<span class="comment">// A promotion vote; the track ID turns out to be 18 more than the minimum required
+			// rank.
 			</span>promotion @ <span class="number">21</span>..=<span class="number">26 </span>=&gt; promotion - <span class="number">18</span>,
 			<span class="kw">_ </span>=&gt; Rank::max_value(),
 		}

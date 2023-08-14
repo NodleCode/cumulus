@@ -37,8 +37,8 @@ functions within the pallet.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.update_suspend_threshold" class="method"><h4 class="code-header">pub fn <a href="#method.update_suspend_threshold" class="fn">update_suspend_threshold</a>(
     origin: &lt;T as <a class="trait" href="trait.SystemConfig.html" title="trait xcm_emulator::SystemConfig">Config</a>&gt;::<a class="associatedtype" href="trait.SystemConfig.html#associatedtype.RuntimeOrigin" title="type xcm_emulator::SystemConfig::RuntimeOrigin">RuntimeOrigin</a>,
     new: <a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.u32.html">u32</a>
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Overwrites the number of pages of messages which must be in the queue for the other side to be told to
-suspend their sending.</p>
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Overwrites the number of pages of messages which must be in the queue for the other side
+to be told to suspend their sending.</p>
 <ul>
 <li><code>origin</code>: Must pass <code>Root</code>.</li>
 <li><code>new</code>: Desired value for <code>QueueConfigData.suspend_value</code></li>
@@ -46,8 +46,8 @@ suspend their sending.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.update_drop_threshold" class="method"><h4 class="code-header">pub fn <a href="#method.update_drop_threshold" class="fn">update_drop_threshold</a>(
     origin: &lt;T as <a class="trait" href="trait.SystemConfig.html" title="trait xcm_emulator::SystemConfig">Config</a>&gt;::<a class="associatedtype" href="trait.SystemConfig.html#associatedtype.RuntimeOrigin" title="type xcm_emulator::SystemConfig::RuntimeOrigin">RuntimeOrigin</a>,
     new: <a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.u32.html">u32</a>
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Overwrites the number of pages of messages which must be in the queue after which we drop any further
-messages from the channel.</p>
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Overwrites the number of pages of messages which must be in the queue after which we
+drop any further messages from the channel.</p>
 <ul>
 <li><code>origin</code>: Must pass <code>Root</code>.</li>
 <li><code>new</code>: Desired value for <code>QueueConfigData.drop_threshold</code></li>
@@ -55,8 +55,8 @@ messages from the channel.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.update_resume_threshold" class="method"><h4 class="code-header">pub fn <a href="#method.update_resume_threshold" class="fn">update_resume_threshold</a>(
     origin: &lt;T as <a class="trait" href="trait.SystemConfig.html" title="trait xcm_emulator::SystemConfig">Config</a>&gt;::<a class="associatedtype" href="trait.SystemConfig.html#associatedtype.RuntimeOrigin" title="type xcm_emulator::SystemConfig::RuntimeOrigin">RuntimeOrigin</a>,
     new: <a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.u32.html">u32</a>
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Overwrites the number of pages of messages which the queue must be reduced to before it signals that
-message sending may recommence after it has been suspended.</p>
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Overwrites the number of pages of messages which the queue must be reduced to before it
+signals that message sending may recommence after it has been suspended.</p>
 <ul>
 <li><code>origin</code>: Must pass <code>Root</code>.</li>
 <li><code>new</code>: Desired value for <code>QueueConfigData.resume_threshold</code></li>
@@ -73,7 +73,8 @@ message sending may recommence after it has been suspended.</p>
     origin: &lt;T as <a class="trait" href="trait.SystemConfig.html" title="trait xcm_emulator::SystemConfig">Config</a>&gt;::<a class="associatedtype" href="trait.SystemConfig.html#associatedtype.RuntimeOrigin" title="type xcm_emulator::SystemConfig::RuntimeOrigin">RuntimeOrigin</a>,
     new: <a class="struct" href="opaque/struct.Weight.html" title="struct xcm_emulator::opaque::Weight">Weight</a>
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Overwrites the speed to which the available weight approaches the maximum weight.
-A lower number results in a faster progression. A value of 1 makes the entire weight available initially.</p>
+A lower number results in a faster progression. A value of 1 makes the entire weight
+available initially.</p>
 <ul>
 <li><code>origin</code>: Must pass <code>Root</code>.</li>
 <li><code>new</code>: Desired value for <code>QueueConfigData.weight_restrict_decay</code>.</li>
@@ -82,7 +83,8 @@ A lower number results in a faster progression. A value of 1 makes the entire we
     origin: &lt;T as <a class="trait" href="trait.SystemConfig.html" title="trait xcm_emulator::SystemConfig">Config</a>&gt;::<a class="associatedtype" href="trait.SystemConfig.html#associatedtype.RuntimeOrigin" title="type xcm_emulator::SystemConfig::RuntimeOrigin">RuntimeOrigin</a>,
     new: <a class="struct" href="opaque/struct.Weight.html" title="struct xcm_emulator::opaque::Weight">Weight</a>
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Overwrite the maximum amount of weight any individual message may consume.
-Messages above this weight go into the overweight queue and may only be serviced explicitly.</p>
+Messages above this weight go into the overweight queue and may only be serviced
+explicitly.</p>
 <ul>
 <li><code>origin</code>: Must pass <code>Root</code>.</li>
 <li><code>new</code>: Desired value for <code>QueueConfigData.xcmp_max_individual_weight</code>.</li>

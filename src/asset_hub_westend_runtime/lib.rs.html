@@ -1494,6 +1494,7 @@
 <a href="#1494" id="1494">1494</a>
 <a href="#1495" id="1495">1495</a>
 <a href="#1496" id="1496">1496</a>
+<a href="#1497" id="1497">1497</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2021-2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -2888,8 +2889,9 @@
 	<span class="kw">use </span>sp_runtime::{traits::StaticLookup, Saturating};
 	<span class="kw">use </span>xcm::latest::prelude::<span class="kw-2">*</span>;
 
-	<span class="doccomment">/// Temporary migration because of bug with native asset, it can be removed once applied on `AssetHubWestend`.
-	/// Migrates pools with `MultiLocation { parents: 0, interior: Here }` to `MultiLocation { parents: 1, interior: Here }`
+	<span class="doccomment">/// Temporary migration because of bug with native asset, it can be removed once applied on
+	/// `AssetHubWestend`. Migrates pools with `MultiLocation { parents: 0, interior: Here }` to
+	/// `MultiLocation { parents: 1, interior: Here }`
 	</span><span class="kw">pub struct </span>NativeAssetParents0ToParents1Migration&lt;T&gt;(sp_std::marker::PhantomData&lt;T&gt;);
 	<span class="kw">impl</span>&lt;
 			T: pallet_asset_conversion::Config&lt;

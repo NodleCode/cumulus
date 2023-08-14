@@ -99,6 +99,9 @@
 <a href="#99" id="99">99</a>
 <a href="#100" id="100">100</a>
 <a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2022 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -139,7 +142,8 @@
 	#[pallet::without_storage_info]
 	</span><span class="kw">pub struct </span>Pallet&lt;T&gt;(<span class="kw">_</span>);
 
-	<span class="doccomment">/// In case of a scheduled migration, this storage field contains the custom head data to be applied.
+	<span class="doccomment">/// In case of a scheduled migration, this storage field contains the custom head data to be
+	/// applied.
 	</span><span class="attr">#[pallet::storage]
 	</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>PendingCustomValidationHeadData&lt;T: Config&gt; =
 		StorageValue&lt;<span class="kw">_</span>, Vec&lt;u8&gt;, OptionQuery&gt;;
@@ -149,7 +153,8 @@
 	</span><span class="kw">pub enum </span>Event {
 		<span class="doccomment">/// The custom validation head data has been scheduled to apply.
 		</span>CustomValidationHeadDataStored,
-		<span class="doccomment">/// The custom validation head data was applied as of the contained relay chain block number.
+		<span class="doccomment">/// The custom validation head data was applied as of the contained relay chain block
+		/// number.
 		</span>CustomValidationHeadDataApplied,
 	}
 
@@ -184,7 +189,8 @@
 			<span class="self">Self</span>::deposit_event(Event::CustomValidationHeadDataStored);
 		}
 
-		<span class="doccomment">/// Set pending custom head data as head data that will be returned by `validate_block`. on the relay chain.
+		<span class="doccomment">/// Set pending custom head data as head data that will be returned by `validate_block`. on
+		/// the relay chain.
 		</span><span class="kw">fn </span>set_pending_custom_validation_head_data() {
 			<span class="kw">if let </span><span class="prelude-val">Some</span>(head_data) = &lt;PendingCustomValidationHeadData&lt;T&gt;&gt;::take() {
 				parachain_system::Pallet::&lt;T&gt;::set_custom_validation_head_data(head_data);

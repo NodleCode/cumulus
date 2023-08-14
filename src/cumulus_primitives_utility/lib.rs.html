@@ -541,6 +541,7 @@
 <a href="#541" id="541">541</a>
 <a href="#542" id="542">542</a>
 <a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2020-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -777,7 +778,8 @@
 				outstanding_minus_substracted.saturated_into();
 			<span class="kw">let </span>asset_balance: u128 = asset_balance.saturated_into();
 
-			<span class="comment">// Construct outstanding_concrete_asset with the same location id and substracted balance
+			<span class="comment">// Construct outstanding_concrete_asset with the same location id and substracted
+			// balance
 			</span><span class="kw">let </span>outstanding_concrete_asset: MultiAsset = (id, outstanding_minus_substracted).into();
 
 			<span class="comment">// Substract from existing weight and balance
@@ -814,8 +816,8 @@
 }
 
 <span class="doccomment">/// XCM fee depositor to which we implement the TakeRevenue trait
-/// It receives a Transact implemented argument, a 32 byte convertible acocuntId, and the fee receiver account
-/// FungiblesMutateAdapter should be identical to that implemented by WithdrawAsset
+/// It receives a Transact implemented argument, a 32 byte convertible acocuntId, and the fee
+/// receiver account FungiblesMutateAdapter should be identical to that implemented by WithdrawAsset
 </span><span class="kw">pub struct </span>XcmFeesTo32ByteAccount&lt;FungiblesMutateAdapter, AccountId, ReceiverAccount&gt;(
 	PhantomData&lt;(FungiblesMutateAdapter, AccountId, ReceiverAccount)&gt;,
 );

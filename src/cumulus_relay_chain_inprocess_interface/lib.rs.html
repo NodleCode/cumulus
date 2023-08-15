@@ -470,7 +470,6 @@
 <a href="#470" id="470">470</a>
 <a href="#471" id="471">471</a>
 <a href="#472" id="472">472</a>
-<a href="#473" id="473">473</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -745,11 +744,11 @@
 	telemetry_worker_handle: <span class="prelude-ty">Option</span>&lt;TelemetryWorkerHandle&gt;,
 	hwbench: <span class="prelude-ty">Option</span>&lt;sc_sysinfo::HwBench&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(NewFull, <span class="prelude-ty">Option</span>&lt;CollatorPair&gt;), polkadot_service::Error&gt; {
-	<span class="kw">let </span>(is_collator, maybe_collator_key) = <span class="kw">if </span>parachain_config.role.is_authority() {
+	<span class="kw">let </span>(is_parachain_node, maybe_collator_key) = <span class="kw">if </span>parachain_config.role.is_authority() {
 		<span class="kw">let </span>collator_key = CollatorPair::generate().<span class="number">0</span>;
-		(polkadot_service::IsCollator::Yes(collator_key.clone()), <span class="prelude-val">Some</span>(collator_key))
+		(polkadot_service::IsParachainNode::Collator(collator_key.clone()), <span class="prelude-val">Some</span>(collator_key))
 	} <span class="kw">else </span>{
-		(polkadot_service::IsCollator::No, <span class="prelude-val">None</span>)
+		(polkadot_service::IsParachainNode::FullNode, <span class="prelude-val">None</span>)
 	};
 
 	<span class="comment">// Disable BEEFY. It should not be required by the internal relay chain node.
@@ -758,7 +757,7 @@
 	<span class="kw">let </span>relay_chain_full_node = polkadot_service::build_full(
 		config,
 		polkadot_service::NewFullParams {
-			is_collator,
+			is_parachain_node,
 			grandpa_pause: <span class="prelude-val">None</span>,
 			jaeger_agent: <span class="prelude-val">None</span>,
 			telemetry_worker_handle,
@@ -768,7 +767,6 @@
 			workers_path: <span class="prelude-val">None</span>,
 			workers_names: <span class="prelude-val">None</span>,
 
-			overseer_enable_anyways: <span class="bool-val">true</span>,
 			overseer_gen: polkadot_service::RealOverseerGen,
 			overseer_message_channel_capacity_override: <span class="prelude-val">None</span>,
 			malus_finality_delay: <span class="prelude-val">None</span>,

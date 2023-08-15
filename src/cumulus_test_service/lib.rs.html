@@ -1165,9 +1165,9 @@
 	<span class="kw">let </span>relay_chain_full_node = polkadot_test_service::new_full(
 		relay_chain_config,
 		<span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>key) = collator_key {
-			polkadot_service::IsCollator::Yes(key.clone())
+			polkadot_service::IsParachainNode::Collator(key.clone())
 		} <span class="kw">else </span>{
-			polkadot_service::IsCollator::Yes(CollatorPair::generate().<span class="number">0</span>)
+			polkadot_service::IsParachainNode::Collator(CollatorPair::generate().<span class="number">0</span>)
 		},
 		<span class="prelude-val">None</span>,
 	)

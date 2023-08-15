@@ -11,10 +11,9 @@ see a quick example about how API versioning works.</p>
 placed on:</p>
 <ul>
 <li>trait declaration - represents the base version of the API.</li>
-<li>method declaration (inside a trait declaration) - represents a versioned
-method, which is not available in the base version.</li>
-<li>trait implementation - represents which version of the API is being
-implemented.</li>
+<li>method declaration (inside a trait declaration) - represents a versioned method, which is not
+available in the base version.</li>
+<li>trait implementation - represents which version of the API is being implemented.</li>
 </ul>
 <p>Let’s see a quick example:</p>
 <div class="example-wrap"><pre class="language-rust(ignore)"><code>sp_api::decl_runtime_apis! {
@@ -65,14 +64,14 @@ documentation <a href="https://docs.substrate.io/rustdocs/latest/sp_api/macro.de
 <h2 id="how-versioned-methods-are-used-for-parachainhost"><a href="#how-versioned-methods-are-used-for-parachainhost">How versioned methods are used for <code>ParachainHost</code></a></h2>
 <p>Let’s introduce two types of <code>ParachainHost</code> API implementation:</p>
 <ul>
-<li>stable - used on stable production networks like Polkadot and Kusama. There is only one
-stable API at a single point in time.</li>
+<li>stable - used on stable production networks like Polkadot and Kusama. There is only one stable
+API at a single point in time.</li>
 <li>staging - methods that are ready for production, but will be released on Rococo first. We can
 batch together multiple changes and then release all of them to production, by making staging
 production (bump base version). We can not change or remove any method in staging after a
-release, as this would break Rococo. It should be ok to keep adding methods to staging
-across several releases. For experimental methods, you have to keep them on a separate branch
-until ready.</li>
+release, as this would break Rococo. It should be ok to keep adding methods to staging across
+several releases. For experimental methods, you have to keep them on a separate branch until
+ready.</li>
 </ul>
 <p>The stable version of <code>ParachainHost</code> is indicated by the base version of the API. Any staging
 method must use <code>api_version</code> attribute so that it is assigned to a specific version of a
@@ -83,6 +82,6 @@ In the time of writing of this document - this is <code>v2</code>. So for exampl
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>validators() -&gt; Vec&lt;v2::ValidatorId&gt;;</code></pre></div>
 <p>indicates a function from the stable <code>v2</code> API.</p>
-<p>All staging API functions should use primitives from <code>vstaging</code>. They should be clearly separated
-from the stable primitives.</p>
+<p>All staging API functions should use primitives from <code>vstaging</code>. They should be clearly
+separated from the stable primitives.</p>
 </div></details><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.ParachainHost.html" title="trait cumulus_primitives_core::relay_chain::runtime_api::ParachainHost">ParachainHost</a></div><div class="desc docblock-short">The API for querying the state of parachains on-chain.</div></li></ul></section></div></main></body></html>

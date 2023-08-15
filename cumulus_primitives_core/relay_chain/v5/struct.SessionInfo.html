@@ -20,14 +20,14 @@ Indices are into the broader validator set.</p>
 </div><span id="structfield.random_seed" class="structfield small-section-header"><a href="#structfield.random_seed" class="anchor field">§</a><code>random_seed: [<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.u8.html">u8</a>; <a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.array.html">32</a>]</code></span><div class="docblock"><p>A secure random seed for the session, gathered from BABE.</p>
 </div><span id="structfield.dispute_period" class="structfield small-section-header"><a href="#structfield.dispute_period" class="anchor field">§</a><code>dispute_period: <a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.u32.html">u32</a></code></span><div class="docblock"><p>The amount of sessions to keep for disputes.</p>
 </div><span id="structfield.validators" class="structfield small-section-header"><a href="#structfield.validators" class="anchor field">§</a><code>validators: <a class="struct" href="../struct.IndexedVec.html" title="struct cumulus_primitives_core::relay_chain::IndexedVec">IndexedVec</a>&lt;<a class="struct" href="../struct.ValidatorIndex.html" title="struct cumulus_primitives_core::relay_chain::ValidatorIndex">ValidatorIndex</a>, Public&gt;</code></span><div class="docblock"><p>Validators in canonical ordering.</p>
-<p>NOTE: There might be more authorities in the current session, than <code>validators</code> participating
-in parachain consensus. See
+<p>NOTE: There might be more authorities in the current session, than <code>validators</code>
+participating in parachain consensus. See
 <a href="https://github.com/paritytech/polkadot/blob/a52dca2be7840b23c19c153cf7e110b1e3e475f8/runtime/parachains/src/configuration.rs#L148"><code>max_validators</code></a>.</p>
 <p><code>SessionInfo::validators</code> will be limited to to <code>max_validators</code> when set.</p>
 </div><span id="structfield.discovery_keys" class="structfield small-section-header"><a href="#structfield.discovery_keys" class="anchor field">§</a><code>discovery_keys: <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;Public, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/alloc/struct.Global.html" title="struct alloc::alloc::Global">Global</a>&gt;</code></span><div class="docblock"><p>Validators’ authority discovery keys for the session in canonical ordering.</p>
 <p>NOTE: The first <code>validators.len()</code> entries will match the corresponding validators in
-<code>validators</code>, afterwards any remaining authorities can be found. This is any authorities not
-participating in parachain consensus - see
+<code>validators</code>, afterwards any remaining authorities can be found. This is any authorities
+not participating in parachain consensus - see
 <a href="https://github.com/paritytech/polkadot/blob/a52dca2be7840b23c19c153cf7e110b1e3e475f8/runtime/parachains/src/configuration.rs#L148"><code>max_validators</code></a></p>
 </div><span id="structfield.assignment_keys" class="structfield small-section-header"><a href="#structfield.assignment_keys" class="anchor field">§</a><code>assignment_keys: <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;Public, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/alloc/struct.Global.html" title="struct alloc::alloc::Global">Global</a>&gt;</code></span><div class="docblock"><p>The assignment keys for validators.</p>
 <p>NOTE: There might be more authorities in the current session, than validators participating
@@ -35,7 +35,8 @@ in parachain consensus. See
 <a href="https://github.com/paritytech/polkadot/blob/a52dca2be7840b23c19c153cf7e110b1e3e475f8/runtime/parachains/src/configuration.rs#L148"><code>max_validators</code></a>.</p>
 <p>Therefore:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code>	assignment_keys.len() == validators.len() &amp;&amp; validators.len() &lt;= discovery_keys.len()</code></pre></div>
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code>		assignment_keys.len() == validators.len() &amp;&amp; validators.len() &lt;= discovery_keys.len()
+	```</code></pre></div>
 </div><span id="structfield.validator_groups" class="structfield small-section-header"><a href="#structfield.validator_groups" class="anchor field">§</a><code>validator_groups: <a class="struct" href="../struct.IndexedVec.html" title="struct cumulus_primitives_core::relay_chain::IndexedVec">IndexedVec</a>&lt;<a class="struct" href="../struct.GroupIndex.html" title="struct cumulus_primitives_core::relay_chain::GroupIndex">GroupIndex</a>, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../struct.ValidatorIndex.html" title="struct cumulus_primitives_core::relay_chain::ValidatorIndex">ValidatorIndex</a>, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/alloc/struct.Global.html" title="struct alloc::alloc::Global">Global</a>&gt;&gt;</code></span><div class="docblock"><p>Validators in shuffled ordering - these are the validator groups as produced
 by the <code>Scheduler</code> module for the session and are typically referred to by
 <code>GroupIndex</code>.</p>

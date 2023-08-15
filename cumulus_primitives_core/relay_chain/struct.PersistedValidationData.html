@@ -3,21 +3,23 @@
     pub relay_parent_number: N,
     pub relay_parent_storage_root: H,
     pub max_pov_size: <a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.u32.html">u32</a>,
-}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The validation data provides information about how to create the inputs for validation of a candidate.
-This information is derived from the chain state and will vary from para to para, although some
-fields may be the same for every para.</p>
-<p>Since this data is used to form inputs to the validation function, it needs to be persisted by the
-availability system to avoid dependence on availability of the relay-chain state.</p>
-<p>Furthermore, the validation data acts as a way to authorize the additional data the collator needs
-to pass to the validation function. For example, the validation function can check whether the incoming
-messages (e.g. downward messages) were actually sent by using the data provided in the validation data
-using so called MQC heads.</p>
-<p>Since the commitments of the validation function are checked by the relay-chain, secondary checkers
-can rely on the invariant that the relay-chain only includes para-blocks for which these checks have
-already been done. As such, there is no need for the validation data used to inform validators and
-collators about the checks the relay-chain will perform to be persisted by the availability system.</p>
-<p>The <code>PersistedValidationData</code> should be relatively lightweight primarily because it is constructed
-during inclusion for each candidate and therefore lies on the critical path of inclusion.</p>
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>The validation data provides information about how to create the inputs for validation of a
+candidate. This information is derived from the chain state and will vary from para to para,
+although some fields may be the same for every para.</p>
+<p>Since this data is used to form inputs to the validation function, it needs to be persisted by
+the availability system to avoid dependence on availability of the relay-chain state.</p>
+<p>Furthermore, the validation data acts as a way to authorize the additional data the collator
+needs to pass to the validation function. For example, the validation function can check whether
+the incoming messages (e.g. downward messages) were actually sent by using the data provided in
+the validation data using so called MQC heads.</p>
+<p>Since the commitments of the validation function are checked by the relay-chain, secondary
+checkers can rely on the invariant that the relay-chain only includes para-blocks for which
+these checks have already been done. As such, there is no need for the validation data used to
+inform validators and collators about the checks the relay-chain will perform to be persisted by
+the availability system.</p>
+<p>The <code>PersistedValidationData</code> should be relatively lightweight primarily because it is
+constructed during inclusion for each candidate and therefore lies on the critical path of
+inclusion.</p>
 </div></details><h2 id="fields" class="fields small-section-header">Fields<a href="#fields" class="anchor">§</a></h2><span id="structfield.parent_head" class="structfield small-section-header"><a href="#structfield.parent_head" class="anchor field">§</a><code>parent_head: <a class="struct" href="struct.HeadData.html" title="struct cumulus_primitives_core::relay_chain::HeadData">HeadData</a></code></span><div class="docblock"><p>The parent head-data.</p>
 </div><span id="structfield.relay_parent_number" class="structfield small-section-header"><a href="#structfield.relay_parent_number" class="anchor field">§</a><code>relay_parent_number: N</code></span><div class="docblock"><p>The relay-chain block number this is in the context of.</p>
 </div><span id="structfield.relay_parent_storage_root" class="structfield small-section-header"><a href="#structfield.relay_parent_storage_root" class="anchor field">§</a><code>relay_parent_storage_root: H</code></span><div class="docblock"><p>The relay-chain block storage root this is in the context of.</p>

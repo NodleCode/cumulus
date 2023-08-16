@@ -413,8 +413,6 @@
 <a href="#413" id="413">413</a>
 <a href="#414" id="414">414</a>
 <a href="#415" id="415">415</a>
-<a href="#416" id="416">416</a>
-<a href="#417" id="417">417</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2023 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -661,8 +659,6 @@
 <span class="doccomment">/// Unchecked extrinsic type as expected by this runtime.
 </span><span class="kw">pub type </span>UncheckedExtrinsic =
 	generic::UncheckedExtrinsic&lt;Address, RuntimeCall, Signature, SignedExtra&gt;;
-<span class="doccomment">/// Extrinsic type that has already been checked.
-</span><span class="kw">pub type </span>CheckedExtrinsic = generic::CheckedExtrinsic&lt;AccountId, RuntimeCall, SignedExtra&gt;;
 <span class="doccomment">/// Executive: handles dispatch to the various modules.
 </span><span class="kw">pub type </span>Executive = frame_executive::Executive&lt;
 	Runtime,

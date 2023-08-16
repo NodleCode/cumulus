@@ -650,7 +650,7 @@
 
 <span class="macro">parameter_types! </span>{
 	<span class="kw">pub const </span>WestendLocation: MultiLocation = MultiLocation::parent();
-	<span class="kw">pub </span>RelayNetwork: <span class="prelude-ty">Option</span>&lt;NetworkId&gt; = <span class="prelude-val">Some</span>(NetworkId::Westend);
+	<span class="kw">pub const </span>RelayNetwork: <span class="prelude-ty">Option</span>&lt;NetworkId&gt; = <span class="prelude-val">Some</span>(NetworkId::Westend);
 	<span class="kw">pub </span>RelayChainOrigin: RuntimeOrigin = cumulus_pallet_xcm::Origin::Relay.into();
 	<span class="kw">pub </span>UniversalLocation: InteriorMultiLocation =
 		X2(GlobalConsensus(RelayNetwork::get().unwrap()), Parachain(ParachainInfo::parachain_id().into()));

@@ -506,7 +506,6 @@
 <a href="#506" id="506">506</a>
 <a href="#507" id="507">507</a>
 <a href="#508" id="508">508</a>
-<a href="#509" id="509">509</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -729,7 +728,6 @@
 				) | RuntimeCall::Session(pallet_session::Call::purge_keys { .. }) |
 				RuntimeCall::XcmpQueue(..) |
 				RuntimeCall::DmpQueue(..) |
-				RuntimeCall::Utility(pallet_utility::Call::as_derivative { .. }) |
 				RuntimeCall::Assets(
 					pallet_assets::Call::create { .. } |
 						pallet_assets::Call::force_create { .. } |

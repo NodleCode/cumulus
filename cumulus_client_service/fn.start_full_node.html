@@ -5,7 +5,7 @@
     Client: Finalizer&lt;Block, Backend&gt; + UsageProvider&lt;Block&gt; + <a class="trait" href="https://doc.rust-lang.org/1.71.1/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.71.1/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + BlockBackend&lt;Block&gt; + BlockchainEvents&lt;Block&gt; + 'static,
     for&lt;'a&gt; <a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.reference.html">&amp;'a Client</a>: BlockImport&lt;Block&gt;,
     Backend: BackendT&lt;Block&gt; + 'static,
-    RCInterface: <a class="trait" href="../cumulus_relay_chain_interface/trait.RelayChainInterface.html" title="trait cumulus_relay_chain_interface::RelayChainInterface">RelayChainInterface</a> + <a class="trait" href="https://doc.rust-lang.org/1.71.1/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + 'static,</span></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Start a full node for a parachain.</p>
+    RCInterface: RelayChainInterface + <a class="trait" href="https://doc.rust-lang.org/1.71.1/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a> + 'static,</span></code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Start a full node for a parachain.</p>
 <p>A full node will only sync the given parachain and will follow the
 tip of the chain.</p>
 </div></details></section></div></main></body></html>

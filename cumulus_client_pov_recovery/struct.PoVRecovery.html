@@ -7,7 +7,7 @@
     parachain_client: <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;PC&gt;,
     parachain_import_queue: <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;dyn ImportQueueService&lt;Block&gt;&gt;,
     relay_chain_interface: RCInterface,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     recovery_chan_rx: Receiver&lt;<a class="struct" href="struct.RecoveryRequest.html" title="struct cumulus_client_pov_recovery::RecoveryRequest">RecoveryRequest</a>&lt;Block&gt;&gt;,
     parachain_sync_service: <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/sync/struct.Arc.html" title="struct alloc::sync::Arc">Arc</a>&lt;dyn SyncOracle + <a class="trait" href="https://doc.rust-lang.org/1.71.1/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + <a class="trait" href="https://doc.rust-lang.org/1.71.1/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a>&gt;
 ) -&gt; Self</h4></section></summary><div class="docblock"><p>Create a new instance.</p>

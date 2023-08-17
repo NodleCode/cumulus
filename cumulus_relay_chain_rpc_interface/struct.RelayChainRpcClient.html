@@ -16,7 +16,7 @@
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_pvfs_require_precheck" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#151-157">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_pvfs_require_precheck" class="fn">parachain_host_pvfs_require_precheck</a>(
     &amp;self,
     at: RelayHash
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;ValidationCodeHash&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Returns code hashes of PVFs that require pre-checking by validators in the active set.</p>
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="../polkadot_parachain/primitives/struct.ValidationCodeHash.html" title="struct polkadot_parachain::primitives::ValidationCodeHash">ValidationCodeHash</a>&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Returns code hashes of PVFs that require pre-checking by validators in the active set.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_submit_pvf_check_statement" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#160-172">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_submit_pvf_check_statement" class="fn">parachain_host_submit_pvf_check_statement</a>(
     &amp;self,
     at: RelayHash,
@@ -52,15 +52,15 @@ should be the successor of the number of the block.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_check_validation_outputs" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#228-240">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_check_validation_outputs" class="fn">parachain_host_check_validation_outputs</a>(
     &amp;self,
     at: RelayHash,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     outputs: CandidateCommitments
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.71.1/std/primitive.bool.html">bool</a>, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Checks if the given validation outputs pass the acceptance criteria.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_assumed_validation_data" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#245-257">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_assumed_validation_data" class="fn">parachain_host_assumed_validation_data</a>(
     &amp;self,
     at: RelayHash,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     expected_hash: RelayHash
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(PersistedValidationData, ValidationCodeHash)&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Returns the persisted validation data for the given <code>ParaId</code> along with the corresponding
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;(PersistedValidationData, <a class="struct" href="../polkadot_parachain/primitives/struct.ValidationCodeHash.html" title="struct polkadot_parachain::primitives::ValidationCodeHash">ValidationCodeHash</a>)&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Returns the persisted validation data for the given <code>ParaId</code> along with the corresponding
 validation code hash. Instead of accepting assumption about the para, matches the validation
 data hash against an expected one and yields <code>None</code> if they’re not equal.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.chain_get_finalized_head" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#260-262">source</a><h4 class="code-header">pub async fn <a href="#method.chain_get_finalized_head" class="fn">chain_get_finalized_head</a>(
@@ -73,7 +73,7 @@ data hash against an expected one and yields <code>None</code> if they’re not 
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_persisted_validation_data" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#278-290">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_persisted_validation_data" class="fn">parachain_host_persisted_validation_data</a>(
     &amp;self,
     at: RelayHash,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     occupied_core_assumption: OccupiedCoreAssumption
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;PersistedValidationData&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Yields the persisted validation data for the given <code>ParaId</code> along with an assumption that
 should be used if the para currently occupies a core.</p>
@@ -82,8 +82,8 @@ and the para already occupies a core.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_validation_code_by_hash" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#293-304">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_validation_code_by_hash" class="fn">parachain_host_validation_code_by_hash</a>(
     &amp;self,
     at: RelayHash,
-    validation_code_hash: ValidationCodeHash
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;ValidationCode&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Get the validation code from its hash.</p>
+    validation_code_hash: <a class="struct" href="../polkadot_parachain/primitives/struct.ValidationCodeHash.html" title="struct polkadot_parachain::primitives::ValidationCodeHash">ValidationCodeHash</a>
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../polkadot_parachain/primitives/struct.ValidationCode.html" title="struct polkadot_parachain::primitives::ValidationCode">ValidationCode</a>&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Get the validation code from its hash.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_availability_cores" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#308-314">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_availability_cores" class="fn">parachain_host_availability_cores</a>(
     &amp;self,
     at: RelayHash
@@ -122,17 +122,17 @@ a candidate of a past session.</p>
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;AuthorityId&gt;, RelayChainError&gt;</h4></section><details class="toggle method-toggle" open><summary><section id="method.parachain_host_validation_code" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#388-400">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_validation_code" class="fn">parachain_host_validation_code</a>(
     &amp;self,
     at: RelayHash,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     occupied_core_assumption: OccupiedCoreAssumption
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;ValidationCode&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Fetch the validation code used by a para, making the given <code>OccupiedCoreAssumption</code>.</p>
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../polkadot_parachain/primitives/struct.ValidationCode.html" title="struct polkadot_parachain::primitives::ValidationCode">ValidationCode</a>&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Fetch the validation code used by a para, making the given <code>OccupiedCoreAssumption</code>.</p>
 <p>Returns <code>None</code> if either the para is not registered or the assumption is <code>Freed</code>
 and the para already occupies a core.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_validation_code_hash" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#404-416">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_validation_code_hash" class="fn">parachain_host_validation_code_hash</a>(
     &amp;self,
     at: RelayHash,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     occupied_core_assumption: OccupiedCoreAssumption
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;ValidationCodeHash&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Fetch the hash of the validation code used by a para, making the given
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="../polkadot_parachain/primitives/struct.ValidationCodeHash.html" title="struct polkadot_parachain::primitives::ValidationCodeHash">ValidationCodeHash</a>&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Fetch the hash of the validation code used by a para, making the given
 <code>OccupiedCoreAssumption</code>.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_session_info" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#419-426">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_session_info" class="fn">parachain_host_session_info</a>(
     &amp;self,
@@ -151,7 +151,7 @@ and the para already occupies a core.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_candidate_pending_availability" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#453-464">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_candidate_pending_availability" class="fn">parachain_host_candidate_pending_availability</a>(
     &amp;self,
     at: RelayHash,
-    para_id: ParaId
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="enum" href="https://doc.rust-lang.org/1.71.1/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;CommittedCandidateReceipt&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Get the receipt of a candidate pending availability. This returns <code>Some</code> for any paras
 assigned to occupied cores in <code>availability_cores</code> and <code>None</code> otherwise.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_session_index_for_child" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#469-475">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_session_index_for_child" class="fn">parachain_host_session_index_for_child</a>(
@@ -165,13 +165,13 @@ assigned to occupied cores in <code>availability_cores</code> and <code>None</co
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;ValidatorId&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Get the current validators.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_inbound_hrmp_channels_contents" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#488-499">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_inbound_hrmp_channels_contents" class="fn">parachain_host_inbound_hrmp_channels_contents</a>(
     &amp;self,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     at: RelayHash
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/collections/btree/map/struct.BTreeMap.html" title="struct alloc::collections::btree::map::BTreeMap">BTreeMap</a>&lt;ParaId, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;InboundHrmpMessage&gt;&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Get the contents of all channels addressed to the given recipient. Channels that have no
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/collections/btree/map/struct.BTreeMap.html" title="struct alloc::collections::btree::map::BTreeMap">BTreeMap</a>&lt;<a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>, <a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;InboundHrmpMessage&gt;&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Get the contents of all channels addressed to the given recipient. Channels that have no
 messages in them are also included.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.parachain_host_dmq_contents" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#502-509">source</a><h4 class="code-header">pub async fn <a href="#method.parachain_host_dmq_contents" class="fn">parachain_host_dmq_contents</a>(
     &amp;self,
-    para_id: ParaId,
+    para_id: <a class="struct" href="../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
     at: RelayHash
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.71.1/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="https://doc.rust-lang.org/1.71.1/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;InboundDownwardMessage&gt;, RelayChainError&gt;</h4></section></summary><div class="docblock"><p>Get all the pending inbound messages in the downward message queue for a para.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.get_imported_heads_stream" class="method"><a class="srclink rightside" href="../src/cumulus_relay_chain_rpc_interface/rpc_client.rs.html#512-514">source</a><h4 class="code-header">pub fn <a href="#method.get_imported_heads_stream" class="fn">get_imported_heads_stream</a>(

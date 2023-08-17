@@ -130,11 +130,6 @@
 <a href="#130" id="130">130</a>
 <a href="#131" id="131">131</a>
 <a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -187,14 +182,11 @@
 
 <span class="doccomment">/// A type alias for easily referring to the type of a proposal produced by a specific
 /// [`Proposer`].
-</span><span class="kw">pub type </span>ProposalOf&lt;B, T&gt; = Proposal&lt;B, &lt;T <span class="kw">as </span>ProposerInterface&lt;B&gt;&gt;::Transaction, StorageProof&gt;;
+</span><span class="kw">pub type </span>ProposalOf&lt;B&gt; = Proposal&lt;B, StorageProof&gt;;
 
 <span class="doccomment">/// An interface for proposers.
 </span><span class="attr">#[async_trait]
 </span><span class="kw">pub trait </span>ProposerInterface&lt;Block: BlockT&gt; {
-	<span class="doccomment">/// The underlying DB transaction type produced with the block proposal.
-	</span><span class="kw">type </span>Transaction: Default + Send + <span class="lifetime">&#39;static</span>;
-
 	<span class="doccomment">/// Propose a collation using the supplied `InherentData` and the provided
 	/// `ParachainInherentData`.
 	///
@@ -216,7 +208,7 @@
 		inherent_digests: Digest,
 		max_duration: Duration,
 		block_size_limit: <span class="prelude-ty">Option</span>&lt;usize&gt;,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;Proposal&lt;Block, <span class="self">Self</span>::Transaction, StorageProof&gt;, Error&gt;;
+	) -&gt; <span class="prelude-ty">Result</span>&lt;Proposal&lt;Block, StorageProof&gt;, Error&gt;;
 }
 
 <span class="doccomment">/// A simple wrapper around a Substrate proposer for creating collations.
@@ -241,8 +233,6 @@
 	T::Proposer: SubstrateProposer&lt;B, ProofRecording = EnableProofRecording, Proof = StorageProof&gt;,
 	&lt;T::Proposer <span class="kw">as </span>SubstrateProposer&lt;B&gt;&gt;::Error: Send + Sync + <span class="lifetime">&#39;static</span>,
 {
-	<span class="kw">type </span>Transaction = &lt;&lt;T <span class="kw">as </span>Environment&lt;B&gt;&gt;::Proposer <span class="kw">as </span>SubstrateProposer&lt;B&gt;&gt;::Transaction;
-
 	<span class="kw">async fn </span>propose(
 		<span class="kw-2">&amp;mut </span><span class="self">self</span>,
 		parent_header: <span class="kw-2">&amp;</span>B::Header,
@@ -251,7 +241,7 @@
 		inherent_digests: Digest,
 		max_duration: Duration,
 		block_size_limit: <span class="prelude-ty">Option</span>&lt;usize&gt;,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;Proposal&lt;B, <span class="self">Self</span>::Transaction, StorageProof&gt;, Error&gt; {
+	) -&gt; <span class="prelude-ty">Result</span>&lt;Proposal&lt;B, StorageProof&gt;, Error&gt; {
 		<span class="kw">let </span>proposer = <span class="self">self
 			</span>.inner
 			.init(parent_header)

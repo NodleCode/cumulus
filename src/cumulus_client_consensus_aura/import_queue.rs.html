@@ -184,7 +184,7 @@
 		registry,
 		telemetry,
 	}: ImportQueueParams&lt;<span class="lifetime">&#39;_</span>, I, C, CIDP, S&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;DefaultImportQueue&lt;Block, C&gt;, sp_consensus::Error&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;DefaultImportQueue&lt;Block&gt;, sp_consensus::Error&gt;
 <span class="kw">where
 	</span>Block: BlockT,
 	C::Api: BlockBuilderApi&lt;Block&gt; + AuraApi&lt;Block, P::Public&gt; + ApiExt&lt;Block&gt;,
@@ -196,7 +196,7 @@
 		+ AuxStore
 		+ UsageProvider&lt;Block&gt;
 		+ HeaderBackend&lt;Block&gt;,
-	I: BlockImport&lt;Block, Error = ConsensusError, Transaction = sp_api::TransactionFor&lt;C, Block&gt;&gt;
+	I: BlockImport&lt;Block, Error = ConsensusError&gt;
 		+ ParachainBlockImportMarker
 		+ Send
 		+ Sync

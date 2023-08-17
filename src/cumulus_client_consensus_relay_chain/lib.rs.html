@@ -253,8 +253,6 @@
 <a href="#253" id="253">253</a>
 <a href="#254" id="254">254</a>
 <a href="#255" id="255">255</a>
-<a href="#256" id="256">256</a>
-<a href="#257" id="257">257</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -407,7 +405,6 @@
 	PF: Environment&lt;B&gt; + Send + Sync,
 	PF::Proposer: Proposer&lt;
 		B,
-		Transaction = BI::Transaction,
 		ProofRecording = EnableProofRecording,
 		Proof = &lt;EnableProofRecording <span class="kw">as </span>ProofRecording&gt;::Proof,
 	&gt;,
@@ -496,7 +493,6 @@
 	PF: Environment&lt;Block&gt; + Send + Sync + <span class="lifetime">&#39;static</span>,
 	PF::Proposer: Proposer&lt;
 		Block,
-		Transaction = BI::Transaction,
 		ProofRecording = EnableProofRecording,
 		Proof = &lt;EnableProofRecording <span class="kw">as </span>ProofRecording&gt;::Proof,
 	&gt;,

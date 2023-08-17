@@ -246,7 +246,6 @@
 <a href="#246" id="246">246</a>
 <a href="#247" id="247">247</a>
 <a href="#248" id="248">248</a>
-<a href="#249" id="249">249</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -338,8 +337,8 @@
 {
 	<span class="kw">async fn </span>verify(
 		<span class="kw-2">&amp;mut </span><span class="self">self</span>,
-		<span class="kw-2">mut </span>block_params: BlockImportParams&lt;Block, ()&gt;,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;BlockImportParams&lt;Block, ()&gt;, String&gt; {
+		<span class="kw-2">mut </span>block_params: BlockImportParams&lt;Block&gt;,
+	) -&gt; <span class="prelude-ty">Result</span>&lt;BlockImportParams&lt;Block&gt;, String&gt; {
 		<span class="comment">// Skip checks that include execution, if being told so, or when importing only state.
 		//
 		// This is done for example when gap syncing and it is expected that the block after the gap
@@ -470,7 +469,7 @@
 	spawner: <span class="kw-2">&amp;</span><span class="kw">impl </span>sp_core::traits::SpawnEssentialNamed,
 	registry: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>substrate_prometheus_endpoint::Registry&gt;,
 	telemetry: <span class="prelude-ty">Option</span>&lt;TelemetryHandle&gt;,
-) -&gt; BasicQueue&lt;Block, I::Transaction&gt;
+) -&gt; BasicQueue&lt;Block&gt;
 <span class="kw">where
 	</span>P: Pair + <span class="lifetime">&#39;static</span>,
 	P::Signature: Codec,
@@ -480,7 +479,6 @@
 		+ Send
 		+ Sync
 		+ <span class="lifetime">&#39;static</span>,
-	I::Transaction: Send,
 	Client: ProvideRuntimeApi&lt;Block&gt; + Send + Sync + <span class="lifetime">&#39;static</span>,
 	&lt;Client <span class="kw">as </span>ProvideRuntimeApi&lt;Block&gt;&gt;::Api: BlockBuilderApi&lt;Block&gt; + AuraApi&lt;Block, P::Public&gt;,
 	CIDP: CreateInherentDataProviders&lt;Block, ()&gt; + <span class="lifetime">&#39;static</span>,

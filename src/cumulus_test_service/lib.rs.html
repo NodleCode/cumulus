@@ -900,7 +900,6 @@
 <a href="#900" id="900">900</a>
 <a href="#901" id="901">901</a>
 <a href="#902" id="902">902</a>
-<a href="#903" id="903">903</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -975,9 +974,8 @@
 <span class="kw">use </span>sp_blockchain::HeaderBackend;
 <span class="kw">use </span>sp_core::{Pair, H256};
 <span class="kw">use </span>sp_keyring::Sr25519Keyring;
-<span class="kw">use </span>sp_runtime::{codec::Encode, generic, traits::BlakeTwo256};
+<span class="kw">use </span>sp_runtime::{codec::Encode, generic};
 <span class="kw">use </span>sp_state_machine::BasicExternalities;
-<span class="kw">use </span>sp_trie::PrefixedMemoryDB;
 <span class="kw">use </span>std::sync::Arc;
 <span class="kw">use </span>substrate_test_client::{
 	BlockchainEventsExt, RpcHandlersExt, RpcTransactionError, RpcTransactionOutput,
@@ -1086,7 +1084,7 @@
 		Client,
 		Backend,
 		(),
-		sc_consensus::import_queue::BasicQueue&lt;Block, PrefixedMemoryDB&lt;BlakeTwo256&gt;&gt;,
+		sc_consensus::import_queue::BasicQueue&lt;Block&gt;,
 		sc_transaction_pool::FullPool&lt;Block, Client&gt;,
 		ParachainBlockImport,
 	&gt;,

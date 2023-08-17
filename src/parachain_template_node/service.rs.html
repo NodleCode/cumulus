@@ -521,7 +521,7 @@
 		ParachainClient,
 		ParachainBackend,
 		(),
-		sc_consensus::DefaultImportQueue&lt;Block, ParachainClient&gt;,
+		sc_consensus::DefaultImportQueue&lt;Block&gt;,
 		sc_transaction_pool::FullPool&lt;Block, ParachainClient&gt;,
 		(ParachainBlockImport, <span class="prelude-ty">Option</span>&lt;Telemetry&gt;, <span class="prelude-ty">Option</span>&lt;TelemetryWorkerHandle&gt;),
 	&gt;,
@@ -794,7 +794,7 @@
 	config: <span class="kw-2">&amp;</span>Configuration,
 	telemetry: <span class="prelude-ty">Option</span>&lt;TelemetryHandle&gt;,
 	task_manager: <span class="kw-2">&amp;</span>TaskManager,
-) -&gt; <span class="prelude-ty">Result</span>&lt;sc_consensus::DefaultImportQueue&lt;Block, ParachainClient&gt;, sc_service::Error&gt; {
+) -&gt; <span class="prelude-ty">Result</span>&lt;sc_consensus::DefaultImportQueue&lt;Block&gt;, sc_service::Error&gt; {
 	<span class="kw">let </span>slot_duration = cumulus_client_consensus_aura::slot_duration(<span class="kw-2">&amp;*</span>client)<span class="question-mark">?</span>;
 
 	cumulus_client_consensus_aura::import_queue::&lt;

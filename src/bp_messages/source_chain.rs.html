@@ -189,6 +189,21 @@
 <a href="#189" id="189">189</a>
 <a href="#190" id="190">190</a>
 <a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
+<a href="#194" id="194">194</a>
+<a href="#195" id="195">195</a>
+<a href="#196" id="196">196</a>
+<a href="#197" id="197">197</a>
+<a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -306,11 +321,26 @@
 	</span>}
 }
 
+<span class="doccomment">/// Callback that is called at the source chain (bridge hub) when we get delivery confirmation
+/// for new messages.
+</span><span class="kw">pub trait </span>OnMessagesDelivered {
+	<span class="doccomment">/// New messages delivery has been confirmed.
+	///
+	/// The only argument of the function is the number of yet undelivered messages
+	</span><span class="kw">fn </span>on_messages_delivered(lane: LaneId, enqueued_messages: MessageNonce);
+}
+
+<span class="kw">impl </span>OnMessagesDelivered <span class="kw">for </span>() {
+	<span class="kw">fn </span>on_messages_delivered(_lane: LaneId, _enqueued_messages: MessageNonce) {}
+}
+
 <span class="doccomment">/// Send message artifacts.
 </span><span class="attr">#[derive(Eq, RuntimeDebug, PartialEq)]
 </span><span class="kw">pub struct </span>SendMessageArtifacts {
 	<span class="doccomment">/// Nonce of the message.
 	</span><span class="kw">pub </span>nonce: MessageNonce,
+	<span class="doccomment">/// Number of enqueued messages at the lane, after the message is sent.
+	</span><span class="kw">pub </span>enqueued_messages: MessageNonce,
 }
 
 <span class="doccomment">/// Messages bridge API to be used from other pallets.
@@ -332,7 +362,7 @@
 	<span class="kw">type </span>Error = <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str;
 
 	<span class="kw">fn </span>send_message(_lane: LaneId, _message: Payload) -&gt; <span class="prelude-ty">Result</span>&lt;SendMessageArtifacts, <span class="self">Self</span>::Error&gt; {
-		<span class="prelude-val">Ok</span>(SendMessageArtifacts { nonce: <span class="number">0 </span>})
+		<span class="prelude-val">Ok</span>(SendMessageArtifacts { nonce: <span class="number">0</span>, enqueued_messages: <span class="number">0 </span>})
 	}
 }
 

@@ -1458,6 +1458,8 @@
 <a href="#1458" id="1458">1458</a>
 <a href="#1459" id="1459">1459</a>
 <a href="#1460" id="1460">1460</a>
+<a href="#1461" id="1461">1461</a>
+<a href="#1462" id="1462">1462</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -1500,10 +1502,10 @@
 
 <span class="kw">use </span>bp_header_chain::{
 	justification::GrandpaJustification, AuthoritySet, ChainWithGrandpa, GrandpaConsensusLogReader,
-	HeaderChain, HeaderGrandpaInfo, InitializationData, StoredHeaderData, StoredHeaderDataBuilder,
+	HeaderChain, InitializationData, StoredHeaderData, StoredHeaderDataBuilder,
+	StoredHeaderGrandpaInfo,
 };
 <span class="kw">use </span>bp_runtime::{BlockNumberOf, HashOf, HasherOf, HeaderId, HeaderOf, OwnedBridgeModule};
-<span class="kw">use </span>finality_grandpa::voter_set::VoterSet;
 <span class="kw">use </span>frame_support::{dispatch::PostDispatchInfo, ensure, DefaultNoBound};
 <span class="kw">use </span>sp_runtime::{
 	traits::{Header <span class="kw">as </span>HeaderT, Zero},
@@ -1701,9 +1703,9 @@
 			<span class="self">Self</span>::deposit_event(Event::UpdatedBestFinalizedHeader {
 				number,
 				hash,
-				grandpa_info: HeaderGrandpaInfo {
-					justification,
-					authority_set: maybe_new_authority_set,
+				grandpa_info: StoredHeaderGrandpaInfo {
+					finality_proof: justification,
+					new_verification_context: maybe_new_authority_set,
 				},
 			});
 
@@ -1871,7 +1873,7 @@
 			number: BridgedBlockNumber&lt;T, I&gt;,
 			hash: BridgedBlockHash&lt;T, I&gt;,
 			<span class="doccomment">/// The Grandpa info associated to the new best finalized header.
-			</span>grandpa_info: HeaderGrandpaInfo&lt;BridgedHeader&lt;T, I&gt;&gt;,
+			</span>grandpa_info: StoredHeaderGrandpaInfo&lt;BridgedHeader&lt;T, I&gt;&gt;,
 		},
 	}
 
@@ -1965,14 +1967,9 @@
 	) -&gt; <span class="prelude-ty">Result</span>&lt;(), sp_runtime::DispatchError&gt; {
 		<span class="kw">use </span>bp_header_chain::justification::verify_justification;
 
-		<span class="kw">let </span>voter_set =
-			VoterSet::new(authority_set.authorities).ok_or(&lt;Error&lt;T, I&gt;&gt;::InvalidAuthoritySet)<span class="question-mark">?</span>;
-		<span class="kw">let </span>set_id = authority_set.set_id;
-
 		<span class="prelude-val">Ok</span>(verify_justification::&lt;BridgedHeader&lt;T, I&gt;&gt;(
 			(hash, number),
-			set_id,
-			<span class="kw-2">&amp;</span>voter_set,
+			<span class="kw-2">&amp;</span>authority_set.try_into().map_err(|<span class="kw">_</span>| &lt;Error&lt;T, I&gt;&gt;::InvalidAuthoritySet)<span class="question-mark">?</span>,
 			justification,
 		)
 		.map_err(|e| {
@@ -2077,7 +2074,7 @@
 	</span>&lt;T <span class="kw">as </span>frame_system::Config&gt;::RuntimeEvent: TryInto&lt;Event&lt;T, I&gt;&gt;,
 {
 	<span class="doccomment">/// Get the GRANDPA justifications accepted in the current block.
-	</span><span class="kw">pub fn </span>synced_headers_grandpa_info() -&gt; Vec&lt;HeaderGrandpaInfo&lt;BridgedHeader&lt;T, I&gt;&gt;&gt; {
+	</span><span class="kw">pub fn </span>synced_headers_grandpa_info() -&gt; Vec&lt;StoredHeaderGrandpaInfo&lt;BridgedHeader&lt;T, I&gt;&gt;&gt; {
 		frame_system::Pallet::&lt;T&gt;::read_events_no_consensus()
 			.filter_map(|event| {
 				<span class="kw">if let </span>Event::&lt;T, I&gt;::UpdatedBestFinalizedHeader { grandpa_info, .. } =
@@ -2394,9 +2391,9 @@
 					event: TestEvent::Grandpa(Event::UpdatedBestFinalizedHeader {
 						number: <span class="kw-2">*</span>header.number(),
 						hash: header.hash(),
-						grandpa_info: HeaderGrandpaInfo {
-							justification: justification.clone(),
-							authority_set: <span class="prelude-val">None</span>,
+						grandpa_info: StoredHeaderGrandpaInfo {
+							finality_proof: justification.clone(),
+							new_verification_context: <span class="prelude-val">None</span>,
 						},
 					}),
 					topics: <span class="macro">vec!</span>[],
@@ -2404,7 +2401,10 @@
 			);
 			<span class="macro">assert_eq!</span>(
 				Pallet::&lt;TestRuntime&gt;::synced_headers_grandpa_info(),
-				<span class="macro">vec!</span>[HeaderGrandpaInfo { justification, authority_set: <span class="prelude-val">None </span>}]
+				<span class="macro">vec!</span>[StoredHeaderGrandpaInfo {
+					finality_proof: justification,
+					new_verification_context: <span class="prelude-val">None
+				</span>}]
 			);
 		})
 	}
@@ -2535,9 +2535,11 @@
 					event: TestEvent::Grandpa(Event::UpdatedBestFinalizedHeader {
 						number: <span class="kw-2">*</span>header.number(),
 						hash: header.hash(),
-						grandpa_info: HeaderGrandpaInfo {
-							justification: justification.clone(),
-							authority_set: <span class="prelude-val">Some</span>(&lt;CurrentAuthoritySet&lt;TestRuntime&gt;&gt;::get().into()),
+						grandpa_info: StoredHeaderGrandpaInfo {
+							finality_proof: justification.clone(),
+							new_verification_context: <span class="prelude-val">Some</span>(
+								&lt;CurrentAuthoritySet&lt;TestRuntime&gt;&gt;::get().into()
+							),
 						},
 					}),
 					topics: <span class="macro">vec!</span>[],
@@ -2545,9 +2547,11 @@
 			);
 			<span class="macro">assert_eq!</span>(
 				Pallet::&lt;TestRuntime&gt;::synced_headers_grandpa_info(),
-				<span class="macro">vec!</span>[HeaderGrandpaInfo {
-					justification,
-					authority_set: <span class="prelude-val">Some</span>(&lt;CurrentAuthoritySet&lt;TestRuntime&gt;&gt;::get().into()),
+				<span class="macro">vec!</span>[StoredHeaderGrandpaInfo {
+					finality_proof: justification,
+					new_verification_context: <span class="prelude-val">Some</span>(
+						&lt;CurrentAuthoritySet&lt;TestRuntime&gt;&gt;::get().into()
+					),
 				}]
 			);
 		})

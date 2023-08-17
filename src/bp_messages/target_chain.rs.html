@@ -196,6 +196,19 @@
 <a href="#196" id="196">196</a>
 <a href="#197" id="197">197</a>
 <a href="#198" id="198">198</a>
+<a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -288,6 +301,15 @@
 
 	<span class="doccomment">/// Fine-grained result of single message dispatch (for better diagnostic purposes)
 	</span><span class="kw">type </span>DispatchLevelResult: Clone + sp_std::fmt::Debug + Eq;
+
+	<span class="doccomment">/// Returns `true` if dispatcher is ready to accept additional messages. The `false` should
+	/// be treated as a hint by both dispatcher and its consumers - i.e. dispatcher shall not
+	/// simply drop messages if it returns `false`. The consumer may still call the `dispatch`
+	/// if dispatcher has returned `false`.
+	///
+	/// We check it in the messages delivery transaction prologue. So if it becomes `false`
+	/// after some portion of messages is already dispatched, it doesn&#39;t fail the whole transaction.
+	</span><span class="kw">fn </span>is_active() -&gt; bool;
 
 	<span class="doccomment">/// Estimate dispatch weight.
 	///
@@ -383,6 +405,10 @@
 {
 	<span class="kw">type </span>DispatchPayload = DispatchPayload;
 	<span class="kw">type </span>DispatchLevelResult = ();
+
+	<span class="kw">fn </span>is_active() -&gt; bool {
+		<span class="bool-val">false
+	</span>}
 
 	<span class="kw">fn </span>dispatch_weight(_message: <span class="kw-2">&amp;mut </span>DispatchMessage&lt;<span class="self">Self</span>::DispatchPayload&gt;) -&gt; Weight {
 		Weight::MAX

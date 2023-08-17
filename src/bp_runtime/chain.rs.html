@@ -721,7 +721,7 @@
 		}
 	};
 	(<span class="macro-nonterminal">$chain</span>: ident, grandpa) =&gt; {
-		<span class="macro">decl_bridge_finality_runtime_apis!</span>(<span class="macro-nonterminal">$chain</span>, grandpa =&gt; bp_header_chain::HeaderGrandpaInfo&lt;Header&gt;);
+		<span class="macro">decl_bridge_finality_runtime_apis!</span>(<span class="macro-nonterminal">$chain</span>, grandpa =&gt; bp_header_chain::StoredHeaderGrandpaInfo&lt;Header&gt;);
 	};
 }
 

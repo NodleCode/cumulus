@@ -92,6 +92,12 @@
 <a href="#92" id="92">92</a>
 <a href="#93" id="93">93</a>
 <a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -110,10 +116,11 @@
 
 </span><span class="doccomment">//! Utilities for working with test accounts.
 
-</span><span class="kw">use </span>codec::Encode;
+</span><span class="kw">use </span>bp_header_chain::{justification::JustificationVerificationContext, AuthoritySet};
+<span class="kw">use </span>codec::Encode;
 <span class="kw">use </span>ed25519_dalek::{Keypair, PublicKey, SecretKey, Signature};
 <span class="kw">use </span>finality_grandpa::voter_set::VoterSet;
-<span class="kw">use </span>sp_consensus_grandpa::{AuthorityId, AuthorityList, AuthorityWeight};
+<span class="kw">use </span>sp_consensus_grandpa::{AuthorityId, AuthorityList, AuthorityWeight, SetId};
 <span class="kw">use </span>sp_runtime::RuntimeDebug;
 <span class="kw">use </span>sp_std::prelude::<span class="kw-2">*</span>;
 
@@ -170,6 +177,11 @@
 <span class="doccomment">/// Get a valid set of voters for a Grandpa round.
 </span><span class="kw">pub fn </span>voter_set() -&gt; VoterSet&lt;AuthorityId&gt; {
 	VoterSet::new(authority_list()).unwrap()
+}
+
+<span class="doccomment">/// Get a valid justification verification context for a GRANDPA round.
+</span><span class="kw">pub fn </span>verification_context(set_id: SetId) -&gt; JustificationVerificationContext {
+	AuthoritySet { authorities: authority_list(), set_id }.try_into().unwrap()
 }
 
 <span class="doccomment">/// Convenience function to get a list of Grandpa authorities.

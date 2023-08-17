@@ -520,6 +520,14 @@
 <a href="#520" id="520">520</a>
 <a href="#521" id="521">521</a>
 <a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -906,6 +914,14 @@
 			latest_received_nonce: <span class="number">0</span>,
 			latest_generated_nonce: <span class="number">0</span>,
 		}
+	}
+}
+
+<span class="kw">impl </span>OutboundLaneData {
+	<span class="doccomment">/// Return nonces of all currently queued messages (i.e. messages that we believe
+	/// are not delivered yet).
+	</span><span class="kw">pub fn </span>queued_messages(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; RangeInclusive&lt;MessageNonce&gt; {
+		(<span class="self">self</span>.latest_received_nonce + <span class="number">1</span>)..=<span class="self">self</span>.latest_generated_nonce
 	}
 }
 

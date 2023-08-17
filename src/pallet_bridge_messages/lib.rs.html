@@ -2061,6 +2061,71 @@
 <a href="#2061" id="2061">2061</a>
 <a href="#2062" id="2062">2062</a>
 <a href="#2063" id="2063">2063</a>
+<a href="#2064" id="2064">2064</a>
+<a href="#2065" id="2065">2065</a>
+<a href="#2066" id="2066">2066</a>
+<a href="#2067" id="2067">2067</a>
+<a href="#2068" id="2068">2068</a>
+<a href="#2069" id="2069">2069</a>
+<a href="#2070" id="2070">2070</a>
+<a href="#2071" id="2071">2071</a>
+<a href="#2072" id="2072">2072</a>
+<a href="#2073" id="2073">2073</a>
+<a href="#2074" id="2074">2074</a>
+<a href="#2075" id="2075">2075</a>
+<a href="#2076" id="2076">2076</a>
+<a href="#2077" id="2077">2077</a>
+<a href="#2078" id="2078">2078</a>
+<a href="#2079" id="2079">2079</a>
+<a href="#2080" id="2080">2080</a>
+<a href="#2081" id="2081">2081</a>
+<a href="#2082" id="2082">2082</a>
+<a href="#2083" id="2083">2083</a>
+<a href="#2084" id="2084">2084</a>
+<a href="#2085" id="2085">2085</a>
+<a href="#2086" id="2086">2086</a>
+<a href="#2087" id="2087">2087</a>
+<a href="#2088" id="2088">2088</a>
+<a href="#2089" id="2089">2089</a>
+<a href="#2090" id="2090">2090</a>
+<a href="#2091" id="2091">2091</a>
+<a href="#2092" id="2092">2092</a>
+<a href="#2093" id="2093">2093</a>
+<a href="#2094" id="2094">2094</a>
+<a href="#2095" id="2095">2095</a>
+<a href="#2096" id="2096">2096</a>
+<a href="#2097" id="2097">2097</a>
+<a href="#2098" id="2098">2098</a>
+<a href="#2099" id="2099">2099</a>
+<a href="#2100" id="2100">2100</a>
+<a href="#2101" id="2101">2101</a>
+<a href="#2102" id="2102">2102</a>
+<a href="#2103" id="2103">2103</a>
+<a href="#2104" id="2104">2104</a>
+<a href="#2105" id="2105">2105</a>
+<a href="#2106" id="2106">2106</a>
+<a href="#2107" id="2107">2107</a>
+<a href="#2108" id="2108">2108</a>
+<a href="#2109" id="2109">2109</a>
+<a href="#2110" id="2110">2110</a>
+<a href="#2111" id="2111">2111</a>
+<a href="#2112" id="2112">2112</a>
+<a href="#2113" id="2113">2113</a>
+<a href="#2114" id="2114">2114</a>
+<a href="#2115" id="2115">2115</a>
+<a href="#2116" id="2116">2116</a>
+<a href="#2117" id="2117">2117</a>
+<a href="#2118" id="2118">2118</a>
+<a href="#2119" id="2119">2119</a>
+<a href="#2120" id="2120">2120</a>
+<a href="#2121" id="2121">2121</a>
+<a href="#2122" id="2122">2122</a>
+<a href="#2123" id="2123">2123</a>
+<a href="#2124" id="2124">2124</a>
+<a href="#2125" id="2125">2125</a>
+<a href="#2126" id="2126">2126</a>
+<a href="#2127" id="2127">2127</a>
+<a href="#2128" id="2128">2128</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -2116,7 +2181,8 @@
 
 <span class="kw">use </span>bp_messages::{
 	source_chain::{
-		DeliveryConfirmationPayments, LaneMessageVerifier, SendMessageArtifacts, TargetHeaderChain,
+		DeliveryConfirmationPayments, LaneMessageVerifier, OnMessagesDelivered,
+		SendMessageArtifacts, TargetHeaderChain,
 	},
 	target_chain::{
 		DeliveryPayments, DispatchMessage, MessageDispatch, ProvedLaneMessages, ProvedMessages,
@@ -2126,7 +2192,9 @@
 	MessagePayload, MessagesOperatingMode, OutboundLaneData, OutboundMessageDetails,
 	UnrewardedRelayersState, VerificationError,
 };
-<span class="kw">use </span>bp_runtime::{BasicOperatingMode, ChainId, OwnedBridgeModule, PreComputedSize, Size};
+<span class="kw">use </span>bp_runtime::{
+	BasicOperatingMode, ChainId, OwnedBridgeModule, PreComputedSize, RangeInclusiveExt, Size,
+};
 <span class="kw">use </span>codec::{Decode, Encode, MaxEncodedLen};
 <span class="kw">use </span>frame_support::{dispatch::PostDispatchInfo, ensure, fail, traits::Get, DefaultNoBound};
 <span class="kw">use </span>sp_runtime::traits::UniqueSaturatedFrom;
@@ -2219,6 +2287,8 @@
 		</span><span class="kw">type </span>LaneMessageVerifier: LaneMessageVerifier&lt;<span class="self">Self</span>::OutboundPayload&gt;;
 		<span class="doccomment">/// Delivery confirmation payments.
 		</span><span class="kw">type </span>DeliveryConfirmationPayments: DeliveryConfirmationPayments&lt;<span class="self">Self</span>::AccountId&gt;;
+		<span class="doccomment">/// Delivery confirmation callback.
+		</span><span class="kw">type </span>OnMessagesDelivered: OnMessagesDelivered;
 
 		<span class="comment">// Types that are used by inbound_lane (on target chain).
 
@@ -2343,6 +2413,9 @@
 				MessageNonce::from(messages_count) &lt;= T::MaxUnconfirmedMessagesAtInboundLane::get(),
 				Error::&lt;T, I&gt;::TooManyMessagesInTheProof
 			);
+
+			<span class="comment">// if message dispatcher is currently inactive, we won&#39;t accept any messages
+			</span><span class="macro">ensure!</span>(T::MessageDispatch::is_active(), Error::&lt;T, I&gt;::MessageDispatchInactive);
 
 			<span class="comment">// why do we need to know the weight of this (`receive_messages_proof`) call? Because
 			// we may want to return some funds for not-dispatching (or partially dispatching) some
@@ -2550,6 +2623,12 @@
 				lane_id,
 			);
 
+			<span class="comment">// notify others about messages delivery
+			</span>T::OnMessagesDelivered::on_messages_delivered(
+				lane_id,
+				lane.data().queued_messages().saturating_len(),
+			);
+
 			<span class="comment">// because of lags, the inbound lane state (`lane_data`) may have entries for
 			// already rewarded relayers and messages (if all entries are duplicated, then
 			// this transaction must be filtered out by our signed extension)
@@ -2581,6 +2660,8 @@
 		</span>NotOperatingNormally,
 		<span class="doccomment">/// The outbound lane is inactive.
 		</span>InactiveOutboundLane,
+		<span class="doccomment">/// The inbound message dispatcher is inactive.
+		</span>MessageDispatchInactive,
 		<span class="doccomment">/// Message has been treated as invalid by chain verifier.
 		</span>MessageRejectedByChainVerifier(VerificationError),
 		<span class="doccomment">/// Message has been treated as invalid by lane verifier.
@@ -2643,6 +2724,25 @@
 		MaxValues = MaybeOutboundLanesCount&lt;T, I&gt;,
 	&gt;;
 
+	<span class="doccomment">/// Map of lane id =&gt; is congested signal sent. It is managed by the
+	/// `bridge_runtime_common::LocalXcmQueueManager`.
+	///
+	/// **bridges-v1**: this map is a temporary hack and will be dropped in the `v2`. We can emulate
+	/// a storage map using `sp_io::unhashed` storage functions, but then benchmarks are not
+	/// accounting its `proof_size`, so it is missing from the final weights. So we need to make it
+	/// a map inside some pallet. We could use a simply value instead of map here, because
+	/// in `v1` we&#39;ll only have a single lane. But in the case of adding another lane before `v2`,
+	/// it&#39;ll be easier to deal with the isolated storage map instead.
+	</span><span class="attr">#[pallet::storage]
+	</span><span class="kw">pub type </span>OutboundLanesCongestedSignals&lt;T: Config&lt;I&gt;, I: <span class="lifetime">&#39;static </span>= ()&gt; = StorageMap&lt;
+		Hasher = Blake2_128Concat,
+		Key = LaneId,
+		Value = bool,
+		QueryKind = ValueQuery,
+		OnEmpty = GetDefault,
+		MaxValues = MaybeOutboundLanesCount&lt;T, I&gt;,
+	&gt;;
+
 	<span class="doccomment">/// All queued outbound messages.
 	</span><span class="attr">#[pallet::storage]
 	</span><span class="kw">pub type </span>OutboundMessages&lt;T: Config&lt;I&gt;, I: <span class="lifetime">&#39;static </span>= ()&gt; =
@@ -2688,6 +2788,11 @@
 			InboundMessageDetails {
 				dispatch_weight: T::MessageDispatch::dispatch_weight(<span class="kw-2">&amp;mut </span>dispatch_message),
 			}
+		}
+
+		<span class="doccomment">/// Return outbound lane data.
+		</span><span class="kw">pub fn </span>outbound_lane_data(lane: LaneId) -&gt; OutboundLaneData {
+			OutboundLanes::&lt;T, I&gt;::get(lane)
 		}
 
 		<span class="doccomment">/// Return inbound lane data.
@@ -2766,6 +2871,9 @@
 		.send_message(encoded_payload)
 		.map_err(Error::&lt;T, I&gt;::MessageRejectedByPallet)<span class="question-mark">?</span>;
 
+	<span class="comment">// return number of messages in the queue to let sender know about its state
+	</span><span class="kw">let </span>enqueued_messages = lane.data().queued_messages().saturating_len();
+
 	<span class="macro">log::trace!</span>(
 		target: LOG_TARGET,
 		<span class="string">&quot;Accepted message {} to lane {:?}. Message size: {:?}&quot;</span>,
@@ -2776,7 +2884,7 @@
 
 	Pallet::&lt;T, I&gt;::deposit_event(Event::MessageAccepted { lane_id, nonce });
 
-	<span class="prelude-val">Ok</span>(SendMessageArtifacts { nonce })
+	<span class="prelude-val">Ok</span>(SendMessageArtifacts { nonce, enqueued_messages })
 }
 
 <span class="doccomment">/// Ensure that the pallet is in normal operational mode.
@@ -2944,8 +3052,9 @@
 		mock::{
 			inbound_unrewarded_relayers_state, message, message_payload, run_test,
 			unrewarded_relayer, AccountId, DbWeight, RuntimeEvent <span class="kw">as </span>TestEvent, RuntimeOrigin,
-			TestDeliveryConfirmationPayments, TestDeliveryPayments, TestMessagesDeliveryProof,
-			TestMessagesProof, TestRelayer, TestRuntime, TestWeightInfo, MAX_OUTBOUND_PAYLOAD_SIZE,
+			TestDeliveryConfirmationPayments, TestDeliveryPayments, TestMessageDispatch,
+			TestMessagesDeliveryProof, TestMessagesProof, TestOnMessagesDelivered, TestRelayer,
+			TestRuntime, TestWeightInfo, MAX_OUTBOUND_PAYLOAD_SIZE,
 			PAYLOAD_REJECTED_BY_TARGET_CHAIN, REGULAR_PAYLOAD, TEST_LANE_ID, TEST_LANE_ID_2,
 			TEST_LANE_ID_3, TEST_RELAYER_A, TEST_RELAYER_B,
 		},
@@ -2971,10 +3080,12 @@
 	<span class="kw">fn </span>send_regular_message() {
 		get_ready_for_events();
 
-		<span class="kw">let </span>message_nonce =
-			outbound_lane::&lt;TestRuntime, ()&gt;(TEST_LANE_ID).data().latest_generated_nonce + <span class="number">1</span>;
-		send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, REGULAR_PAYLOAD)
+		<span class="kw">let </span>outbound_lane = outbound_lane::&lt;TestRuntime, ()&gt;(TEST_LANE_ID);
+		<span class="kw">let </span>message_nonce = outbound_lane.data().latest_generated_nonce + <span class="number">1</span>;
+		<span class="kw">let </span>prev_enqueud_messages = outbound_lane.data().queued_messages().saturating_len();
+		<span class="kw">let </span>artifacts = send_message::&lt;TestRuntime, ()&gt;(TEST_LANE_ID, REGULAR_PAYLOAD)
 			.expect(<span class="string">&quot;send_message has failed&quot;</span>);
+		<span class="macro">assert_eq!</span>(artifacts.enqueued_messages, prev_enqueud_messages + <span class="number">1</span>);
 
 		<span class="comment">// check event with assigned nonce
 		</span><span class="macro">assert_eq!</span>(
@@ -3265,6 +3376,23 @@
 	}
 
 	<span class="attr">#[test]
+	</span><span class="kw">fn </span>receive_messages_fails_if_dispatcher_is_inactive() {
+		run_test(|| {
+			TestMessageDispatch::deactivate();
+			<span class="macro">assert_noop!</span>(
+				Pallet::&lt;TestRuntime&gt;::receive_messages_proof(
+					RuntimeOrigin::signed(<span class="number">1</span>),
+					TEST_RELAYER_A,
+					<span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[message(<span class="number">1</span>, REGULAR_PAYLOAD)]).into(),
+					<span class="number">1</span>,
+					REGULAR_PAYLOAD.declared_weight,
+				),
+				Error::&lt;TestRuntime, ()&gt;::MessageDispatchInactive,
+			);
+		});
+	}
+
+	<span class="attr">#[test]
 	</span><span class="kw">fn </span>receive_messages_proof_does_not_accept_message_if_dispatch_weight_is_not_enough() {
 		run_test(|| {
 			<span class="kw">let </span><span class="kw-2">mut </span>declared_weight = REGULAR_PAYLOAD.declared_weight;
@@ -3367,6 +3495,7 @@
 			);
 			<span class="macro">assert!</span>(TestDeliveryConfirmationPayments::is_reward_paid(TEST_RELAYER_A, <span class="number">1</span>));
 			<span class="macro">assert!</span>(!TestDeliveryConfirmationPayments::is_reward_paid(TEST_RELAYER_B, <span class="number">1</span>));
+			<span class="macro">assert_eq!</span>(TestOnMessagesDelivered::call_arguments(), <span class="prelude-val">Some</span>((TEST_LANE_ID, <span class="number">1</span>)));
 
 			<span class="comment">// this reports delivery of both message 1 and message 2 =&gt; reward is paid only to
 			// TEST_RELAYER_B
@@ -3409,6 +3538,7 @@
 			);
 			<span class="macro">assert!</span>(!TestDeliveryConfirmationPayments::is_reward_paid(TEST_RELAYER_A, <span class="number">1</span>));
 			<span class="macro">assert!</span>(TestDeliveryConfirmationPayments::is_reward_paid(TEST_RELAYER_B, <span class="number">1</span>));
+			<span class="macro">assert_eq!</span>(TestOnMessagesDelivered::call_arguments(), <span class="prelude-val">Some</span>((TEST_LANE_ID, <span class="number">0</span>)));
 		});
 	}
 

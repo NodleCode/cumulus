@@ -642,6 +642,25 @@
 <a href="#642" id="642">642</a>
 <a href="#643" id="643">643</a>
 <a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -661,7 +680,7 @@
 </span><span class="kw">use </span><span class="kw">crate</span>::messages::{
 	source::FromBridgedChainMessagesDeliveryProof, target::FromBridgedChainMessagesProof,
 };
-<span class="kw">use </span>bp_messages::{InboundLaneData, LaneId, MessageNonce};
+<span class="kw">use </span>bp_messages::{target_chain::MessageDispatch, InboundLaneData, LaneId, MessageNonce};
 <span class="kw">use </span>frame_support::{
 	dispatch::CallableCallFor,
 	traits::{Get, IsSubType},
@@ -721,7 +740,12 @@
 	///
 	/// - or there are no bundled messages, but the inbound lane is blocked by too many unconfirmed
 	///   messages and/or unrewarded relayers.
-	</span><span class="kw">fn </span>is_obsolete(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+	</span><span class="kw">fn </span>is_obsolete(<span class="kw-2">&amp;</span><span class="self">self</span>, is_dispatcher_active: bool) -&gt; bool {
+		<span class="comment">// if dispatcher is inactive, we don&#39;t accept any delivery transactions
+		</span><span class="kw">if </span>!is_dispatcher_active {
+			<span class="kw">return </span><span class="bool-val">true
+		</span>}
+
 		<span class="comment">// transactions with zero bundled nonces are not allowed, unless they&#39;re message
 		// delivery transactions, which brings reward confirmations required to unblock
 		// the lane
@@ -919,7 +943,9 @@
 
 	<span class="kw">fn </span>check_obsolete_call(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TransactionValidity {
 		<span class="kw">match </span><span class="self">self</span>.call_info() {
-			<span class="prelude-val">Some</span>(CallInfo::ReceiveMessagesProof(proof_info)) <span class="kw">if </span>proof_info.is_obsolete() =&gt; {
+			<span class="prelude-val">Some</span>(CallInfo::ReceiveMessagesProof(proof_info))
+				<span class="kw">if </span>proof_info.is_obsolete(T::MessageDispatch::is_active()) =&gt;
+			{
 				<span class="macro">log::trace!</span>(
 					target: pallet_bridge_messages::LOG_TARGET,
 					<span class="string">&quot;Rejecting obsolete messages delivery transaction: {:?}&quot;</span>,
@@ -971,8 +997,8 @@
 		},
 		messages_call_ext::MessagesCallSubType,
 		mock::{
-			MaxUnconfirmedMessagesAtInboundLane, MaxUnrewardedRelayerEntriesAtInboundLane,
-			TestRuntime, ThisChainRuntimeCall,
+			DummyMessageDispatch, MaxUnconfirmedMessagesAtInboundLane,
+			MaxUnrewardedRelayerEntriesAtInboundLane, TestRuntime, ThisChainRuntimeCall,
 		},
 	};
 	<span class="kw">use </span>bp_messages::{DeliveredMessages, UnrewardedRelayer, UnrewardedRelayersState};
@@ -1076,6 +1102,18 @@
 			// 13..=15 =&gt; tx is rejected
 			</span>deliver_message_10();
 			<span class="macro">assert!</span>(!validate_message_delivery(<span class="number">13</span>, <span class="number">15</span>));
+		});
+	}
+
+	<span class="attr">#[test]
+	</span><span class="kw">fn </span>extension_reject_call_when_dispatcher_is_inactive() {
+		sp_io::TestExternalities::new(Default::default()).execute_with(|| {
+			<span class="comment">// when current best delivered is message#10 and we&#39;re trying to deliver message 11..=15
+			// =&gt; tx is accepted, but we have inactive dispatcher, so...
+			</span>deliver_message_10();
+
+			DummyMessageDispatch::deactivate();
+			<span class="macro">assert!</span>(!validate_message_delivery(<span class="number">11</span>, <span class="number">15</span>));
 		});
 	}
 

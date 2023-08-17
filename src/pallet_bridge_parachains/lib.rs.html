@@ -2321,7 +2321,7 @@
 	<span class="kw">use </span>bp_test_utils::prepare_parachain_heads_proof;
 	<span class="kw">use </span>codec::Encode;
 
-	<span class="kw">use </span>bp_header_chain::{justification::GrandpaJustification, HeaderGrandpaInfo};
+	<span class="kw">use </span>bp_header_chain::{justification::GrandpaJustification, StoredHeaderGrandpaInfo};
 	<span class="kw">use </span>bp_parachains::{
 		BestParaHeadHash, BridgeParachainCall, ImportedParaHeadsKeyProvider, ParasInfoKeyProvider,
 	};
@@ -2660,9 +2660,9 @@
 							pallet_bridge_grandpa::Event::UpdatedBestFinalizedHeader {
 								number: <span class="number">1</span>,
 								hash: relay_1_hash,
-								grandpa_info: HeaderGrandpaInfo {
-									justification,
-									authority_set: <span class="prelude-val">None</span>,
+								grandpa_info: StoredHeaderGrandpaInfo {
+									finality_proof: justification,
+									new_verification_context: <span class="prelude-val">None</span>,
 								},
 							}
 						),
@@ -2801,9 +2801,9 @@
 							pallet_bridge_grandpa::Event::UpdatedBestFinalizedHeader {
 								number: <span class="number">1</span>,
 								hash: relay_1_hash,
-								grandpa_info: HeaderGrandpaInfo {
-									justification,
-									authority_set: <span class="prelude-val">None</span>,
+								grandpa_info: StoredHeaderGrandpaInfo {
+									finality_proof: justification,
+									new_verification_context: <span class="prelude-val">None</span>,
 								}
 							}
 						),
@@ -2854,9 +2854,9 @@
 							pallet_bridge_grandpa::Event::UpdatedBestFinalizedHeader {
 								number: <span class="number">1</span>,
 								hash: relay_1_hash,
-								grandpa_info: HeaderGrandpaInfo {
-									justification: justification.clone(),
-									authority_set: <span class="prelude-val">None</span>,
+								grandpa_info: StoredHeaderGrandpaInfo {
+									finality_proof: justification.clone(),
+									new_verification_context: <span class="prelude-val">None</span>,
 								}
 							}
 						),
@@ -2895,9 +2895,9 @@
 							pallet_bridge_grandpa::Event::UpdatedBestFinalizedHeader {
 								number: <span class="number">1</span>,
 								hash: relay_1_hash,
-								grandpa_info: HeaderGrandpaInfo {
-									justification,
-									authority_set: <span class="prelude-val">None</span>,
+								grandpa_info: StoredHeaderGrandpaInfo {
+									finality_proof: justification,
+									new_verification_context: <span class="prelude-val">None</span>,
 								}
 							}
 						),

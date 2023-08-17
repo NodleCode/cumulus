@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["ForbidOutboundMessages","NoopMessagesBridge","SendMessageArtifacts"],"trait":["DeliveryConfirmationPayments","LaneMessageVerifier","MessagesBridge","TargetHeaderChain"],"type":["RelayersRewards"]};
+window.SIDEBAR_ITEMS = {"struct":["ForbidOutboundMessages","NoopMessagesBridge","SendMessageArtifacts"],"trait":["DeliveryConfirmationPayments","LaneMessageVerifier","MessagesBridge","OnMessagesDelivered","TargetHeaderChain"],"type":["RelayersRewards"]};

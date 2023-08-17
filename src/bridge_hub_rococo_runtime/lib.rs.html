@@ -1305,6 +1305,8 @@
 <a href="#1305" id="1305">1305</a>
 <a href="#1306" id="1306">1306</a>
 <a href="#1307" id="1307">1307</a>
+<a href="#1308" id="1308">1308</a>
+<a href="#1309" id="1309">1309</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2022 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -1795,7 +1797,8 @@
 
 	<span class="kw">type </span>SourceHeaderChain = SourceHeaderChainAdapter&lt;WithBridgeHubWococoMessageBridge&gt;;
 	<span class="kw">type </span>MessageDispatch =
-		XcmBlobMessageDispatch&lt;OnBridgeHubRococoBlobDispatcher, <span class="self">Self</span>::WeightInfo&gt;;
+		XcmBlobMessageDispatch&lt;OnBridgeHubRococoBlobDispatcher, <span class="self">Self</span>::WeightInfo, ()&gt;;
+	<span class="kw">type </span>OnMessagesDelivered = ();
 }
 
 <span class="doccomment">/// Add XCM messages support for BridgeHubWococo to support Wococo-&gt;Rococo XCM messages
@@ -1828,7 +1831,8 @@
 
 	<span class="kw">type </span>SourceHeaderChain = SourceHeaderChainAdapter&lt;WithBridgeHubRococoMessageBridge&gt;;
 	<span class="kw">type </span>MessageDispatch =
-		XcmBlobMessageDispatch&lt;OnBridgeHubWococoBlobDispatcher, <span class="self">Self</span>::WeightInfo&gt;;
+		XcmBlobMessageDispatch&lt;OnBridgeHubWococoBlobDispatcher, <span class="self">Self</span>::WeightInfo, ()&gt;;
+	<span class="kw">type </span>OnMessagesDelivered = ();
 }
 
 <span class="doccomment">/// Allows collect and claim rewards for relayers
@@ -2091,7 +2095,7 @@
 			BridgeRococoGrandpa::best_finalized()
 		}
 		<span class="kw">fn </span>synced_headers_grandpa_info(
-		) -&gt; Vec&lt;bp_header_chain::HeaderGrandpaInfo&lt;bp_rococo::Header&gt;&gt; {
+		) -&gt; Vec&lt;bp_header_chain::StoredHeaderGrandpaInfo&lt;bp_rococo::Header&gt;&gt; {
 			BridgeRococoGrandpa::synced_headers_grandpa_info()
 		}
 	}
@@ -2101,7 +2105,7 @@
 			BridgeWococoGrandpa::best_finalized()
 		}
 		<span class="kw">fn </span>synced_headers_grandpa_info(
-		) -&gt; Vec&lt;bp_header_chain::HeaderGrandpaInfo&lt;bp_wococo::Header&gt;&gt; {
+		) -&gt; Vec&lt;bp_header_chain::StoredHeaderGrandpaInfo&lt;bp_wococo::Header&gt;&gt; {
 			BridgeWococoGrandpa::synced_headers_grandpa_info()
 		}
 	}

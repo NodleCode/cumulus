@@ -125,6 +125,7 @@
 <a href="#125" id="125">125</a>
 <a href="#126" id="126">126</a>
 <a href="#127" id="127">127</a>
+<a href="#128" id="128">128</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2023 Parity Technologies (UK) Ltd.
 // This file is part of Parity Bridges Common.
 
@@ -150,10 +151,11 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::ChainWithGrandpa;
 <span class="kw">pub use </span>verification::{
-	equivocation::{EquivocationsCollector, Error <span class="kw">as </span>EquivocationsCollectorError},
+	equivocation::{EquivocationsCollector, GrandpaEquivocationsFinder},
 	optimizer::verify_and_optimize_justification,
 	strict::verify_justification,
-	AncestryChain, Error <span class="kw">as </span>JustificationVerificationError, PrecommitError,
+	AncestryChain, Error <span class="kw">as </span>JustificationVerificationError, JustificationVerificationContext,
+	PrecommitError,
 };
 
 <span class="kw">use </span>bp_runtime::{BlockNumberOf, Chain, HashOf, HeaderId};

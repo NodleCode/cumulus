@@ -368,6 +368,21 @@
 <a href="#368" id="368">368</a>
 <a href="#369" id="369">369</a>
 <a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2022 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -391,7 +406,10 @@
 <span class="kw">use </span>futures::{Stream, StreamExt};
 <span class="kw">use </span>polkadot_core_primitives::{Block, BlockNumber, Hash, Header};
 <span class="kw">use </span>polkadot_overseer::RuntimeApiSubsystemClient;
-<span class="kw">use </span>polkadot_primitives::slashing;
+<span class="kw">use </span>polkadot_primitives::{
+	slashing,
+	vstaging::{AsyncBackingParams, BackingState},
+};
 <span class="kw">use </span>sc_authority_discovery::{AuthorityDiscovery, Error <span class="kw">as </span>AuthorityDiscoveryError};
 <span class="kw">use </span>sp_api::{ApiError, RuntimeApiInfo};
 
@@ -703,6 +721,18 @@
 			</span>.rpc_client
 			.parachain_host_submit_report_dispute_lost(at, dispute_proof, key_ownership_proof)
 			.<span class="kw">await</span><span class="question-mark">?</span>)
+	}
+
+	<span class="kw">async fn </span>staging_async_backing_params(<span class="kw-2">&amp;</span><span class="self">self</span>, at: Hash) -&gt; <span class="prelude-ty">Result</span>&lt;AsyncBackingParams, ApiError&gt; {
+		<span class="prelude-val">Ok</span>(<span class="self">self</span>.rpc_client.parachain_host_staging_async_backing_params(at).<span class="kw">await</span><span class="question-mark">?</span>)
+	}
+
+	<span class="kw">async fn </span>staging_para_backing_state(
+		<span class="kw-2">&amp;</span><span class="self">self</span>,
+		at: Hash,
+		para_id: cumulus_primitives_core::ParaId,
+	) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;BackingState&gt;, ApiError&gt; {
+		<span class="prelude-val">Ok</span>(<span class="self">self</span>.rpc_client.parachain_host_staging_para_backing_state(at, para_id).<span class="kw">await</span><span class="question-mark">?</span>)
 	}
 }
 

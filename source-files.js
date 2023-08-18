@@ -38,9 +38,9 @@ var sourcesIndex = JSON.parse('{\
 "cumulus_client_network":["",[],["lib.rs"]],\
 "cumulus_client_pov_recovery":["",[],["active_candidate_recovery.rs","lib.rs"]],\
 "cumulus_client_service":["",[],["lib.rs"]],\
-"cumulus_pallet_aura_ext":["",[],["lib.rs"]],\
+"cumulus_pallet_aura_ext":["",[],["consensus_hook.rs","lib.rs"]],\
 "cumulus_pallet_dmp_queue":["",[],["lib.rs","migration.rs"]],\
-"cumulus_pallet_parachain_system":["",[["validate_block",[],["mod.rs"]]],["lib.rs","migration.rs","relay_state_snapshot.rs"]],\
+"cumulus_pallet_parachain_system":["",[["validate_block",[],["mod.rs"]]],["consensus_hook.rs","lib.rs","migration.rs","relay_state_snapshot.rs","unincluded_segment.rs"]],\
 "cumulus_pallet_parachain_system_proc_macro":["",[],["lib.rs"]],\
 "cumulus_pallet_session_benchmarking":["",[],["lib.rs"]],\
 "cumulus_pallet_solo_to_para":["",[],["lib.rs"]],\

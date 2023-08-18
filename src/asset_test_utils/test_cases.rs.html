@@ -1305,6 +1305,40 @@
 <a href="#1305" id="1305">1305</a>
 <a href="#1306" id="1306">1306</a>
 <a href="#1307" id="1307">1307</a>
+<a href="#1308" id="1308">1308</a>
+<a href="#1309" id="1309">1309</a>
+<a href="#1310" id="1310">1310</a>
+<a href="#1311" id="1311">1311</a>
+<a href="#1312" id="1312">1312</a>
+<a href="#1313" id="1313">1313</a>
+<a href="#1314" id="1314">1314</a>
+<a href="#1315" id="1315">1315</a>
+<a href="#1316" id="1316">1316</a>
+<a href="#1317" id="1317">1317</a>
+<a href="#1318" id="1318">1318</a>
+<a href="#1319" id="1319">1319</a>
+<a href="#1320" id="1320">1320</a>
+<a href="#1321" id="1321">1321</a>
+<a href="#1322" id="1322">1322</a>
+<a href="#1323" id="1323">1323</a>
+<a href="#1324" id="1324">1324</a>
+<a href="#1325" id="1325">1325</a>
+<a href="#1326" id="1326">1326</a>
+<a href="#1327" id="1327">1327</a>
+<a href="#1328" id="1328">1328</a>
+<a href="#1329" id="1329">1329</a>
+<a href="#1330" id="1330">1330</a>
+<a href="#1331" id="1331">1331</a>
+<a href="#1332" id="1332">1332</a>
+<a href="#1333" id="1333">1333</a>
+<a href="#1334" id="1334">1334</a>
+<a href="#1335" id="1335">1335</a>
+<a href="#1336" id="1336">1336</a>
+<a href="#1337" id="1337">1337</a>
+<a href="#1338" id="1338">1338</a>
+<a href="#1339" id="1339">1339</a>
+<a href="#1340" id="1340">1340</a>
+<a href="#1341" id="1341">1341</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2023 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -1325,13 +1359,14 @@
 </span><span class="kw">use </span>codec::Encode;
 <span class="kw">use </span>frame_support::{
 	assert_noop, assert_ok,
-	traits::{fungibles::InspectEnumerable, Get, OriginTrait},
+	traits::{fungibles::InspectEnumerable, Get, OnFinalize, OnInitialize, OriginTrait},
 	weights::Weight,
 };
-<span class="kw">use </span>parachains_common::Balance;
+<span class="kw">use </span>frame_system::pallet_prelude::BlockNumberFor;
+<span class="kw">use </span>parachains_common::{AccountId, Balance};
 <span class="kw">use </span>parachains_runtimes_test_utils::{
 	assert_metadata, assert_total, AccountIdOf, BalanceOf, CollatorSessionKeys, ExtBuilder,
-	RuntimeHelper, ValidatorIdOf, XcmReceivedFrom,
+	ValidatorIdOf, XcmReceivedFrom,
 };
 <span class="kw">use </span>sp_runtime::{
 	traits::{MaybeEquivalence, StaticLookup, Zero},
@@ -1340,6 +1375,9 @@
 <span class="kw">use </span>xcm::latest::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>xcm_executor::{traits::ConvertLocation, XcmExecutor};
 
+<span class="kw">type </span>RuntimeHelper&lt;Runtime, AllPalletsWithoutSystem = ()&gt; =
+	parachains_runtimes_test_utils::RuntimeHelper&lt;Runtime, AllPalletsWithoutSystem&gt;;
+
 <span class="comment">// Re-export test_case from `parachains-runtimes-test-utils`
 </span><span class="kw">pub use </span>parachains_runtimes_test_utils::test_cases::change_storage_constant_by_governance_works;
 
@@ -1347,6 +1385,7 @@
 /// and can teleport it back and to the other parachains
 </span><span class="kw">pub fn </span>teleports_for_native_asset_works&lt;
 	Runtime,
+	AllPalletsWithoutSystem,
 	XcmConfig,
 	CheckingAccount,
 	WeightToFee,
@@ -1369,6 +1408,8 @@
 		+ pallet_collator_selection::Config
 		+ cumulus_pallet_parachain_system::Config
 		+ cumulus_pallet_xcmp_queue::Config,
+	AllPalletsWithoutSystem:
+		OnInitialize&lt;BlockNumberFor&lt;Runtime&gt;&gt; + OnFinalize&lt;BlockNumberFor&lt;Runtime&gt;&gt;,
 	AccountIdOf&lt;Runtime&gt;: Into&lt;[u8; <span class="number">32</span>]&gt;,
 	ValidatorIdOf&lt;Runtime&gt;: From&lt;AccountIdOf&lt;Runtime&gt;&gt;,
 	BalanceOf&lt;Runtime&gt;: From&lt;Balance&gt; + Into&lt;u128&gt;,
@@ -1391,6 +1432,13 @@
 		.with_para_id(runtime_para_id.into())
 		.build()
 		.execute_with(|| {
+			<span class="kw">let </span><span class="kw-2">mut </span>alice = [<span class="number">0u8</span>; <span class="number">32</span>];
+			alice[<span class="number">0</span>] = <span class="number">1</span>;
+
+			<span class="kw">let </span>included_head = RuntimeHelper::&lt;Runtime, AllPalletsWithoutSystem&gt;::run_to_block(
+				<span class="number">2</span>,
+				AccountId::from(alice),
+			);
 			<span class="comment">// check Balances before
 			</span><span class="macro">assert_eq!</span>(&lt;pallet_balances::Pallet&lt;Runtime&gt;&gt;::free_balance(<span class="kw-2">&amp;</span>target_account), <span class="number">0</span>.into());
 			<span class="macro">assert_eq!</span>(
@@ -1473,6 +1521,8 @@
 					dest_beneficiary,
 					(native_asset_id, native_asset_to_teleport_away.into()),
 					<span class="prelude-val">None</span>,
+					included_head.clone(),
+					<span class="kw-2">&amp;</span>alice,
 				));
 				<span class="comment">// check balances
 				</span><span class="macro">assert_eq!</span>(
@@ -1518,6 +1568,8 @@
 					dest_beneficiary,
 					(native_asset_id, native_asset_to_teleport_away.into()),
 					<span class="prelude-val">Some</span>((runtime_para_id, other_para_id)),
+					included_head,
+					<span class="kw-2">&amp;</span>alice,
 				));
 
 				<span class="comment">// check balances
@@ -1547,6 +1599,7 @@
 </span><span class="macro">macro_rules! </span>include_teleports_for_native_asset_works(
 	(
 		<span class="macro-nonterminal">$runtime</span>:path,
+		<span class="macro-nonterminal">$all_pallets_without_system</span>:path,
 		<span class="macro-nonterminal">$xcm_config</span>:path,
 		<span class="macro-nonterminal">$checking_account</span>:path,
 		<span class="macro-nonterminal">$weight_to_fee</span>:path,
@@ -1564,6 +1617,7 @@
 
 			<span class="macro-nonterminal">$crate::test_cases::teleports_for_native_asset_works</span>::&lt;
 				<span class="macro-nonterminal">$runtime</span>,
+				<span class="macro-nonterminal">$all_pallets_without_system</span>,
 				<span class="macro-nonterminal">$xcm_config</span>,
 				<span class="macro-nonterminal">$checking_account</span>,
 				<span class="macro-nonterminal">$weight_to_fee</span>,
@@ -1584,6 +1638,7 @@
 /// chain
 </span><span class="kw">pub fn </span>teleports_for_foreign_assets_works&lt;
 	Runtime,
+	AllPalletsWithoutSystem,
 	XcmConfig,
 	CheckingAccount,
 	WeightToFee,
@@ -1609,6 +1664,8 @@
 		+ cumulus_pallet_parachain_system::Config
 		+ cumulus_pallet_xcmp_queue::Config
 		+ pallet_assets::Config&lt;ForeignAssetsPalletInstance&gt;,
+	AllPalletsWithoutSystem:
+		OnInitialize&lt;BlockNumberFor&lt;Runtime&gt;&gt; + OnFinalize&lt;BlockNumberFor&lt;Runtime&gt;&gt;,
 	AccountIdOf&lt;Runtime&gt;: Into&lt;[u8; <span class="number">32</span>]&gt;,
 	ValidatorIdOf&lt;Runtime&gt;: From&lt;AccountIdOf&lt;Runtime&gt;&gt;,
 	BalanceOf&lt;Runtime&gt;: From&lt;Balance&gt;,
@@ -1670,6 +1727,13 @@
 		.with_tracing()
 		.build()
 		.execute_with(|| {
+			<span class="kw">let </span><span class="kw-2">mut </span>alice = [<span class="number">0u8</span>; <span class="number">32</span>];
+			alice[<span class="number">0</span>] = <span class="number">1</span>;
+
+			<span class="kw">let </span>included_head = RuntimeHelper::&lt;Runtime, AllPalletsWithoutSystem&gt;::run_to_block(
+				<span class="number">2</span>,
+				AccountId::from(alice),
+			);
 			<span class="comment">// checks target_account before
 			</span><span class="macro">assert_eq!</span>(
 				&lt;pallet_balances::Pallet&lt;Runtime&gt;&gt;::free_balance(<span class="kw-2">&amp;</span>target_account),
@@ -1821,6 +1885,8 @@
 					dest_beneficiary,
 					(foreign_asset_id_multilocation, asset_to_teleport_away),
 					<span class="prelude-val">Some</span>((runtime_para_id, foreign_para_id)),
+					included_head,
+					<span class="kw-2">&amp;</span>alice,
 				));
 
 				<span class="comment">// check balances
@@ -1865,6 +1931,7 @@
 </span><span class="macro">macro_rules! </span>include_teleports_for_foreign_assets_works(
 	(
 		<span class="macro-nonterminal">$runtime</span>:path,
+		<span class="macro-nonterminal">$all_pallets_without_system</span>:path,
 		<span class="macro-nonterminal">$xcm_config</span>:path,
 		<span class="macro-nonterminal">$checking_account</span>:path,
 		<span class="macro-nonterminal">$weight_to_fee</span>:path,
@@ -1885,6 +1952,7 @@
 
 			<span class="macro-nonterminal">$crate::test_cases::teleports_for_foreign_assets_works</span>::&lt;
 				<span class="macro-nonterminal">$runtime</span>,
+				<span class="macro-nonterminal">$all_pallets_without_system</span>,
 				<span class="macro-nonterminal">$xcm_config</span>,
 				<span class="macro-nonterminal">$checking_account</span>,
 				<span class="macro-nonterminal">$weight_to_fee</span>,

@@ -223,6 +223,9 @@
 <a href="#223" id="223">223</a>
 <a href="#224" id="224">224</a>
 <a href="#225" id="225">225</a>
+<a href="#226" id="226">226</a>
+<a href="#227" id="227">227</a>
+<a href="#228" id="228">228</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -301,6 +304,7 @@
 }
 
 <span class="doccomment">/// Parameters of [`AuraConsensus::build`].
+</span><span class="attr">#[deprecated = <span class="string">&quot;Use the `aura::collators::basic` collator instead&quot;</span>]
 </span><span class="kw">pub struct </span>BuildAuraConsensusParams&lt;PF, BI, CIDP, Client, BS, SO&gt; {
 	<span class="kw">pub </span>proposer_factory: PF,
 	<span class="kw">pub </span>create_inherent_data_providers: CIDP,
@@ -323,6 +327,8 @@
 	CIDP::InherentDataProviders: InherentDataProviderExt,
 {
 	<span class="doccomment">/// Create a new boxed instance of AURA consensus.
+	</span><span class="attr">#[allow(deprecated)]
+	#[deprecated = <span class="string">&quot;Use the `aura::collators::basic` collator instead&quot;</span>]
 	</span><span class="kw">pub fn </span>build&lt;P, Client, BI, SO, PF, BS, Error&gt;(
 		BuildAuraConsensusParams {
 			proposer_factory,

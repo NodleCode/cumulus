@@ -89,6 +89,9 @@
 <a href="#89" id="89">89</a>
 <a href="#90" id="90">90</a>
 <a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a>
+<a href="#93" id="93">93</a>
+<a href="#94" id="94">94</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -107,9 +110,12 @@
 
 </span><span class="doccomment">//! Module contains predefined test-case scenarios for `Runtime` with common functionality.
 
-</span><span class="kw">use crate</span>::{AccountIdOf, CollatorSessionKeys, ExtBuilder, RuntimeHelper, ValidatorIdOf};
+</span><span class="kw">use crate</span>::{AccountIdOf, CollatorSessionKeys, ExtBuilder, ValidatorIdOf};
 <span class="kw">use </span>codec::Encode;
 <span class="kw">use </span>frame_support::{assert_ok, traits::Get};
+
+<span class="kw">type </span>RuntimeHelper&lt;Runtime, AllPalletsWithoutSystem = ()&gt; =
+	<span class="kw">crate</span>::RuntimeHelper&lt;Runtime, AllPalletsWithoutSystem&gt;;
 
 <span class="doccomment">/// Test-case makes sure that `Runtime` can change storage constant via governance-like call
 </span><span class="kw">pub fn </span>change_storage_constant_by_governance_works&lt;Runtime, StorageConstant, StorageConstantType&gt;(

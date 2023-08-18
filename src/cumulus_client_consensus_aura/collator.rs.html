@@ -360,6 +360,24 @@
 <a href="#360" id="360">360</a>
 <a href="#361" id="361">361</a>
 <a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -417,7 +435,7 @@
 };
 <span class="kw">use </span>sp_state_machine::StorageChanges;
 <span class="kw">use </span>sp_timestamp::Timestamp;
-<span class="kw">use </span>std::{convert::TryFrom, error::Error, sync::Arc, time::Duration};
+<span class="kw">use </span>std::{convert::TryFrom, error::Error, time::Duration};
 
 <span class="doccomment">/// Parameters for instantiating a [`Collator`].
 </span><span class="kw">pub struct </span>Params&lt;BI, CIDP, RClient, Proposer, CS&gt; {
@@ -426,7 +444,7 @@
 	<span class="doccomment">/// The block import handle.
 	</span><span class="kw">pub </span>block_import: BI,
 	<span class="doccomment">/// An interface to the relay-chain client.
-	</span><span class="kw">pub </span>relay_client: Arc&lt;RClient&gt;,
+	</span><span class="kw">pub </span>relay_client: RClient,
 	<span class="doccomment">/// The keystore handle used for accessing parachain key material.
 	</span><span class="kw">pub </span>keystore: KeystorePtr,
 	<span class="doccomment">/// The identifier of the parachain within the relay-chain.
@@ -443,12 +461,12 @@
 </span><span class="kw">pub struct </span>Collator&lt;Block, P, BI, CIDP, RClient, Proposer, CS&gt; {
 	create_inherent_data_providers: CIDP,
 	block_import: BI,
-	relay_client: Arc&lt;RClient&gt;,
+	relay_client: RClient,
 	keystore: KeystorePtr,
 	para_id: ParaId,
 	proposer: Proposer,
 	collator_service: CS,
-	_marker: std::marker::PhantomData&lt;(Block, P)&gt;,
+	_marker: std::marker::PhantomData&lt;(Block, Box&lt;<span class="kw">dyn </span>Fn(P) + Send + Sync + <span class="lifetime">&#39;static</span>&gt;)&gt;,
 }
 
 <span class="kw">impl</span>&lt;Block, P, BI, CIDP, RClient, Proposer, CS&gt; Collator&lt;Block, P, BI, CIDP, RClient, Proposer, CS&gt;
@@ -485,7 +503,7 @@
 		validation_data: <span class="kw-2">&amp;</span>PersistedValidationData,
 		parent_hash: Block::Hash,
 		timestamp: <span class="kw">impl </span>Into&lt;<span class="prelude-ty">Option</span>&lt;Timestamp&gt;&gt;,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;(ParachainInherentData, InherentData), Box&lt;<span class="kw">dyn </span>Error&gt;&gt; {
+	) -&gt; <span class="prelude-ty">Result</span>&lt;(ParachainInherentData, InherentData), Box&lt;<span class="kw">dyn </span>Error + Send + Sync + <span class="lifetime">&#39;static</span>&gt;&gt; {
 		<span class="kw">let </span>paras_inherent_data = ParachainInherentData::create_at(
 			relay_parent,
 			<span class="kw-2">&amp;</span><span class="self">self</span>.relay_client,
@@ -505,7 +523,7 @@
 		<span class="kw">let </span><span class="kw-2">mut </span>other_inherent_data = <span class="self">self
 			</span>.create_inherent_data_providers
 			.create_inherent_data_providers(parent_hash, ())
-			.map_err(|e| e <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>Error&gt;)
+			.map_err(|e| e <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>Error + Send + Sync + <span class="lifetime">&#39;static</span>&gt;)
 			.<span class="kw">await</span><span class="question-mark">?
 			</span>.create_inherent_data()
 			.<span class="kw">await
@@ -534,7 +552,8 @@
 		inherent_data: (ParachainInherentData, InherentData),
 		proposal_duration: Duration,
 		max_pov_size: usize,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;(Collation, ParachainBlockData&lt;Block&gt;, Block::Hash), Box&lt;<span class="kw">dyn </span>Error&gt;&gt; {
+	) -&gt; <span class="prelude-ty">Result</span>&lt;(Collation, ParachainBlockData&lt;Block&gt;, Block::Hash), Box&lt;<span class="kw">dyn </span>Error + Send + <span class="lifetime">&#39;static</span>&gt;&gt;
+	{
 		<span class="kw">let </span><span class="kw-2">mut </span>digest = additional_pre_digest.into().unwrap_or_default();
 		digest.push(slot_claim.pre_digest.clone());
 
@@ -549,14 +568,15 @@
 				<span class="prelude-val">Some</span>(max_pov_size),
 			)
 			.<span class="kw">await
-			</span>.map_err(|e| Box::new(e))<span class="question-mark">?</span>;
+			</span>.map_err(|e| Box::new(e) <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>Error + Send&gt;)<span class="question-mark">?</span>;
 
 		<span class="kw">let </span>sealed_importable = seal::&lt;<span class="kw">_</span>, P&gt;(
 			proposal.block,
 			proposal.storage_changes,
 			<span class="kw-2">&amp;</span>slot_claim.author_pub,
 			<span class="kw-2">&amp;</span><span class="self">self</span>.keystore,
-		)<span class="question-mark">?</span>;
+		)
+		.map_err(|e| e <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>Error + Send&gt;)<span class="question-mark">?</span>;
 
 		<span class="kw">let </span>post_hash = sealed_importable.post_hash();
 		<span class="kw">let </span>block = Block::new(
@@ -568,7 +588,10 @@
 				.clone(),
 		);
 
-		<span class="self">self</span>.block_import.import_block(sealed_importable).<span class="kw">await</span><span class="question-mark">?</span>;
+		<span class="self">self</span>.block_import
+			.import_block(sealed_importable)
+			.map_err(|e| Box::new(e) <span class="kw">as </span>Box&lt;<span class="kw">dyn </span>Error + Send&gt;)
+			.<span class="kw">await</span><span class="question-mark">?</span>;
 
 		<span class="kw">if let </span><span class="prelude-val">Some</span>((collation, block_data)) = <span class="self">self</span>.collator_service.build_collation(
 			parent_header,
@@ -593,7 +616,8 @@
 
 			<span class="prelude-val">Ok</span>((collation, block_data, post_hash))
 		} <span class="kw">else </span>{
-			<span class="prelude-val">Err</span>(<span class="string">&quot;Unable to produce collation&quot;</span>.to_string().into())
+			<span class="prelude-val">Err</span>(Box::&lt;<span class="kw">dyn </span>Error + Send + Sync&gt;::from(<span class="string">&quot;Unable to produce collation&quot;</span>)
+				<span class="kw">as </span>Box&lt;<span class="kw">dyn </span>Error + Send&gt;)
 		}
 	}
 
@@ -647,7 +671,7 @@
 	parent_hash: B::Hash,
 	relay_parent_header: <span class="kw-2">&amp;</span>PHeader,
 	slot_duration: SlotDuration,
-	relay_chain_slot_duration: SlotDuration,
+	relay_chain_slot_duration: Duration,
 	keystore: <span class="kw-2">&amp;</span>KeystorePtr,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;SlotClaim&lt;P::Public&gt;&gt;, Box&lt;<span class="kw">dyn </span>Error&gt;&gt;
 <span class="kw">where
@@ -666,7 +690,19 @@
 		relay_parent_header,
 		relay_chain_slot_duration,
 	) {
-		<span class="prelude-val">Some</span>((<span class="kw">_</span>, t)) =&gt; (Slot::from_timestamp(t, slot_duration), t),
+		<span class="prelude-val">Some</span>((r_s, t)) =&gt; {
+			<span class="kw">let </span>our_slot = Slot::from_timestamp(t, slot_duration);
+			<span class="macro">tracing::debug!</span>(
+				target: <span class="kw">crate</span>::LOG_TARGET,
+				relay_slot = <span class="question-mark">?</span>r_s,
+				para_slot = <span class="question-mark">?</span>our_slot,
+				timestamp = <span class="question-mark">?</span>t,
+				<span class="question-mark">?</span>slot_duration,
+				<span class="question-mark">?</span>relay_chain_slot_duration,
+				<span class="string">&quot;Adjusted relay-chain slot to parachain slot&quot;
+			</span>);
+			(our_slot, t)
+		},
 		<span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
 	};
 
@@ -688,7 +724,7 @@
 	storage_changes: StorageChanges&lt;HashingFor&lt;B&gt;&gt;,
 	author_pub: <span class="kw-2">&amp;</span>P::Public,
 	keystore: <span class="kw-2">&amp;</span>KeystorePtr,
-) -&gt; <span class="prelude-ty">Result</span>&lt;BlockImportParams&lt;B&gt;, Box&lt;<span class="kw">dyn </span>Error&gt;&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;BlockImportParams&lt;B&gt;, Box&lt;<span class="kw">dyn </span>Error + Send + Sync + <span class="lifetime">&#39;static</span>&gt;&gt;
 <span class="kw">where
 	</span>P: Pair,
 	P::Signature: Codec + TryFrom&lt;Vec&lt;u8&gt;&gt;,

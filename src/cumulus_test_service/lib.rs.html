@@ -900,6 +900,9 @@
 <a href="#900" id="900">900</a>
 <a href="#901" id="901">901</a>
 <a href="#902" id="902">902</a>
+<a href="#903" id="903">903</a>
+<a href="#904" id="904">904</a>
+<a href="#905" id="905">905</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -941,9 +944,11 @@
 	ParachainBlockImport <span class="kw">as </span>TParachainBlockImport, ParachainCandidate, ParachainConsensus,
 };
 <span class="kw">use </span>cumulus_client_pov_recovery::RecoveryHandle;
+<span class="attr">#[allow(deprecated)]
+</span><span class="kw">use </span>cumulus_client_service::old_consensus;
 <span class="kw">use </span>cumulus_client_service::{
-	build_network, prepare_node_config, start_collator, start_full_node, BuildNetworkParams,
-	StartCollatorParams, StartFullNodeParams,
+	build_network, prepare_node_config, start_relay_chain_tasks, BuildNetworkParams,
+	CollatorSybilResistance, DARecoveryProfile, StartRelayChainTasksParams,
 };
 <span class="kw">use </span>cumulus_primitives_core::ParaId;
 <span class="kw">use </span>cumulus_relay_chain_inprocess_interface::RelayChainInProcessInterface;
@@ -1240,7 +1245,8 @@
 			spawn_handle: task_manager.spawn_handle(),
 			relay_chain_interface: relay_chain_interface.clone(),
 			import_queue: params.import_queue,
-		})
+			sybil_resistance_level: CollatorSybilResistance::Unresistant, <span class="comment">// no consensus
+		</span>})
 		.<span class="kw">await</span><span class="question-mark">?</span>;
 
 	<span class="kw">let </span>prometheus_registry = parachain_config.prometheus_registry().cloned();
@@ -1281,10 +1287,29 @@
 		.map_err(|e| sc_service::Error::Application(Box::new(e)))<span class="question-mark">?</span>;
 
 	<span class="kw">let </span>recovery_handle: Box&lt;<span class="kw">dyn </span>RecoveryHandle&gt; = <span class="kw">if </span>fail_pov_recovery {
-		Box::new(FailingRecoveryHandle::new(overseer_handle))
+		Box::new(FailingRecoveryHandle::new(overseer_handle.clone()))
 	} <span class="kw">else </span>{
-		Box::new(overseer_handle)
+		Box::new(overseer_handle.clone())
 	};
+	<span class="kw">let </span>is_collator = collator_key.is_some();
+	<span class="kw">let </span>relay_chain_slot_duration = Duration::from_secs(<span class="number">6</span>);
+
+	start_relay_chain_tasks(StartRelayChainTasksParams {
+		client: client.clone(),
+		announce_block: announce_block.clone(),
+		para_id,
+		relay_chain_interface: relay_chain_interface.clone(),
+		task_manager: <span class="kw-2">&amp;mut </span>task_manager,
+		da_recovery_profile: <span class="kw">if </span>is_collator {
+			DARecoveryProfile::Collator
+		} <span class="kw">else </span>{
+			DARecoveryProfile::FullNode
+		},
+		import_queue: import_queue_service,
+		relay_chain_slot_duration,
+		recovery_handle,
+		sync_service: sync_service.clone(),
+	})<span class="question-mark">?</span>;
 
 	<span class="kw">if let </span><span class="prelude-val">Some</span>(collator_key) = collator_key {
 		<span class="kw">let </span>parachain_consensus: Box&lt;<span class="kw">dyn </span>ParachainConsensus&lt;Block&gt;&gt; = <span class="kw">match </span>consensus {
@@ -1328,37 +1353,18 @@
 			Consensus::Null =&gt; Box::new(NullConsensus),
 		};
 
-		<span class="kw">let </span>params = StartCollatorParams {
+		<span class="attr">#[allow(deprecated)]
+		</span>old_consensus::start_collator(old_consensus::StartCollatorParams {
 			block_status: client.clone(),
 			announce_block,
-			client: client.clone(),
+			runtime_api: client.clone(),
 			spawner: task_manager.spawn_handle(),
-			task_manager: <span class="kw-2">&amp;mut </span>task_manager,
 			para_id,
 			parachain_consensus,
-			relay_chain_interface,
-			collator_key,
-			import_queue: import_queue_service,
-			relay_chain_slot_duration: Duration::from_secs(<span class="number">6</span>),
-			recovery_handle,
-			sync_service,
-		};
-
-		start_collator(params).<span class="kw">await</span><span class="question-mark">?</span>;
-	} <span class="kw">else </span>{
-		<span class="kw">let </span>params = StartFullNodeParams {
-			client: client.clone(),
-			announce_block,
-			task_manager: <span class="kw-2">&amp;mut </span>task_manager,
-			para_id,
-			relay_chain_interface,
-			import_queue: import_queue_service,
-			relay_chain_slot_duration: Duration::from_secs(<span class="number">6</span>),
-			recovery_handle,
-			sync_service,
-		};
-
-		start_full_node(params)<span class="question-mark">?</span>;
+			key: collator_key,
+			overseer_handle,
+		})
+		.<span class="kw">await</span>;
 	}
 
 	start_network.start_network();

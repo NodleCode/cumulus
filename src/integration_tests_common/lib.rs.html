@@ -568,6 +568,41 @@
 <a href="#568" id="568">568</a>
 <a href="#569" id="569">569</a>
 <a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
 </pre></div><pre class="rust"><code><span class="kw">pub use </span>lazy_static;
 <span class="kw">pub mod </span>constants;
 <span class="kw">pub mod </span>impls;
@@ -580,7 +615,10 @@
 	PROOF_SIZE_THRESHOLD, REF_TIME_THRESHOLD,
 };
 <span class="kw">use </span>frame_support::{
-	assert_ok, instances::Instance1, parameter_types, sp_tracing, traits::fungibles::Inspect,
+	assert_ok,
+	instances::Instance1,
+	parameter_types, sp_tracing,
+	traits::{fungibles::Inspect, Hooks},
 };
 <span class="kw">pub use </span>impls::{RococoWococoMessageHandler, WococoRococoMessageHandler};
 <span class="kw">pub use </span>parachains_common::{AccountId, Balance};
@@ -687,7 +725,9 @@
 	<span class="comment">// Polkadot Parachains
 	</span><span class="kw">pub struct </span>AssetHubPolkadot {
 		genesis = asset_hub_polkadot::genesis(),
-		on_init = (),
+		on_init = {
+			asset_hub_polkadot_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = asset_hub_polkadot_runtime,
 		core = {
 			XcmpMessageHandler: asset_hub_polkadot_runtime::XcmpQueue,
@@ -703,7 +743,9 @@
 	},
 	<span class="kw">pub struct </span>Collectives {
 		genesis = collectives::genesis(),
-		on_init = (),
+		on_init = {
+			collectives_polkadot_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = collectives_polkadot_runtime,
 		core = {
 			XcmpMessageHandler: collectives_polkadot_runtime::XcmpQueue,
@@ -718,7 +760,9 @@
 	},
 	<span class="kw">pub struct </span>BridgeHubPolkadot {
 		genesis = bridge_hub_polkadot::genesis(),
-		on_init = (),
+		on_init = {
+			bridge_hub_polkadot_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = bridge_hub_polkadot_runtime,
 		core = {
 			XcmpMessageHandler: bridge_hub_polkadot_runtime::XcmpQueue,
@@ -732,7 +776,9 @@
 	},
 	<span class="kw">pub struct </span>PenpalPolkadotA {
 		genesis = penpal::genesis(penpal::PARA_ID_A),
-		on_init = (),
+		on_init = {
+			penpal_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = penpal_runtime,
 		core = {
 			XcmpMessageHandler: penpal_runtime::XcmpQueue,
@@ -747,7 +793,9 @@
 	},
 	<span class="kw">pub struct </span>PenpalPolkadotB {
 		genesis = penpal::genesis(penpal::PARA_ID_B),
-		on_init = (),
+		on_init = {
+			penpal_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = penpal_runtime,
 		core = {
 			XcmpMessageHandler: penpal_runtime::XcmpQueue,
@@ -763,7 +811,9 @@
 	<span class="comment">// Kusama Parachains
 	</span><span class="kw">pub struct </span>AssetHubKusama {
 		genesis = asset_hub_kusama::genesis(),
-		on_init = (),
+		on_init = {
+			asset_hub_kusama_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = asset_hub_kusama_runtime,
 		core = {
 			XcmpMessageHandler: asset_hub_kusama_runtime::XcmpQueue,
@@ -780,7 +830,9 @@
 	},
 	<span class="kw">pub struct </span>BridgeHubKusama {
 		genesis = bridge_hub_kusama::genesis(),
-		on_init = (),
+		on_init = {
+			bridge_hub_kusama_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = bridge_hub_kusama_runtime,
 		core = {
 			XcmpMessageHandler: bridge_hub_kusama_runtime::XcmpQueue,
@@ -794,7 +846,9 @@
 	},
 	<span class="kw">pub struct </span>PenpalKusamaA {
 		genesis = penpal::genesis(penpal::PARA_ID_A),
-		on_init = (),
+		on_init = {
+			penpal_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = penpal_runtime,
 		core = {
 			XcmpMessageHandler: penpal_runtime::XcmpQueue,
@@ -809,7 +863,9 @@
 	},
 	<span class="kw">pub struct </span>PenpalKusamaB {
 		genesis = penpal::genesis(penpal::PARA_ID_B),
-		on_init = (),
+		on_init = {
+			penpal_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = penpal_runtime,
 		core = {
 			XcmpMessageHandler: penpal_runtime::XcmpQueue,
@@ -825,7 +881,9 @@
 	<span class="comment">// Westend Parachains
 	</span><span class="kw">pub struct </span>AssetHubWestend {
 		genesis = asset_hub_westend::genesis(),
-		on_init = (),
+		on_init = {
+			asset_hub_westend_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = asset_hub_westend_runtime,
 		core = {
 			XcmpMessageHandler: asset_hub_westend_runtime::XcmpQueue,
@@ -844,7 +902,9 @@
 	},
 	<span class="kw">pub struct </span>PenpalWestendA {
 		genesis = penpal::genesis(penpal::PARA_ID_A),
-		on_init = (),
+		on_init = {
+			penpal_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = penpal_runtime,
 		core = {
 			XcmpMessageHandler: penpal_runtime::XcmpQueue,
@@ -860,7 +920,9 @@
 	<span class="comment">// Rococo Parachains
 	</span><span class="kw">pub struct </span>BridgeHubRococo {
 		genesis = bridge_hub_rococo::genesis(),
-		on_init = (),
+		on_init = {
+			bridge_hub_rococo_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = bridge_hub_rococo_runtime,
 		core = {
 			XcmpMessageHandler: bridge_hub_rococo_runtime::XcmpQueue,
@@ -876,7 +938,9 @@
 	<span class="comment">// AssetHubRococo (aka Rockmine/Rockmine2) mirrors AssetHubKusama
 	</span><span class="kw">pub struct </span>AssetHubRococo {
 		genesis = asset_hub_kusama::genesis(),
-		on_init = (),
+		on_init = {
+			asset_hub_polkadot_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = asset_hub_kusama_runtime,
 		core = {
 			XcmpMessageHandler: asset_hub_kusama_runtime::XcmpQueue,
@@ -892,7 +956,9 @@
 	<span class="comment">// Wococo Parachains
 	</span><span class="kw">pub struct </span>BridgeHubWococo {
 		genesis = bridge_hub_rococo::genesis(),
-		on_init = (),
+		on_init = {
+			bridge_hub_rococo_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = bridge_hub_rococo_runtime,
 		core = {
 			XcmpMessageHandler: bridge_hub_rococo_runtime::XcmpQueue,
@@ -906,7 +972,9 @@
 	},
 	<span class="kw">pub struct </span>AssetHubWococo {
 		genesis = asset_hub_polkadot::genesis(),
-		on_init = (),
+		on_init = {
+			asset_hub_polkadot_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = asset_hub_polkadot_runtime,
 		core = {
 			XcmpMessageHandler: asset_hub_polkadot_runtime::XcmpQueue,
@@ -921,7 +989,9 @@
 	},
 	<span class="kw">pub struct </span>PenpalRococoA {
 		genesis = penpal::genesis(penpal::PARA_ID_A),
-		on_init = (),
+		on_init = {
+			penpal_runtime::AuraExt::on_initialize(<span class="number">1</span>);
+		},
 		runtime = penpal_runtime,
 		core = {
 			XcmpMessageHandler: penpal_runtime::XcmpQueue,

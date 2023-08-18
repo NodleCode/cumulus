@@ -145,6 +145,12 @@
 <a href="#145" id="145">145</a>
 <a href="#146" id="146">146</a>
 <a href="#147" id="147">147</a>
+<a href="#148" id="148">148</a>
+<a href="#149" id="149">149</a>
+<a href="#150" id="150">150</a>
+<a href="#151" id="151">151</a>
+<a href="#152" id="152">152</a>
+<a href="#153" id="153">153</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -161,7 +167,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Cumulus.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
-</span><span class="kw">use </span>proc_macro2::{Span, TokenStream};
+</span><span class="kw">use </span>proc_macro2::Span;
 <span class="kw">use </span>proc_macro_crate::{crate_name, FoundCrate};
 <span class="kw">use </span>syn::{
 	parse::{Parse, ParseStream},
@@ -178,7 +184,7 @@
 <span class="kw">struct </span>Input {
 	runtime: Path,
 	block_executor: Path,
-	check_inherents: Path,
+	check_inherents: <span class="prelude-ty">Option</span>&lt;Path&gt;,
 }
 
 <span class="kw">impl </span>Parse <span class="kw">for </span>Input {
@@ -206,7 +212,7 @@
 			}
 		}
 
-		<span class="kw">while </span>runtime.is_none() || block_executor.is_none() || check_inherents.is_none() {
+		<span class="kw">while </span>!input.is_empty() || runtime.is_none() || block_executor.is_none() {
 			<span class="kw">let </span>lookahead = input.lookahead1();
 
 			<span class="kw">if </span>lookahead.peek(keywords::Runtime) {
@@ -220,15 +226,10 @@
 			}
 		}
 
-		<span class="kw">let </span>rest = input.parse::&lt;TokenStream&gt;()<span class="question-mark">?</span>;
-		<span class="kw">if </span>!rest.is_empty() {
-			<span class="kw">return </span><span class="prelude-val">Err</span>(Error::new(rest.span(), <span class="string">&quot;Unexpected input data&quot;</span>))
-		}
-
 		<span class="prelude-val">Ok</span>(<span class="self">Self </span>{
 			runtime: runtime.expect(<span class="string">&quot;Everything is parsed before; qed&quot;</span>),
 			block_executor: block_executor.expect(<span class="string">&quot;Everything is parsed before; qed&quot;</span>),
-			check_inherents: check_inherents.expect(<span class="string">&quot;Everything is parsed before; qed&quot;</span>),
+			check_inherents,
 		})
 	}
 }
@@ -244,7 +245,7 @@
 
 <span class="attr">#[proc_macro]
 </span><span class="kw">pub fn </span>register_validate_block(input: proc_macro::TokenStream) -&gt; proc_macro::TokenStream {
-	<span class="kw">let </span>Input { runtime, check_inherents, block_executor } = <span class="kw">match </span>syn::parse(input) {
+	<span class="kw">let </span>Input { runtime, block_executor, check_inherents } = <span class="kw">match </span>syn::parse(input) {
 		<span class="prelude-val">Ok</span>(t) =&gt; t,
 		<span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span>e.into_compile_error().into(),
 	};
@@ -252,6 +253,17 @@
 	<span class="kw">let </span>crate_ = <span class="kw">match </span>crate_() {
 		<span class="prelude-val">Ok</span>(c) =&gt; c,
 		<span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span>e.into_compile_error().into(),
+	};
+
+	<span class="kw">let </span>check_inherents = <span class="kw">match </span>check_inherents {
+		<span class="prelude-val">Some</span>(_check_inherents) =&gt; {
+			<span class="macro">quote::quote! </span>{ #_check_inherents }
+		},
+		<span class="prelude-val">None </span>=&gt; {
+			<span class="macro">quote::quote! </span>{
+				#crate_::DummyCheckInherents&lt;&lt;#runtime <span class="kw">as </span>#crate_::validate_block::GetRuntimeBlockType&gt;::RuntimeBlock&gt;
+			}
+		},
 	};
 
 	<span class="kw">if </span><span class="macro">cfg!</span>(not(feature = <span class="string">&quot;std&quot;</span>)) {

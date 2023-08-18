@@ -197,6 +197,24 @@
 <a href="#197" id="197">197</a>
 <a href="#198" id="198">198</a>
 <a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
+<a href="#203" id="203">203</a>
+<a href="#204" id="204">204</a>
+<a href="#205" id="205">205</a>
+<a href="#206" id="206">206</a>
+<a href="#207" id="207">207</a>
+<a href="#208" id="208">208</a>
+<a href="#209" id="209">209</a>
+<a href="#210" id="210">210</a>
+<a href="#211" id="211">211</a>
+<a href="#212" id="212">212</a>
+<a href="#213" id="213">213</a>
+<a href="#214" id="214">214</a>
+<a href="#215" id="215">215</a>
+<a href="#216" id="216">216</a>
+<a href="#217" id="217">217</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -250,26 +268,44 @@
 
 <span class="doccomment">/// Parameters for [`run`].
 </span><span class="kw">pub struct </span>Params&lt;BI, CIDP, Client, RClient, SO, Proposer, CS&gt; {
-	<span class="kw">pub </span>create_inherent_data_providers: CIDP,
-	<span class="kw">pub </span>block_import: BI,
-	<span class="kw">pub </span>para_client: Arc&lt;Client&gt;,
-	<span class="kw">pub </span>relay_client: Arc&lt;RClient&gt;,
-	<span class="kw">pub </span>sync_oracle: SO,
-	<span class="kw">pub </span>keystore: KeystorePtr,
-	<span class="kw">pub </span>key: CollatorPair,
-	<span class="kw">pub </span>para_id: ParaId,
-	<span class="kw">pub </span>overseer_handle: OverseerHandle,
-	<span class="kw">pub </span>slot_duration: SlotDuration,
-	<span class="kw">pub </span>relay_chain_slot_duration: SlotDuration,
-	<span class="kw">pub </span>proposer: Proposer,
-	<span class="kw">pub </span>collator_service: CS,
+	<span class="doccomment">/// Inherent data providers. Only non-consensus inherent data should be provided, i.e.
+	/// the timestamp, slot, and paras inherents should be omitted, as they are set by this
+	/// collator.
+	</span><span class="kw">pub </span>create_inherent_data_providers: CIDP,
+	<span class="doccomment">/// Used to actually import blocks.
+	</span><span class="kw">pub </span>block_import: BI,
+	<span class="doccomment">/// The underlying para client.
+	</span><span class="kw">pub </span>para_client: Arc&lt;Client&gt;,
+	<span class="doccomment">/// A handle to the relay-chain client.
+	</span><span class="kw">pub </span>relay_client: RClient,
+	<span class="doccomment">/// A chain synchronization oracle.
+	</span><span class="kw">pub </span>sync_oracle: SO,
+	<span class="doccomment">/// The underlying keystore, which should contain Aura consensus keys.
+	</span><span class="kw">pub </span>keystore: KeystorePtr,
+	<span class="doccomment">/// The collator key used to sign collations before submitting to validators.
+	</span><span class="kw">pub </span>collator_key: CollatorPair,
+	<span class="doccomment">/// The para&#39;s ID.
+	</span><span class="kw">pub </span>para_id: ParaId,
+	<span class="doccomment">/// A handle to the relay-chain client&#39;s &quot;Overseer&quot; or task orchestrator.
+	</span><span class="kw">pub </span>overseer_handle: OverseerHandle,
+	<span class="doccomment">/// The length of slots in this chain.
+	</span><span class="kw">pub </span>slot_duration: SlotDuration,
+	<span class="doccomment">/// The length of slots in the relay chain.
+	</span><span class="kw">pub </span>relay_chain_slot_duration: Duration,
+	<span class="doccomment">/// The underlying block proposer this should call into.
+	</span><span class="kw">pub </span>proposer: Proposer,
+	<span class="doccomment">/// The generic collator service used to plug into this consensus engine.
+	</span><span class="kw">pub </span>collator_service: CS,
+	<span class="doccomment">/// The amount of time to spend authoring each block.
+	</span><span class="kw">pub </span>authoring_duration: Duration,
 }
 
 <span class="doccomment">/// Run bare Aura consensus as a relay-chain-driven collator.
-</span><span class="kw">pub async fn </span>run&lt;Block, P, BI, CIDP, Client, RClient, SO, Proposer, CS&gt;(
+</span><span class="kw">pub fn </span>run&lt;Block, P, BI, CIDP, Client, RClient, SO, Proposer, CS&gt;(
 	params: Params&lt;BI, CIDP, Client, RClient, SO, Proposer, CS&gt;,
-) <span class="kw">where
-	</span>Block: BlockT,
+) -&gt; <span class="kw">impl </span>Future&lt;Output = ()&gt; + Send + <span class="lifetime">&#39;static
+</span><span class="kw">where
+	</span>Block: BlockT + Send,
 	Client: ProvideRuntimeApi&lt;Block&gt;
 		+ BlockOf
 		+ AuxStore
@@ -279,121 +315,121 @@
 		+ Sync
 		+ <span class="lifetime">&#39;static</span>,
 	Client::Api: AuraApi&lt;Block, P::Public&gt; + CollectCollationInfo&lt;Block&gt;,
-	RClient: RelayChainInterface,
-	CIDP: CreateInherentDataProviders&lt;Block, ()&gt; + <span class="lifetime">&#39;static</span>,
+	RClient: RelayChainInterface + Send + Clone + <span class="lifetime">&#39;static</span>,
+	CIDP: CreateInherentDataProviders&lt;Block, ()&gt; + Send + <span class="lifetime">&#39;static</span>,
+	CIDP::InherentDataProviders: Send,
 	BI: BlockImport&lt;Block&gt; + ParachainBlockImportMarker + Send + Sync + <span class="lifetime">&#39;static</span>,
 	SO: SyncOracle + Send + Sync + Clone + <span class="lifetime">&#39;static</span>,
-	Proposer: ProposerInterface&lt;Block&gt;,
-	CS: CollatorServiceInterface&lt;Block&gt;,
+	Proposer: ProposerInterface&lt;Block&gt; + Send + Sync + <span class="lifetime">&#39;static</span>,
+	CS: CollatorServiceInterface&lt;Block&gt; + Send + Sync + <span class="lifetime">&#39;static</span>,
 	P: Pair,
-	P::Public: AppPublic + Member,
+	P::Public: AppPublic + Member + Codec,
 	P::Signature: TryFrom&lt;Vec&lt;u8&gt;&gt; + Member + Codec,
 {
-	<span class="kw">let </span><span class="kw-2">mut </span>collation_requests = cumulus_client_collator::relay_chain_driven::init(
-		params.key,
-		params.para_id,
-		params.overseer_handle,
-	)
-	.<span class="kw">await</span>;
+	<span class="kw">async move </span>{
+		<span class="kw">let </span><span class="kw-2">mut </span>collation_requests = cumulus_client_collator::relay_chain_driven::init(
+			params.collator_key,
+			params.para_id,
+			params.overseer_handle,
+		)
+		.<span class="kw">await</span>;
 
-	<span class="kw">let </span><span class="kw-2">mut </span>collator = {
-		<span class="kw">let </span>params = collator_util::Params {
-			create_inherent_data_providers: params.create_inherent_data_providers,
-			block_import: params.block_import,
-			relay_client: params.relay_client.clone(),
-			keystore: params.keystore.clone(),
-			para_id: params.para_id,
-			proposer: params.proposer,
-			collator_service: params.collator_service,
-		};
-
-		collator_util::Collator::&lt;Block, P, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>&gt;::new(params)
-	};
-
-	<span class="kw">while let </span><span class="prelude-val">Some</span>(request) = collation_requests.next().<span class="kw">await </span>{
-		<span class="macro">macro_rules! </span>reject_with_error {
-			(<span class="macro-nonterminal">$err</span>:expr) =&gt; {{
-				request.complete(<span class="prelude-val">None</span>);
-				<span class="macro">tracing::error!</span>(target: <span class="kw">crate</span>::LOG_TARGET, err = <span class="question-mark">?</span>{ <span class="macro-nonterminal">$err </span>});
-				<span class="kw">continue</span>;
-			}};
-		}
-
-		<span class="macro">macro_rules! </span>try_request {
-			(<span class="macro-nonterminal">$x</span>:expr) =&gt; {{
-				<span class="kw">match </span><span class="macro-nonterminal">$x </span>{
-					<span class="prelude-val">Ok</span>(x) =&gt; x,
-					<span class="prelude-val">Err</span>(e) =&gt; <span class="macro">reject_with_error!</span>(e),
-				}
-			}};
-		}
-
-		<span class="kw">let </span>validation_data = request.persisted_validation_data();
-
-		<span class="kw">let </span>parent_header =
-			<span class="macro">try_request!</span>(Block::Header::decode(<span class="kw-2">&amp;mut &amp;</span>validation_data.parent_head.<span class="number">0</span>[..]));
-
-		<span class="kw">let </span>parent_hash = parent_header.hash();
-
-		<span class="kw">if </span>!collator.collator_service().check_block_status(parent_hash, <span class="kw-2">&amp;</span>parent_header) {
-			<span class="kw">continue
-		</span>}
-
-		<span class="kw">let </span>relay_parent_header =
-			<span class="kw">match </span>params.relay_client.header(RBlockId::hash(<span class="kw-2">*</span>request.relay_parent())).<span class="kw">await </span>{
-				<span class="prelude-val">Err</span>(e) =&gt; <span class="macro">reject_with_error!</span>(e),
-				<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="kw">continue</span>, <span class="comment">// sanity: would be inconsistent to get `None` here
-				</span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(h)) =&gt; h,
+		<span class="kw">let </span><span class="kw-2">mut </span>collator = {
+			<span class="kw">let </span>params = collator_util::Params {
+				create_inherent_data_providers: params.create_inherent_data_providers,
+				block_import: params.block_import,
+				relay_client: params.relay_client.clone(),
+				keystore: params.keystore.clone(),
+				para_id: params.para_id,
+				proposer: params.proposer,
+				collator_service: params.collator_service,
 			};
 
-		<span class="kw">let </span>claim = <span class="kw">match </span>collator_util::claim_slot::&lt;<span class="kw">_</span>, <span class="kw">_</span>, P&gt;(
-			<span class="kw-2">&amp;*</span>params.para_client,
-			parent_hash,
-			<span class="kw-2">&amp;</span>relay_parent_header,
-			params.slot_duration,
-			params.relay_chain_slot_duration,
-			<span class="kw-2">&amp;</span>params.keystore,
-		)
-		.<span class="kw">await
-		</span>{
-			<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="kw">continue</span>,
-			<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(c)) =&gt; c,
-			<span class="prelude-val">Err</span>(e) =&gt; <span class="macro">reject_with_error!</span>(e),
+			collator_util::Collator::&lt;Block, P, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>&gt;::new(params)
 		};
 
-		<span class="kw">let </span>(parachain_inherent_data, other_inherent_data) = <span class="macro">try_request!</span>(
-			collator
-				.create_inherent_data(
-					<span class="kw-2">*</span>request.relay_parent(),
-					<span class="kw-2">&amp;</span>validation_data,
-					parent_hash,
-					claim.timestamp(),
-				)
-				.<span class="kw">await
-		</span>);
+		<span class="kw">while let </span><span class="prelude-val">Some</span>(request) = collation_requests.next().<span class="kw">await </span>{
+			<span class="macro">macro_rules! </span>reject_with_error {
+				(<span class="macro-nonterminal">$err</span>:expr) =&gt; {{
+					request.complete(<span class="prelude-val">None</span>);
+					<span class="macro">tracing::error!</span>(target: <span class="kw">crate</span>::LOG_TARGET, err = <span class="question-mark">?</span>{ <span class="macro-nonterminal">$err </span>});
+					<span class="kw">continue</span>;
+				}};
+			}
 
-		<span class="kw">let </span>(collation, <span class="kw">_</span>, post_hash) = <span class="macro">try_request!</span>(
-			collator
-				.collate(
-					<span class="kw-2">&amp;</span>parent_header,
-					<span class="kw-2">&amp;</span>claim,
-					<span class="prelude-val">None</span>,
-					(parachain_inherent_data, other_inherent_data),
-					<span class="comment">// TODO [https://github.com/paritytech/cumulus/issues/2439]
-					// We should call out to a pluggable interface that provides
-					// the proposal duration.
-					</span>Duration::from_millis(<span class="number">500</span>),
-					<span class="comment">// Set the block limit to 50% of the maximum PoV size.
-					//
-					// TODO: If we got benchmarking that includes the proof size,
-					// we should be able to use the maximum pov size.
-					</span>(validation_data.max_pov_size / <span class="number">2</span>) <span class="kw">as </span>usize,
-				)
-				.<span class="kw">await
-		</span>);
+			<span class="macro">macro_rules! </span>try_request {
+				(<span class="macro-nonterminal">$x</span>:expr) =&gt; {{
+					<span class="kw">match </span><span class="macro-nonterminal">$x </span>{
+						<span class="prelude-val">Ok</span>(x) =&gt; x,
+						<span class="prelude-val">Err</span>(e) =&gt; <span class="macro">reject_with_error!</span>(e),
+					}
+				}};
+			}
 
-		<span class="kw">let </span>result_sender = <span class="prelude-val">Some</span>(collator.collator_service().announce_with_barrier(post_hash));
-		request.complete(<span class="prelude-val">Some</span>(CollationResult { collation, result_sender }));
+			<span class="kw">let </span>validation_data = request.persisted_validation_data();
+
+			<span class="kw">let </span>parent_header =
+				<span class="macro">try_request!</span>(Block::Header::decode(<span class="kw-2">&amp;mut &amp;</span>validation_data.parent_head.<span class="number">0</span>[..]));
+
+			<span class="kw">let </span>parent_hash = parent_header.hash();
+
+			<span class="kw">if </span>!collator.collator_service().check_block_status(parent_hash, <span class="kw-2">&amp;</span>parent_header) {
+				<span class="kw">continue
+			</span>}
+
+			<span class="kw">let </span>relay_parent_header =
+				<span class="kw">match </span>params.relay_client.header(RBlockId::hash(<span class="kw-2">*</span>request.relay_parent())).<span class="kw">await </span>{
+					<span class="prelude-val">Err</span>(e) =&gt; <span class="macro">reject_with_error!</span>(e),
+					<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="kw">continue</span>, <span class="comment">// sanity: would be inconsistent to get `None` here
+					</span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(h)) =&gt; h,
+				};
+
+			<span class="kw">let </span>claim = <span class="kw">match </span>collator_util::claim_slot::&lt;<span class="kw">_</span>, <span class="kw">_</span>, P&gt;(
+				<span class="kw-2">&amp;*</span>params.para_client,
+				parent_hash,
+				<span class="kw-2">&amp;</span>relay_parent_header,
+				params.slot_duration,
+				params.relay_chain_slot_duration,
+				<span class="kw-2">&amp;</span>params.keystore,
+			)
+			.<span class="kw">await
+			</span>{
+				<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="kw">continue</span>,
+				<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(c)) =&gt; c,
+				<span class="prelude-val">Err</span>(e) =&gt; <span class="macro">reject_with_error!</span>(e),
+			};
+
+			<span class="kw">let </span>(parachain_inherent_data, other_inherent_data) = <span class="macro">try_request!</span>(
+				collator
+					.create_inherent_data(
+						<span class="kw-2">*</span>request.relay_parent(),
+						<span class="kw-2">&amp;</span>validation_data,
+						parent_hash,
+						claim.timestamp(),
+					)
+					.<span class="kw">await
+			</span>);
+
+			<span class="kw">let </span>(collation, <span class="kw">_</span>, post_hash) = <span class="macro">try_request!</span>(
+				collator
+					.collate(
+						<span class="kw-2">&amp;</span>parent_header,
+						<span class="kw-2">&amp;</span>claim,
+						<span class="prelude-val">None</span>,
+						(parachain_inherent_data, other_inherent_data),
+						params.authoring_duration,
+						<span class="comment">// Set the block limit to 50% of the maximum PoV size.
+						//
+						// TODO: If we got benchmarking that includes the proof size,
+						// we should be able to use the maximum pov size.
+						</span>(validation_data.max_pov_size / <span class="number">2</span>) <span class="kw">as </span>usize,
+					)
+					.<span class="kw">await
+			</span>);
+
+			<span class="kw">let </span>result_sender = <span class="prelude-val">Some</span>(collator.collator_service().announce_with_barrier(post_hash));
+			request.complete(<span class="prelude-val">Some</span>(CollationResult { collation, result_sender }));
+		}
 	}
 }
 </code></pre></div></section></main></body></html>

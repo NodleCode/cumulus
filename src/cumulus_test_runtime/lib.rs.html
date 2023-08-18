@@ -476,31 +476,6 @@
 <a href="#476" id="476">476</a>
 <a href="#477" id="477">477</a>
 <a href="#478" id="478">478</a>
-<a href="#479" id="479">479</a>
-<a href="#480" id="480">480</a>
-<a href="#481" id="481">481</a>
-<a href="#482" id="482">482</a>
-<a href="#483" id="483">483</a>
-<a href="#484" id="484">484</a>
-<a href="#485" id="485">485</a>
-<a href="#486" id="486">486</a>
-<a href="#487" id="487">487</a>
-<a href="#488" id="488">488</a>
-<a href="#489" id="489">489</a>
-<a href="#490" id="490">490</a>
-<a href="#491" id="491">491</a>
-<a href="#492" id="492">492</a>
-<a href="#493" id="493">493</a>
-<a href="#494" id="494">494</a>
-<a href="#495" id="495">495</a>
-<a href="#496" id="496">496</a>
-<a href="#497" id="497">497</a>
-<a href="#498" id="498">498</a>
-<a href="#499" id="499">499</a>
-<a href="#500" id="500">500</a>
-<a href="#501" id="501">501</a>
-<a href="#502" id="502">502</a>
-<a href="#503" id="503">503</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -582,6 +557,9 @@
 <span class="doccomment">/// Some key that we set in genesis and only read in [`TestOnRuntimeUpgrade`] to ensure that
 /// [`OnRuntimeUpgrade`] works as expected.
 </span><span class="kw">pub const </span>TEST_RUNTIME_UPGRADE_KEY: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;+test_runtime_upgrade_key+&quot;</span>;
+
+<span class="doccomment">/// The para-id used in this runtime.
+</span><span class="kw">pub const </span>PARACHAIN_ID: u32 = <span class="number">100</span>;
 
 <span class="comment">// The only difference between the two declarations below is the `spec_version`. With the
 // `increment-spec-version` feature enabled `spec_version` should be greater than the one of without
@@ -786,10 +764,11 @@
 	<span class="kw">type </span>XcmpMessageHandler = ();
 	<span class="kw">type </span>ReservedXcmpWeight = ();
 	<span class="kw">type </span>CheckAssociatedRelayNumber = cumulus_pallet_parachain_system::AnyRelayNumber;
+	<span class="kw">type </span>ConsensusHook = cumulus_pallet_parachain_system::consensus_hook::RequireParentIncluded;
 }
 
 <span class="macro">parameter_types! </span>{
-	<span class="kw">pub </span>storage ParachainId: cumulus_primitives_core::ParaId = <span class="number">100</span>.into();
+	<span class="kw">pub </span>storage ParachainId: cumulus_primitives_core::ParaId = PARACHAIN_ID.into();
 }
 
 <span class="kw">impl </span>test_pallet::Config <span class="kw">for </span>Runtime {}
@@ -971,37 +950,8 @@
 	}
 }
 
-<span class="kw">struct </span>CheckInherents;
-
-<span class="kw">impl </span>cumulus_pallet_parachain_system::CheckInherents&lt;Block&gt; <span class="kw">for </span>CheckInherents {
-	<span class="kw">fn </span>check_inherents(
-		block: <span class="kw-2">&amp;</span>Block,
-		relay_state_proof: <span class="kw-2">&amp;</span>cumulus_pallet_parachain_system::RelayChainStateProof,
-	) -&gt; sp_inherents::CheckInherentsResult {
-		<span class="kw">if </span>relay_state_proof.read_slot().expect(<span class="string">&quot;Reads slot&quot;</span>) == <span class="number">1337u64 </span>{
-			<span class="kw">let </span><span class="kw-2">mut </span>res = sp_inherents::CheckInherentsResult::new();
-			res.put_error([<span class="number">1u8</span>; <span class="number">8</span>], <span class="kw-2">&amp;</span>sp_inherents::MakeFatalError::from(<span class="string">&quot;You are wrong&quot;</span>))
-				.expect(<span class="string">&quot;Puts error&quot;</span>);
-			res
-		} <span class="kw">else </span>{
-			<span class="kw">let </span>relay_chain_slot = relay_state_proof
-				.read_slot()
-				.expect(<span class="string">&quot;Could not read the relay chain slot from the proof&quot;</span>);
-
-			<span class="kw">let </span>inherent_data =
-				cumulus_primitives_timestamp::InherentDataProvider::from_relay_chain_slot_and_duration(
-					relay_chain_slot,
-					sp_std::time::Duration::from_secs(<span class="number">6</span>),
-				).create_inherent_data().expect(<span class="string">&quot;Could not create the timestamp inherent data&quot;</span>);
-
-			inherent_data.check_extrinsics(block)
-		}
-	}
-}
-
 <span class="macro">cumulus_pallet_parachain_system::register_validate_block! </span>{
 	Runtime = Runtime,
 	BlockExecutor = Executive,
-	CheckInherents = CheckInherents,
 }
 </code></pre></div></section></main></body></html>

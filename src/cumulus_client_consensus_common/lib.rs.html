@@ -383,6 +383,35 @@
 <a href="#383" id="383">383</a>
 <a href="#384" id="384">384</a>
 <a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -401,7 +430,7 @@
 
 </span><span class="kw">use </span>codec::Decode;
 <span class="kw">use </span>polkadot_primitives::{
-	Block <span class="kw">as </span>PBlock, Hash <span class="kw">as </span>PHash, Header <span class="kw">as </span>PHeader, PersistedValidationData,
+	Block <span class="kw">as </span>PBlock, Hash <span class="kw">as </span>PHash, Header <span class="kw">as </span>PHeader, PersistedValidationData, ValidationCodeHash,
 };
 
 <span class="kw">use </span>cumulus_primitives_core::{
@@ -410,13 +439,14 @@
 };
 <span class="kw">use </span>cumulus_relay_chain_interface::{RelayChainError, RelayChainInterface};
 
-<span class="kw">use </span>sc_client_api::Backend;
+<span class="kw">use </span>sc_client_api::{Backend, HeaderBackend};
 <span class="kw">use </span>sc_consensus::{shared_data::SharedData, BlockImport, ImportResult};
-<span class="kw">use </span>sp_consensus_slots::{Slot, SlotDuration};
+<span class="kw">use </span>sp_blockchain::Backend <span class="kw">as </span>BlockchainBackend;
+<span class="kw">use </span>sp_consensus_slots::Slot;
 <span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, Header <span class="kw">as </span>HeaderT};
 <span class="kw">use </span>sp_timestamp::Timestamp;
 
-<span class="kw">use </span>std::sync::Arc;
+<span class="kw">use </span>std::{sync::Arc, time::Duration};
 
 <span class="kw">mod </span>level_monitor;
 <span class="kw">mod </span>parachain_consensus;
@@ -429,6 +459,21 @@
 <span class="kw">pub use </span>level_monitor::{LevelLimit, MAX_LEAVES_PER_LEVEL_SENSIBLE_DEFAULT};
 
 <span class="kw">pub mod </span>import_queue;
+
+<span class="doccomment">/// Provides the hash of validation code used for authoring/execution of blocks at a given
+/// hash.
+</span><span class="kw">pub trait </span>ValidationCodeHashProvider&lt;Hash&gt; {
+	<span class="kw">fn </span>code_hash_at(<span class="kw-2">&amp;</span><span class="self">self</span>, at: Hash) -&gt; <span class="prelude-ty">Option</span>&lt;ValidationCodeHash&gt;;
+}
+
+<span class="kw">impl</span>&lt;F, Hash&gt; ValidationCodeHashProvider&lt;Hash&gt; <span class="kw">for </span>F
+<span class="kw">where
+	</span>F: Fn(Hash) -&gt; <span class="prelude-ty">Option</span>&lt;ValidationCodeHash&gt;,
+{
+	<span class="kw">fn </span>code_hash_at(<span class="kw-2">&amp;</span><span class="self">self</span>, at: Hash) -&gt; <span class="prelude-ty">Option</span>&lt;ValidationCodeHash&gt; {
+		(<span class="self">self</span>)(at)
+	}
+}
 
 <span class="doccomment">/// The result of [`ParachainConsensus::produce_candidate`].
 </span><span class="kw">pub struct </span>ParachainCandidate&lt;B&gt; {
@@ -622,21 +667,34 @@
 /// pending parachain block (when `max_depth` &gt;= 1), or all of the following hold:
 ///   * its parent is a potential parent
 ///   * its relay-parent is within `ancestry_lookback` of the targeted relay-parent.
+///   * its relay-parent is within the same session as the targeted relay-parent.
 ///   * the block number is within `max_depth` blocks of the included block
 </span><span class="kw">pub async fn </span>find_potential_parents&lt;B: BlockT&gt;(
 	params: ParentSearchParams,
-	client: <span class="kw-2">&amp;</span><span class="kw">impl </span>sp_blockchain::Backend&lt;B&gt;,
+	client: <span class="kw-2">&amp;</span><span class="kw">impl </span>Backend&lt;B&gt;,
 	relay_client: <span class="kw-2">&amp;</span><span class="kw">impl </span>RelayChainInterface,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;PotentialParent&lt;B&gt;&gt;, RelayChainError&gt; {
 	<span class="comment">// 1. Build up the ancestry record of the relay chain to compare against.
 	</span><span class="kw">let </span>rp_ancestry = {
 		<span class="kw">let </span><span class="kw-2">mut </span>ancestry = Vec::with_capacity(params.ancestry_lookback + <span class="number">1</span>);
 		<span class="kw">let </span><span class="kw-2">mut </span>current_rp = params.relay_parent;
+		<span class="kw">let </span><span class="kw-2">mut </span>required_session = <span class="prelude-val">None</span>;
+
 		<span class="kw">while </span>ancestry.len() &lt;= params.ancestry_lookback {
 			<span class="kw">let </span>header = <span class="kw">match </span>relay_client.header(RBlockId::hash(current_rp)).<span class="kw">await</span><span class="question-mark">? </span>{
 				<span class="prelude-val">None </span>=&gt; <span class="kw">break</span>,
 				<span class="prelude-val">Some</span>(h) =&gt; h,
 			};
+
+			<span class="kw">let </span>session = relay_client.session_index_for_child(current_rp).<span class="kw">await</span><span class="question-mark">?</span>;
+			<span class="kw">if let </span><span class="prelude-val">Some</span>(required_session) = required_session {
+				<span class="comment">// Respect the relay-chain rule not to cross session boundaries.
+				</span><span class="kw">if </span>session != required_session {
+					<span class="kw">break
+				</span>}
+			} <span class="kw">else </span>{
+				required_session = <span class="prelude-val">Some</span>(session);
+			}
 
 			ancestry.push((current_rp, <span class="kw-2">*</span>header.state_root()));
 			current_rp = <span class="kw-2">*</span>header.parent_hash();
@@ -724,7 +782,7 @@
 		</span>}
 
 		<span class="comment">// push children onto search frontier.
-		</span><span class="kw">for </span>child <span class="kw">in </span>client.children(hash).ok().into_iter().flatten() {
+		</span><span class="kw">for </span>child <span class="kw">in </span>client.blockchain().children(hash).ok().into_iter().flatten() {
 			<span class="kw">let </span>aligned_with_pending = parent_aligned_with_pending &amp;&amp;
 				<span class="kw">if </span>child_depth == <span class="number">1 </span>{
 					pending_hash.as_ref().map_or(<span class="bool-val">true</span>, |h| <span class="kw-2">&amp;</span>child == h)
@@ -736,7 +794,7 @@
 				<span class="kw">continue
 			</span>}
 
-			<span class="kw">let </span>header = <span class="kw">match </span>client.header(child) {
+			<span class="kw">let </span>header = <span class="kw">match </span>client.blockchain().header(child) {
 				<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(h)) =&gt; h,
 				<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; <span class="kw">continue</span>,
 				<span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">continue</span>,
@@ -757,12 +815,12 @@
 <span class="doccomment">/// Get the relay-parent slot and timestamp from a header.
 </span><span class="kw">pub fn </span>relay_slot_and_timestamp(
 	relay_parent_header: <span class="kw-2">&amp;</span>PHeader,
-	relay_chain_slot_duration: SlotDuration,
+	relay_chain_slot_duration: Duration,
 ) -&gt; <span class="prelude-ty">Option</span>&lt;(Slot, Timestamp)&gt; {
 	sc_consensus_babe::find_pre_digest::&lt;PBlock&gt;(relay_parent_header)
 		.map(|babe_pre_digest| {
 			<span class="kw">let </span>slot = babe_pre_digest.slot();
-			<span class="kw">let </span>t = Timestamp::new(relay_chain_slot_duration.as_millis() * <span class="kw-2">*</span>slot);
+			<span class="kw">let </span>t = Timestamp::new(relay_chain_slot_duration.as_millis() <span class="kw">as </span>u64 * <span class="kw-2">*</span>slot);
 
 			(slot, t)
 		})

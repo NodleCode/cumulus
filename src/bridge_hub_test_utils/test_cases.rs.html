@@ -931,6 +931,44 @@
 <a href="#931" id="931">931</a>
 <a href="#932" id="932">932</a>
 <a href="#933" id="933">933</a>
+<a href="#934" id="934">934</a>
+<a href="#935" id="935">935</a>
+<a href="#936" id="936">936</a>
+<a href="#937" id="937">937</a>
+<a href="#938" id="938">938</a>
+<a href="#939" id="939">939</a>
+<a href="#940" id="940">940</a>
+<a href="#941" id="941">941</a>
+<a href="#942" id="942">942</a>
+<a href="#943" id="943">943</a>
+<a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a>
+<a href="#946" id="946">946</a>
+<a href="#947" id="947">947</a>
+<a href="#948" id="948">948</a>
+<a href="#949" id="949">949</a>
+<a href="#950" id="950">950</a>
+<a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a>
+<a href="#956" id="956">956</a>
+<a href="#957" id="957">957</a>
+<a href="#958" id="958">958</a>
+<a href="#959" id="959">959</a>
+<a href="#960" id="960">960</a>
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2023 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -969,13 +1007,14 @@
 <span class="kw">use </span>codec::Encode;
 <span class="kw">use </span>frame_support::{
 	assert_ok,
-	traits::{Get, OriginTrait, PalletInfoAccess},
+	traits::{Get, OnFinalize, OnInitialize, OriginTrait, PalletInfoAccess},
 };
 <span class="kw">use </span>frame_system::pallet_prelude::{BlockNumberFor, HeaderFor};
 <span class="kw">use </span>pallet_bridge_grandpa::BridgedHeader;
+<span class="kw">use </span>parachains_common::AccountId;
 <span class="kw">use </span>parachains_runtimes_test_utils::{
-	mock_open_hrmp_channel, AccountIdOf, BalanceOf, CollatorSessionKeys, ExtBuilder, RuntimeHelper,
-	ValidatorIdOf, XcmReceivedFrom,
+	mock_open_hrmp_channel, AccountIdOf, BalanceOf, CollatorSessionKeys, ExtBuilder, ValidatorIdOf,
+	XcmReceivedFrom,
 };
 <span class="kw">use </span>sp_core::H256;
 <span class="kw">use </span>sp_keyring::AccountKeyring::<span class="kw-2">*</span>;
@@ -986,6 +1025,9 @@
 
 <span class="comment">// Re-export test_case from assets
 </span><span class="kw">pub use </span>asset_test_utils::include_teleports_for_native_asset_works;
+
+<span class="kw">type </span>RuntimeHelper&lt;Runtime, AllPalletsWithoutSystem = ()&gt; =
+	parachains_runtimes_test_utils::RuntimeHelper&lt;Runtime, AllPalletsWithoutSystem&gt;;
 
 <span class="comment">// Re-export test_case from `parachains-runtimes-test-utils`
 </span><span class="kw">pub use </span>parachains_runtimes_test_utils::test_cases::change_storage_constant_by_governance_works;
@@ -1143,6 +1185,7 @@
 ///     2. to Sibling parachain
 </span><span class="kw">pub fn </span>message_dispatch_routing_works&lt;
 	Runtime,
+	AllPalletsWithoutSystem,
 	XcmConfig,
 	HrmpChannelOpener,
 	MessagesPalletInstance,
@@ -1170,6 +1213,10 @@
 		+ cumulus_pallet_parachain_system::Config
 		+ cumulus_pallet_xcmp_queue::Config
 		+ pallet_bridge_messages::Config&lt;MessagesPalletInstance, InboundPayload = XcmAsPlainPayload&gt;,
+	AllPalletsWithoutSystem:
+		OnInitialize&lt;BlockNumberFor&lt;Runtime&gt;&gt; + OnFinalize&lt;BlockNumberFor&lt;Runtime&gt;&gt;,
+	&lt;Runtime <span class="kw">as </span>frame_system::Config&gt;::AccountId:
+		Into&lt;&lt;&lt;Runtime <span class="kw">as </span>frame_system::Config&gt;::RuntimeOrigin <span class="kw">as </span>OriginTrait&gt;::AccountId&gt;,
 	XcmConfig: xcm_executor::Config,
 	MessagesPalletInstance: <span class="lifetime">&#39;static</span>,
 	ValidatorIdOf&lt;Runtime&gt;: From&lt;AccountIdOf&lt;Runtime&gt;&gt;,
@@ -1191,6 +1238,13 @@
 		.with_tracing()
 		.build()
 		.execute_with(|| {
+			<span class="kw">let </span><span class="kw-2">mut </span>alice = [<span class="number">0u8</span>; <span class="number">32</span>];
+			alice[<span class="number">0</span>] = <span class="number">1</span>;
+
+			<span class="kw">let </span>included_head = RuntimeHelper::&lt;Runtime, AllPalletsWithoutSystem&gt;::run_to_block(
+				<span class="number">2</span>,
+				AccountId::from(alice),
+			);
 			<span class="comment">// 1. this message is sent from other global consensus with destination of this Runtime relay chain (UMP)
 			</span><span class="kw">let </span>bridging_message =
 				test_data::simulate_message_exporter_on_bridged_chain::&lt;BridgedNetwork, RuntimeNetwork&gt;(
@@ -1232,7 +1286,7 @@
 						   .count(), <span class="number">0</span>);
 
 			<span class="comment">// 2.1. WITH hrmp channel -&gt; Ok
-			</span>mock_open_hrmp_channel::&lt;Runtime, HrmpChannelOpener&gt;(runtime_para_id.into(), sibling_parachain_id.into());
+			</span>mock_open_hrmp_channel::&lt;Runtime, HrmpChannelOpener&gt;(runtime_para_id.into(), sibling_parachain_id.into(), included_head, <span class="kw-2">&amp;</span>alice);
 			<span class="kw">let </span>result = &lt;&lt;Runtime <span class="kw">as </span>pallet_bridge_messages::Config&lt;MessagesPalletInstance&gt;&gt;::MessageDispatch&gt;::dispatch(
 				DispatchMessage {
 					key: MessageKey { lane_id: expected_lane_id, nonce: <span class="number">1 </span>},
@@ -1253,7 +1307,7 @@
 
 <span class="doccomment">/// Test-case makes sure that Runtime can dispatch XCM messages submitted by relayer,
 /// with proofs (finality, para heads, message) independently submitted.
-</span><span class="kw">pub fn </span>relayed_incoming_message_works&lt;Runtime, XcmConfig, HrmpChannelOpener, GPI, PPI, MPI, MB&gt;(
+</span><span class="kw">pub fn </span>relayed_incoming_message_works&lt;Runtime, AllPalletsWithoutSystem, XcmConfig, HrmpChannelOpener, GPI, PPI, MPI, MB&gt;(
 	collator_session_key: CollatorSessionKeys&lt;Runtime&gt;,
 	runtime_para_id: u32,
 	bridged_para_id: u32,
@@ -1273,6 +1327,8 @@
 	+ pallet_bridge_grandpa::Config&lt;GPI&gt;
 	+ pallet_bridge_parachains::Config&lt;PPI&gt;
 	+ pallet_bridge_messages::Config&lt;MPI, InboundPayload = XcmAsPlainPayload&gt;,
+	AllPalletsWithoutSystem: OnInitialize&lt;BlockNumberFor&lt;Runtime&gt;&gt;
+		+ OnFinalize&lt;BlockNumberFor&lt;Runtime&gt;&gt;,
 	GPI: <span class="lifetime">&#39;static</span>,
 	PPI: <span class="lifetime">&#39;static</span>,
 	MPI: <span class="lifetime">&#39;static</span>,
@@ -1303,9 +1359,18 @@
 		.with_tracing()
 		.build()
 		.execute_with(|| {
+			<span class="kw">let </span><span class="kw-2">mut </span>alice = [<span class="number">0u8</span>; <span class="number">32</span>];
+			alice[<span class="number">0</span>] = <span class="number">1</span>;
+
+			<span class="kw">let </span>included_head = RuntimeHelper::&lt;Runtime, AllPalletsWithoutSystem&gt;::run_to_block(
+				<span class="number">2</span>,
+				AccountId::from(alice),
+			);
 			mock_open_hrmp_channel::&lt;Runtime, HrmpChannelOpener&gt;(
 				runtime_para_id.into(),
 				sibling_parachain_id.into(),
+				included_head,
+				<span class="kw-2">&amp;</span>alice,
 			);
 
 			<span class="comment">// start with bridged chain block#0
@@ -1449,7 +1514,7 @@
 <span class="doccomment">/// Test-case makes sure that Runtime can dispatch XCM messages submitted by relayer,
 /// with proofs (finality, para heads, message) batched together in signed extrinsic.
 /// Also verifies relayer transaction signed extensions work as intended.
-</span><span class="kw">pub fn </span>complex_relay_extrinsic_works&lt;Runtime, XcmConfig, HrmpChannelOpener, GPI, PPI, MPI, MB&gt;(
+</span><span class="kw">pub fn </span>complex_relay_extrinsic_works&lt;Runtime, AllPalletsWithoutSystem, XcmConfig, HrmpChannelOpener, GPI, PPI, MPI, MB&gt;(
 	collator_session_key: CollatorSessionKeys&lt;Runtime&gt;,
 	runtime_para_id: u32,
 	bridged_para_id: u32,
@@ -1478,6 +1543,8 @@
 	+ pallet_bridge_parachains::Config&lt;PPI&gt;
 	+ pallet_bridge_messages::Config&lt;MPI, InboundPayload = XcmAsPlainPayload&gt;
 	+ pallet_bridge_relayers::Config,
+	AllPalletsWithoutSystem: OnInitialize&lt;BlockNumberFor&lt;Runtime&gt;&gt;
+		+ OnFinalize&lt;BlockNumberFor&lt;Runtime&gt;&gt;,
 	GPI: <span class="lifetime">&#39;static</span>,
 	PPI: <span class="lifetime">&#39;static</span>,
 	MPI: <span class="lifetime">&#39;static</span>,
@@ -1521,6 +1588,13 @@
 		.with_tracing()
 		.build()
 		.execute_with(|| {
+			<span class="kw">let </span><span class="kw-2">mut </span>alice = [<span class="number">0u8</span>; <span class="number">32</span>];
+			alice[<span class="number">0</span>] = <span class="number">1</span>;
+
+			<span class="kw">let </span>included_head = RuntimeHelper::&lt;Runtime, AllPalletsWithoutSystem&gt;::run_to_block(
+				<span class="number">2</span>,
+				AccountId::from(alice),
+			);
 			<span class="kw">let </span>zero: BlockNumberFor&lt;Runtime&gt; = <span class="number">0u32</span>.into();
 			<span class="kw">let </span>genesis_hash = frame_system::Pallet::&lt;Runtime&gt;::block_hash(zero);
 			<span class="kw">let </span><span class="kw-2">mut </span>header: HeaderFor&lt;Runtime&gt; = bp_test_utils::test_header(<span class="number">1u32</span>.into());
@@ -1530,6 +1604,8 @@
 			mock_open_hrmp_channel::&lt;Runtime, HrmpChannelOpener&gt;(
 				runtime_para_id.into(),
 				sibling_parachain_id.into(),
+				included_head,
+				<span class="kw-2">&amp;</span>alice,
 			);
 
 			<span class="comment">// start with bridged chain block#0

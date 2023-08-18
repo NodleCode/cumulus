@@ -1530,69 +1530,6 @@
 <a href="#1530" id="1530">1530</a>
 <a href="#1531" id="1531">1531</a>
 <a href="#1532" id="1532">1532</a>
-<a href="#1533" id="1533">1533</a>
-<a href="#1534" id="1534">1534</a>
-<a href="#1535" id="1535">1535</a>
-<a href="#1536" id="1536">1536</a>
-<a href="#1537" id="1537">1537</a>
-<a href="#1538" id="1538">1538</a>
-<a href="#1539" id="1539">1539</a>
-<a href="#1540" id="1540">1540</a>
-<a href="#1541" id="1541">1541</a>
-<a href="#1542" id="1542">1542</a>
-<a href="#1543" id="1543">1543</a>
-<a href="#1544" id="1544">1544</a>
-<a href="#1545" id="1545">1545</a>
-<a href="#1546" id="1546">1546</a>
-<a href="#1547" id="1547">1547</a>
-<a href="#1548" id="1548">1548</a>
-<a href="#1549" id="1549">1549</a>
-<a href="#1550" id="1550">1550</a>
-<a href="#1551" id="1551">1551</a>
-<a href="#1552" id="1552">1552</a>
-<a href="#1553" id="1553">1553</a>
-<a href="#1554" id="1554">1554</a>
-<a href="#1555" id="1555">1555</a>
-<a href="#1556" id="1556">1556</a>
-<a href="#1557" id="1557">1557</a>
-<a href="#1558" id="1558">1558</a>
-<a href="#1559" id="1559">1559</a>
-<a href="#1560" id="1560">1560</a>
-<a href="#1561" id="1561">1561</a>
-<a href="#1562" id="1562">1562</a>
-<a href="#1563" id="1563">1563</a>
-<a href="#1564" id="1564">1564</a>
-<a href="#1565" id="1565">1565</a>
-<a href="#1566" id="1566">1566</a>
-<a href="#1567" id="1567">1567</a>
-<a href="#1568" id="1568">1568</a>
-<a href="#1569" id="1569">1569</a>
-<a href="#1570" id="1570">1570</a>
-<a href="#1571" id="1571">1571</a>
-<a href="#1572" id="1572">1572</a>
-<a href="#1573" id="1573">1573</a>
-<a href="#1574" id="1574">1574</a>
-<a href="#1575" id="1575">1575</a>
-<a href="#1576" id="1576">1576</a>
-<a href="#1577" id="1577">1577</a>
-<a href="#1578" id="1578">1578</a>
-<a href="#1579" id="1579">1579</a>
-<a href="#1580" id="1580">1580</a>
-<a href="#1581" id="1581">1581</a>
-<a href="#1582" id="1582">1582</a>
-<a href="#1583" id="1583">1583</a>
-<a href="#1584" id="1584">1584</a>
-<a href="#1585" id="1585">1585</a>
-<a href="#1586" id="1586">1586</a>
-<a href="#1587" id="1587">1587</a>
-<a href="#1588" id="1588">1588</a>
-<a href="#1589" id="1589">1589</a>
-<a href="#1590" id="1590">1590</a>
-<a href="#1591" id="1591">1591</a>
-<a href="#1592" id="1592">1592</a>
-<a href="#1593" id="1593">1593</a>
-<a href="#1594" id="1594">1594</a>
-<a href="#1595" id="1595">1595</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2019-2021 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -1611,19 +1548,25 @@
 
 </span><span class="kw">use </span>codec::Codec;
 <span class="kw">use </span>cumulus_client_cli::CollatorOptions;
-<span class="kw">use </span>cumulus_client_consensus_aura::{AuraConsensus, BuildAuraConsensusParams, SlotProportion};
+<span class="kw">use </span>cumulus_client_collator::service::CollatorService;
+<span class="kw">use </span>cumulus_client_consensus_aura::collators::basic::{
+	<span class="self">self </span><span class="kw">as </span>basic_aura, Params <span class="kw">as </span>BasicAuraParams,
+};
 <span class="kw">use </span>cumulus_client_consensus_common::{
 	ParachainBlockImport <span class="kw">as </span>TParachainBlockImport, ParachainCandidate, ParachainConsensus,
 };
+<span class="kw">use </span>cumulus_client_consensus_proposer::Proposer;
+<span class="attr">#[allow(deprecated)]
+</span><span class="kw">use </span>cumulus_client_service::old_consensus;
 <span class="kw">use </span>cumulus_client_service::{
-	build_network, build_relay_chain_interface, prepare_node_config, start_collator,
-	start_full_node, BuildNetworkParams, StartCollatorParams, StartFullNodeParams,
+	build_network, build_relay_chain_interface, prepare_node_config, start_relay_chain_tasks,
+	BuildNetworkParams, CollatorSybilResistance, DARecoveryProfile, StartRelayChainTasksParams,
 };
 <span class="kw">use </span>cumulus_primitives_core::{
 	relay_chain::{Hash <span class="kw">as </span>PHash, PersistedValidationData},
 	ParaId,
 };
-<span class="kw">use </span>cumulus_relay_chain_interface::RelayChainInterface;
+<span class="kw">use </span>cumulus_relay_chain_interface::{OverseerHandle, RelayChainInterface};
 <span class="kw">use </span>sp_core::Pair;
 
 <span class="kw">use </span>jsonrpsee::RpcModule;
@@ -1648,6 +1591,8 @@
 <span class="kw">use </span>sp_runtime::{app_crypto::AppCrypto, traits::Header <span class="kw">as </span>HeaderT};
 <span class="kw">use </span>std::{marker::PhantomData, sync::Arc, time::Duration};
 <span class="kw">use </span>substrate_prometheus_endpoint::Registry;
+
+<span class="kw">use </span>polkadot_primitives::CollatorPair;
 
 <span class="attr">#[cfg(not(feature = <span class="string">&quot;runtime-benchmarks&quot;</span>))]
 </span><span class="kw">type </span>HostFunctions = sp_io::SubstrateHostFunctions;
@@ -1920,14 +1865,15 @@
 /// This is the actual implementation that is abstract over the executor and the runtime api for
 /// shell nodes.
 </span><span class="attr">#[sc_tracing::logging::prefix_logs_with(<span class="string">&quot;Parachain&quot;</span>)]
-</span><span class="kw">async fn </span>start_shell_node_impl&lt;RuntimeApi, RB, BIQ, BIC&gt;(
+</span><span class="kw">async fn </span>start_shell_node_impl&lt;RuntimeApi, RB, BIQ, SC&gt;(
 	parachain_config: Configuration,
 	polkadot_config: Configuration,
 	collator_options: CollatorOptions,
+	sybil_resistance_level: CollatorSybilResistance,
 	para_id: ParaId,
 	rpc_ext_builder: RB,
 	build_import_queue: BIQ,
-	build_consensus: BIC,
+	start_consensus: SC,
 	hwbench: <span class="prelude-ty">Option</span>&lt;sc_sysinfo::HwBench&gt;,
 ) -&gt; sc_service::error::Result&lt;(TaskManager, Arc&lt;ParachainClient&lt;RuntimeApi&gt;&gt;)&gt;
 <span class="kw">where
@@ -1948,7 +1894,7 @@
 		<span class="prelude-ty">Option</span>&lt;TelemetryHandle&gt;,
 		<span class="kw-2">&amp;</span>TaskManager,
 	) -&gt; <span class="prelude-ty">Result</span>&lt;sc_consensus::DefaultImportQueue&lt;Block&gt;, sc_service::Error&gt;,
-	BIC: FnOnce(
+	SC: FnOnce(
 		Arc&lt;ParachainClient&lt;RuntimeApi&gt;&gt;,
 		ParachainBlockImport&lt;RuntimeApi&gt;,
 		<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Registry&gt;,
@@ -1958,8 +1904,12 @@
 		Arc&lt;sc_transaction_pool::FullPool&lt;Block, ParachainClient&lt;RuntimeApi&gt;&gt;&gt;,
 		Arc&lt;SyncingService&lt;Block&gt;&gt;,
 		KeystorePtr,
-		bool,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>ParachainConsensus&lt;Block&gt;&gt;, sc_service::Error&gt;,
+		Duration,
+		ParaId,
+		CollatorPair,
+		OverseerHandle,
+		Arc&lt;<span class="kw">dyn </span>Fn(Hash, <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt;) + Send + Sync&gt;,
+	) -&gt; <span class="prelude-ty">Result</span>&lt;(), sc_service::Error&gt;,
 {
 	<span class="kw">let </span>parachain_config = prepare_node_config(parachain_config);
 
@@ -1982,7 +1932,6 @@
 	.<span class="kw">await
 	</span>.map_err(|e| sc_service::Error::Application(Box::new(e) <span class="kw">as </span>Box&lt;<span class="kw">_</span>&gt;))<span class="question-mark">?</span>;
 
-	<span class="kw">let </span>force_authoring = parachain_config.force_authoring;
 	<span class="kw">let </span>validator = parachain_config.role.is_authority();
 	<span class="kw">let </span>prometheus_registry = parachain_config.prometheus_registry().cloned();
 	<span class="kw">let </span>transaction_pool = params.transaction_pool.clone();
@@ -1999,6 +1948,7 @@
 			spawn_handle: task_manager.spawn_handle(),
 			relay_chain_interface: relay_chain_interface.clone(),
 			import_queue: params.import_queue,
+			sybil_resistance_level,
 		})
 		.<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -2047,8 +1997,25 @@
 		.overseer_handle()
 		.map_err(|e| sc_service::Error::Application(Box::new(e)))<span class="question-mark">?</span>;
 
+	start_relay_chain_tasks(StartRelayChainTasksParams {
+		client: client.clone(),
+		announce_block: announce_block.clone(),
+		para_id,
+		relay_chain_interface: relay_chain_interface.clone(),
+		task_manager: <span class="kw-2">&amp;mut </span>task_manager,
+		da_recovery_profile: <span class="kw">if </span>validator {
+			DARecoveryProfile::Collator
+		} <span class="kw">else </span>{
+			DARecoveryProfile::FullNode
+		},
+		import_queue: import_queue_service,
+		relay_chain_slot_duration,
+		recovery_handle: Box::new(overseer_handle.clone()),
+		sync_service: sync_service.clone(),
+	})<span class="question-mark">?</span>;
+
 	<span class="kw">if </span>validator {
-		<span class="kw">let </span>parachain_consensus = build_consensus(
+		start_consensus(
 			client.clone(),
 			block_import,
 			prometheus_registry.as_ref(),
@@ -2058,42 +2025,12 @@
 			transaction_pool,
 			sync_service.clone(),
 			params.keystore_container.keystore(),
-			force_authoring,
+			relay_chain_slot_duration,
+			para_id,
+			collator_key.expect(<span class="string">&quot;Command line arguments do not allow this. qed&quot;</span>),
+			overseer_handle,
+			announce_block,
 		)<span class="question-mark">?</span>;
-
-		<span class="kw">let </span>spawner = task_manager.spawn_handle();
-
-		<span class="kw">let </span>params = StartCollatorParams {
-			para_id,
-			block_status: client.clone(),
-			announce_block,
-			client: client.clone(),
-			task_manager: <span class="kw-2">&amp;mut </span>task_manager,
-			relay_chain_interface,
-			spawner,
-			parachain_consensus,
-			import_queue: import_queue_service,
-			collator_key: collator_key.expect(<span class="string">&quot;Command line arguments do not allow this. qed&quot;</span>),
-			relay_chain_slot_duration,
-			recovery_handle: Box::new(overseer_handle),
-			sync_service,
-		};
-
-		start_collator(params).<span class="kw">await</span><span class="question-mark">?</span>;
-	} <span class="kw">else </span>{
-		<span class="kw">let </span>params = StartFullNodeParams {
-			client: client.clone(),
-			announce_block,
-			task_manager: <span class="kw-2">&amp;mut </span>task_manager,
-			para_id,
-			relay_chain_interface,
-			relay_chain_slot_duration,
-			import_queue: import_queue_service,
-			recovery_handle: Box::new(overseer_handle),
-			sync_service,
-		};
-
-		start_full_node(params)<span class="question-mark">?</span>;
 	}
 
 	start_network.start_network();
@@ -2105,14 +2042,15 @@
 ///
 /// This is the actual implementation that is abstract over the executor and the runtime api.
 </span><span class="attr">#[sc_tracing::logging::prefix_logs_with(<span class="string">&quot;Parachain&quot;</span>)]
-</span><span class="kw">async fn </span>start_node_impl&lt;RuntimeApi, RB, BIQ, BIC&gt;(
+</span><span class="kw">async fn </span>start_node_impl&lt;RuntimeApi, RB, BIQ, SC&gt;(
 	parachain_config: Configuration,
 	polkadot_config: Configuration,
 	collator_options: CollatorOptions,
+	sybil_resistance_level: CollatorSybilResistance,
 	para_id: ParaId,
 	_rpc_ext_builder: RB,
 	build_import_queue: BIQ,
-	build_consensus: BIC,
+	start_consensus: SC,
 	hwbench: <span class="prelude-ty">Option</span>&lt;sc_sysinfo::HwBench&gt;,
 ) -&gt; sc_service::error::Result&lt;(TaskManager, Arc&lt;ParachainClient&lt;RuntimeApi&gt;&gt;)&gt;
 <span class="kw">where
@@ -2134,7 +2072,7 @@
 		<span class="prelude-ty">Option</span>&lt;TelemetryHandle&gt;,
 		<span class="kw-2">&amp;</span>TaskManager,
 	) -&gt; <span class="prelude-ty">Result</span>&lt;sc_consensus::DefaultImportQueue&lt;Block&gt;, sc_service::Error&gt;,
-	BIC: FnOnce(
+	SC: FnOnce(
 		Arc&lt;ParachainClient&lt;RuntimeApi&gt;&gt;,
 		ParachainBlockImport&lt;RuntimeApi&gt;,
 		<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Registry&gt;,
@@ -2144,8 +2082,12 @@
 		Arc&lt;sc_transaction_pool::FullPool&lt;Block, ParachainClient&lt;RuntimeApi&gt;&gt;&gt;,
 		Arc&lt;SyncingService&lt;Block&gt;&gt;,
 		KeystorePtr,
-		bool,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>ParachainConsensus&lt;Block&gt;&gt;, sc_service::Error&gt;,
+		Duration,
+		ParaId,
+		CollatorPair,
+		OverseerHandle,
+		Arc&lt;<span class="kw">dyn </span>Fn(Hash, <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt;) + Send + Sync&gt;,
+	) -&gt; <span class="prelude-ty">Result</span>&lt;(), sc_service::Error&gt;,
 {
 	<span class="kw">let </span>parachain_config = prepare_node_config(parachain_config);
 
@@ -2167,7 +2109,6 @@
 	.<span class="kw">await
 	</span>.map_err(|e| sc_service::Error::Application(Box::new(e) <span class="kw">as </span>Box&lt;<span class="kw">_</span>&gt;))<span class="question-mark">?</span>;
 
-	<span class="kw">let </span>force_authoring = parachain_config.force_authoring;
 	<span class="kw">let </span>validator = parachain_config.role.is_authority();
 	<span class="kw">let </span>prometheus_registry = parachain_config.prometheus_registry().cloned();
 	<span class="kw">let </span>transaction_pool = params.transaction_pool.clone();
@@ -2184,6 +2125,7 @@
 			spawn_handle: task_manager.spawn_handle(),
 			relay_chain_interface: relay_chain_interface.clone(),
 			import_queue: params.import_queue,
+			sybil_resistance_level,
 		})
 		.<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -2244,8 +2186,26 @@
 	<span class="kw">let </span>overseer_handle = relay_chain_interface
 		.overseer_handle()
 		.map_err(|e| sc_service::Error::Application(Box::new(e)))<span class="question-mark">?</span>;
+
+	start_relay_chain_tasks(StartRelayChainTasksParams {
+		client: client.clone(),
+		announce_block: announce_block.clone(),
+		para_id,
+		relay_chain_interface: relay_chain_interface.clone(),
+		task_manager: <span class="kw-2">&amp;mut </span>task_manager,
+		da_recovery_profile: <span class="kw">if </span>validator {
+			DARecoveryProfile::Collator
+		} <span class="kw">else </span>{
+			DARecoveryProfile::FullNode
+		},
+		import_queue: import_queue_service,
+		relay_chain_slot_duration,
+		recovery_handle: Box::new(overseer_handle.clone()),
+		sync_service: sync_service.clone(),
+	})<span class="question-mark">?</span>;
+
 	<span class="kw">if </span>validator {
-		<span class="kw">let </span>parachain_consensus = build_consensus(
+		start_consensus(
 			client.clone(),
 			block_import,
 			prometheus_registry.as_ref(),
@@ -2255,42 +2215,12 @@
 			transaction_pool,
 			sync_service.clone(),
 			params.keystore_container.keystore(),
-			force_authoring,
+			relay_chain_slot_duration,
+			para_id,
+			collator_key.expect(<span class="string">&quot;Command line arguments do not allow this. qed&quot;</span>),
+			overseer_handle,
+			announce_block,
 		)<span class="question-mark">?</span>;
-
-		<span class="kw">let </span>spawner = task_manager.spawn_handle();
-
-		<span class="kw">let </span>params = StartCollatorParams {
-			para_id,
-			block_status: client.clone(),
-			announce_block,
-			client: client.clone(),
-			task_manager: <span class="kw-2">&amp;mut </span>task_manager,
-			relay_chain_interface: relay_chain_interface.clone(),
-			spawner,
-			parachain_consensus,
-			import_queue: import_queue_service,
-			collator_key: collator_key.expect(<span class="string">&quot;Command line arguments do not allow this. qed&quot;</span>),
-			relay_chain_slot_duration,
-			recovery_handle: Box::new(overseer_handle),
-			sync_service,
-		};
-
-		start_collator(params).<span class="kw">await</span><span class="question-mark">?</span>;
-	} <span class="kw">else </span>{
-		<span class="kw">let </span>params = StartFullNodeParams {
-			client: client.clone(),
-			announce_block,
-			task_manager: <span class="kw-2">&amp;mut </span>task_manager,
-			para_id,
-			relay_chain_interface,
-			relay_chain_slot_duration,
-			import_queue: import_queue_service,
-			recovery_handle: Box::new(overseer_handle),
-			sync_service,
-		};
-
-		start_full_node(params)<span class="question-mark">?</span>;
 	}
 
 	start_network.start_network();
@@ -2351,7 +2281,8 @@
 		parachain_config,
 		polkadot_config,
 		collator_options,
-		para_id,
+		CollatorSybilResistance::Resistant, <span class="comment">// Aura
+		</span>para_id,
 		|<span class="kw">_</span>| <span class="prelude-val">Ok</span>(RpcModule::new(())),
 		rococo_parachain_build_import_queue,
 		|client,
@@ -2363,7 +2294,11 @@
 		 transaction_pool,
 		 sync_oracle,
 		 keystore,
-		 force_authoring| {
+		 relay_chain_slot_duration,
+		 para_id,
+		 collator_key,
+		 overseer_handle,
+		 announce_block| {
 			<span class="kw">let </span>slot_duration = cumulus_client_consensus_aura::slot_duration(<span class="kw-2">&amp;*</span>client)<span class="question-mark">?</span>;
 
 			<span class="kw">let </span>proposer_factory = sc_basic_authorship::ProposerFactory::with_proof_recording(
@@ -2373,53 +2308,47 @@
 				prometheus_registry,
 				telemetry.clone(),
 			);
+			<span class="kw">let </span>proposer = Proposer::new(proposer_factory);
 
-			<span class="prelude-val">Ok</span>(AuraConsensus::build::&lt;sp_consensus_aura::sr25519::AuthorityPair, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-				BuildAuraConsensusParams {
-					proposer_factory,
-					create_inherent_data_providers: <span class="kw">move </span>|<span class="kw">_</span>, (relay_parent, validation_data)| {
-						<span class="kw">let </span>relay_chain_interface = relay_chain_interface.clone();
+			<span class="kw">let </span>collator_service = CollatorService::new(
+				client.clone(),
+				Arc::new(task_manager.spawn_handle()),
+				announce_block,
+				client.clone(),
+			);
 
-						<span class="kw">async move </span>{
-							<span class="kw">let </span>parachain_inherent =
-							cumulus_primitives_parachain_inherent::ParachainInherentData::create_at(
-								relay_parent,
-								<span class="kw-2">&amp;</span>relay_chain_interface,
-								<span class="kw-2">&amp;</span>validation_data,
-								para_id,
-							).<span class="kw">await</span>;
+			<span class="kw">let </span>params = BasicAuraParams {
+				create_inherent_data_providers: <span class="kw">move </span>|<span class="kw">_</span>, ()| <span class="kw">async move </span>{ <span class="prelude-val">Ok</span>(()) },
+				block_import,
+				para_client: client,
+				relay_client: relay_chain_interface,
+				sync_oracle,
+				keystore,
+				collator_key,
+				para_id,
+				overseer_handle,
+				slot_duration,
+				relay_chain_slot_duration,
+				proposer,
+				collator_service,
+				<span class="comment">// Very limited proposal time.
+				</span>authoring_duration: Duration::from_millis(<span class="number">500</span>),
+			};
 
-							<span class="kw">let </span>timestamp = sp_timestamp::InherentDataProvider::from_system_time();
+			<span class="kw">let </span>fut = basic_aura::run::&lt;
+				Block,
+				sp_consensus_aura::sr25519::AuthorityPair,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+			&gt;(params);
+			task_manager.spawn_essential_handle().spawn(<span class="string">&quot;aura&quot;</span>, <span class="prelude-val">None</span>, fut);
 
-							<span class="kw">let </span>slot =
-							sp_consensus_aura::inherents::InherentDataProvider::from_timestamp_and_slot_duration(
-								<span class="kw-2">*</span>timestamp,
-								slot_duration,
-							);
-
-							<span class="kw">let </span>parachain_inherent = parachain_inherent.ok_or_else(|| {
-								Box::&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync&gt;::from(
-									<span class="string">&quot;Failed to create parachain inherent&quot;</span>,
-								)
-							})<span class="question-mark">?</span>;
-
-							<span class="prelude-val">Ok</span>((slot, timestamp, parachain_inherent))
-						}
-					},
-					block_import,
-					para_client: client,
-					backoff_authoring_blocks: <span class="prelude-ty">Option</span>::&lt;()&gt;::None,
-					sync_oracle,
-					keystore,
-					force_authoring,
-					slot_duration,
-					<span class="comment">// We got around 500ms for proposing
-					</span>block_proposal_slot_portion: SlotProportion::new(<span class="number">1f32 </span>/ <span class="number">24f32</span>),
-					<span class="comment">// And a maximum of 750ms if slots are skipped
-					</span>max_block_proposal_slot_portion: <span class="prelude-val">Some</span>(SlotProportion::new(<span class="number">1f32 </span>/ <span class="number">16f32</span>)),
-					telemetry,
-				},
-			))
+			<span class="prelude-val">Ok</span>(())
 		},
 		hwbench,
 	)
@@ -2475,7 +2404,8 @@
 		parachain_config,
 		polkadot_config,
 		collator_options,
-		para_id,
+		CollatorSybilResistance::Unresistant, <span class="comment">// free-for-all consensus
+		</span>para_id,
 		|<span class="kw">_</span>| <span class="prelude-val">Ok</span>(RpcModule::new(())),
 		shell_build_import_queue,
 		|client,
@@ -2485,18 +2415,22 @@
 		 task_manager,
 		 relay_chain_interface,
 		 transaction_pool,
-		 <span class="kw">_</span>,
-		 <span class="kw">_</span>,
-		 <span class="kw">_</span>| {
+		 _sync_oracle,
+		 _keystore,
+		 _relay_chain_slot_duration,
+		 para_id,
+		 collator_key,
+		 overseer_handle,
+		 announce_block| {
 			<span class="kw">let </span>proposer_factory = sc_basic_authorship::ProposerFactory::with_proof_recording(
 				task_manager.spawn_handle(),
-				client,
+				client.clone(),
 				transaction_pool,
 				prometheus_registry,
 				telemetry,
 			);
 
-			<span class="prelude-val">Ok</span>(cumulus_client_consensus_relay_chain::build_relay_chain_consensus(
+			<span class="kw">let </span>free_for_all = cumulus_client_consensus_relay_chain::build_relay_chain_consensus(
 				cumulus_client_consensus_relay_chain::BuildRelayChainConsensusParams {
 					para_id,
 					proposer_factory,
@@ -2521,7 +2455,24 @@
 						}
 					},
 				},
-			))
+			);
+
+			<span class="kw">let </span>spawner = task_manager.spawn_handle();
+
+			<span class="comment">// Required for free-for-all consensus
+			</span><span class="attr">#[allow(deprecated)]
+			</span>old_consensus::start_collator_sync(old_consensus::StartCollatorParams {
+				para_id,
+				block_status: client.clone(),
+				announce_block,
+				overseer_handle,
+				spawner,
+				key: collator_key,
+				parachain_consensus: free_for_all,
+				runtime_api: client.clone(),
+			});
+
+			<span class="prelude-val">Ok</span>(())
 		},
 		hwbench,
 	)
@@ -2722,7 +2673,8 @@
 		parachain_config,
 		polkadot_config,
 		collator_options,
-		para_id,
+		CollatorSybilResistance::Resistant, <span class="comment">// Aura
+		</span>para_id,
 		|<span class="kw">_</span>| <span class="prelude-val">Ok</span>(RpcModule::new(())),
 		aura_build_import_queue::&lt;<span class="kw">_</span>, AuraId&gt;,
 		|client,
@@ -2734,123 +2686,52 @@
 		 transaction_pool,
 		 sync_oracle,
 		 keystore,
-		 force_authoring| {
-			<span class="kw">let </span>spawn_handle = task_manager.spawn_handle();
-			<span class="kw">let </span>client2 = client.clone();
-			<span class="kw">let </span>block_import2 = block_import.clone();
-			<span class="kw">let </span>transaction_pool2 = transaction_pool.clone();
-			<span class="kw">let </span>telemetry2 = telemetry.clone();
-			<span class="kw">let </span>prometheus_registry2 = prometheus_registry.map(|r| (<span class="kw-2">*</span>r).clone());
-			<span class="kw">let </span>relay_chain_for_aura = relay_chain_interface.clone();
-
-			<span class="kw">let </span>aura_consensus = BuildOnAccess::Uninitialized(<span class="prelude-val">Some</span>(Box::new(<span class="kw">move </span>|| {
-				<span class="kw">let </span>slot_duration =
-					cumulus_client_consensus_aura::slot_duration(<span class="kw-2">&amp;*</span>client2).unwrap();
-
-				<span class="kw">let </span>proposer_factory = sc_basic_authorship::ProposerFactory::with_proof_recording(
-					spawn_handle,
-					client2.clone(),
-					transaction_pool2,
-					prometheus_registry2.as_ref(),
-					telemetry2.clone(),
-				);
-
-				AuraConsensus::build::&lt;&lt;AuraId <span class="kw">as </span>AppCrypto&gt;::Pair, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-					BuildAuraConsensusParams {
-						proposer_factory,
-						create_inherent_data_providers:
-							<span class="kw">move </span>|<span class="kw">_</span>, (relay_parent, validation_data)| {
-								<span class="kw">let </span>relay_chain_for_aura = relay_chain_for_aura.clone();
-								<span class="kw">async move </span>{
-									<span class="kw">let </span>parachain_inherent =
-										cumulus_primitives_parachain_inherent::ParachainInherentData::create_at(
-											relay_parent,
-											<span class="kw-2">&amp;</span>relay_chain_for_aura,
-											<span class="kw-2">&amp;</span>validation_data,
-											para_id,
-										).<span class="kw">await</span>;
-
-									<span class="kw">let </span>timestamp =
-										sp_timestamp::InherentDataProvider::from_system_time();
-
-									<span class="kw">let </span>slot =
-										sp_consensus_aura::inherents::InherentDataProvider::from_timestamp_and_slot_duration(
-											<span class="kw-2">*</span>timestamp,
-											slot_duration,
-										);
-
-									<span class="kw">let </span>parachain_inherent =
-										parachain_inherent.ok_or_else(|| {
-											Box::&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync&gt;::from(
-												<span class="string">&quot;Failed to create parachain inherent&quot;</span>,
-											)
-										})<span class="question-mark">?</span>;
-
-									<span class="prelude-val">Ok</span>((slot, timestamp, parachain_inherent))
-								}
-							},
-						block_import: block_import2,
-						para_client: client2,
-						backoff_authoring_blocks: <span class="prelude-ty">Option</span>::&lt;()&gt;::None,
-						sync_oracle,
-						keystore,
-						force_authoring,
-						slot_duration,
-						<span class="comment">// We got around 500ms for proposing
-						</span>block_proposal_slot_portion: SlotProportion::new(<span class="number">1f32 </span>/ <span class="number">24f32</span>),
-						<span class="comment">// And a maximum of 750ms if slots are skipped
-						</span>max_block_proposal_slot_portion: <span class="prelude-val">Some</span>(SlotProportion::new(<span class="number">1f32 </span>/ <span class="number">16f32</span>)),
-						telemetry: telemetry2,
-					},
-				)
-			})));
+		 relay_chain_slot_duration,
+		 para_id,
+		 collator_key,
+		 overseer_handle,
+		 announce_block| {
+			<span class="kw">let </span>slot_duration = cumulus_client_consensus_aura::slot_duration(<span class="kw-2">&amp;*</span>client)<span class="question-mark">?</span>;
 
 			<span class="kw">let </span>proposer_factory = sc_basic_authorship::ProposerFactory::with_proof_recording(
 				task_manager.spawn_handle(),
 				client.clone(),
 				transaction_pool,
 				prometheus_registry,
-				telemetry,
+				telemetry.clone(),
+			);
+			<span class="kw">let </span>proposer = Proposer::new(proposer_factory);
+
+			<span class="kw">let </span>collator_service = CollatorService::new(
+				client.clone(),
+				Arc::new(task_manager.spawn_handle()),
+				announce_block,
+				client.clone(),
 			);
 
-			<span class="kw">let </span>relay_chain_consensus =
-				cumulus_client_consensus_relay_chain::build_relay_chain_consensus(
-					cumulus_client_consensus_relay_chain::BuildRelayChainConsensusParams {
-						para_id,
-						proposer_factory,
-						block_import,
-						relay_chain_interface: relay_chain_interface.clone(),
-						create_inherent_data_providers:
-							<span class="kw">move </span>|<span class="kw">_</span>, (relay_parent, validation_data)| {
-								<span class="kw">let </span>relay_chain_interface = relay_chain_interface.clone();
-								<span class="kw">async move </span>{
-									<span class="kw">let </span>parachain_inherent =
-									cumulus_primitives_parachain_inherent::ParachainInherentData::create_at(
-										relay_parent,
-										<span class="kw-2">&amp;</span>relay_chain_interface,
-										<span class="kw-2">&amp;</span>validation_data,
-										para_id,
-									).<span class="kw">await</span>;
-									<span class="kw">let </span>parachain_inherent =
-										parachain_inherent.ok_or_else(|| {
-											Box::&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync&gt;::from(
-												<span class="string">&quot;Failed to create parachain inherent&quot;</span>,
-											)
-										})<span class="question-mark">?</span>;
-									<span class="prelude-val">Ok</span>(parachain_inherent)
-								}
-							},
-					},
-				);
+			<span class="kw">let </span>params = BasicAuraParams {
+				create_inherent_data_providers: <span class="kw">move </span>|<span class="kw">_</span>, ()| <span class="kw">async move </span>{ <span class="prelude-val">Ok</span>(()) },
+				block_import,
+				para_client: client,
+				relay_client: relay_chain_interface,
+				sync_oracle,
+				keystore,
+				collator_key,
+				para_id,
+				overseer_handle,
+				slot_duration,
+				relay_chain_slot_duration,
+				proposer,
+				collator_service,
+				<span class="comment">// Very limited proposal time.
+				</span>authoring_duration: Duration::from_millis(<span class="number">500</span>),
+			};
 
-			<span class="kw">let </span>parachain_consensus = Box::new(WaitForAuraConsensus {
-				client,
-				aura_consensus: Arc::new(Mutex::new(aura_consensus)),
-				relay_chain_consensus: Arc::new(Mutex::new(relay_chain_consensus)),
-				_phantom: PhantomData,
-			});
+			<span class="kw">let </span>fut =
+				basic_aura::run::&lt;Block, &lt;AuraId <span class="kw">as </span>AppCrypto&gt;::Pair, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>&gt;(params);
+			task_manager.spawn_essential_handle().spawn(<span class="string">&quot;aura&quot;</span>, <span class="prelude-val">None</span>, fut);
 
-			<span class="prelude-val">Ok</span>(parachain_consensus)
+			<span class="prelude-val">Ok</span>(())
 		},
 		hwbench,
 	)
@@ -2858,14 +2739,15 @@
 </span>}
 
 <span class="attr">#[sc_tracing::logging::prefix_logs_with(<span class="string">&quot;Parachain&quot;</span>)]
-</span><span class="kw">async fn </span>start_contracts_rococo_node_impl&lt;RuntimeApi, RB, BIQ, BIC&gt;(
+</span><span class="kw">async fn </span>start_contracts_rococo_node_impl&lt;RuntimeApi, RB, BIQ, SC&gt;(
 	parachain_config: Configuration,
 	polkadot_config: Configuration,
 	collator_options: CollatorOptions,
+	sybil_resistance_level: CollatorSybilResistance,
 	para_id: ParaId,
 	_rpc_ext_builder: RB,
 	build_import_queue: BIQ,
-	build_consensus: BIC,
+	start_consensus: SC,
 	hwbench: <span class="prelude-ty">Option</span>&lt;sc_sysinfo::HwBench&gt;,
 ) -&gt; sc_service::error::Result&lt;(TaskManager, Arc&lt;ParachainClient&lt;RuntimeApi&gt;&gt;)&gt;
 <span class="kw">where
@@ -2887,7 +2769,7 @@
 		<span class="prelude-ty">Option</span>&lt;TelemetryHandle&gt;,
 		<span class="kw-2">&amp;</span>TaskManager,
 	) -&gt; <span class="prelude-ty">Result</span>&lt;sc_consensus::DefaultImportQueue&lt;Block&gt;, sc_service::Error&gt;,
-	BIC: FnOnce(
+	SC: FnOnce(
 		Arc&lt;ParachainClient&lt;RuntimeApi&gt;&gt;,
 		ParachainBlockImport&lt;RuntimeApi&gt;,
 		<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Registry&gt;,
@@ -2897,8 +2779,12 @@
 		Arc&lt;sc_transaction_pool::FullPool&lt;Block, ParachainClient&lt;RuntimeApi&gt;&gt;&gt;,
 		Arc&lt;SyncingService&lt;Block&gt;&gt;,
 		KeystorePtr,
-		bool,
-	) -&gt; <span class="prelude-ty">Result</span>&lt;Box&lt;<span class="kw">dyn </span>ParachainConsensus&lt;Block&gt;&gt;, sc_service::Error&gt;,
+		Duration,
+		ParaId,
+		CollatorPair,
+		OverseerHandle,
+		Arc&lt;<span class="kw">dyn </span>Fn(Hash, <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt;) + Send + Sync&gt;,
+	) -&gt; <span class="prelude-ty">Result</span>&lt;(), sc_service::Error&gt;,
 {
 	<span class="kw">let </span>parachain_config = prepare_node_config(parachain_config);
 
@@ -2920,7 +2806,6 @@
 	.<span class="kw">await
 	</span>.map_err(|e| sc_service::Error::Application(Box::new(e) <span class="kw">as </span>Box&lt;<span class="kw">_</span>&gt;))<span class="question-mark">?</span>;
 
-	<span class="kw">let </span>force_authoring = parachain_config.force_authoring;
 	<span class="kw">let </span>validator = parachain_config.role.is_authority();
 	<span class="kw">let </span>prometheus_registry = parachain_config.prometheus_registry().cloned();
 	<span class="kw">let </span>transaction_pool = params.transaction_pool.clone();
@@ -2937,6 +2822,7 @@
 			spawn_handle: task_manager.spawn_handle(),
 			relay_chain_interface: relay_chain_interface.clone(),
 			import_queue: params.import_queue,
+			sybil_resistance_level,
 		})
 		.<span class="kw">await</span><span class="question-mark">?</span>;
 
@@ -2996,8 +2882,26 @@
 	<span class="kw">let </span>overseer_handle = relay_chain_interface
 		.overseer_handle()
 		.map_err(|e| sc_service::Error::Application(Box::new(e)))<span class="question-mark">?</span>;
+
+	start_relay_chain_tasks(StartRelayChainTasksParams {
+		client: client.clone(),
+		announce_block: announce_block.clone(),
+		para_id,
+		relay_chain_interface: relay_chain_interface.clone(),
+		task_manager: <span class="kw-2">&amp;mut </span>task_manager,
+		da_recovery_profile: <span class="kw">if </span>validator {
+			DARecoveryProfile::Collator
+		} <span class="kw">else </span>{
+			DARecoveryProfile::FullNode
+		},
+		import_queue: import_queue_service,
+		relay_chain_slot_duration,
+		recovery_handle: Box::new(overseer_handle.clone()),
+		sync_service: sync_service.clone(),
+	})<span class="question-mark">?</span>;
+
 	<span class="kw">if </span>validator {
-		<span class="kw">let </span>parachain_consensus = build_consensus(
+		start_consensus(
 			client.clone(),
 			block_import,
 			prometheus_registry.as_ref(),
@@ -3007,42 +2911,12 @@
 			transaction_pool,
 			sync_service.clone(),
 			params.keystore_container.keystore(),
-			force_authoring,
+			relay_chain_slot_duration,
+			para_id,
+			collator_key.expect(<span class="string">&quot;Command line arguments do not allow this. qed&quot;</span>),
+			overseer_handle,
+			announce_block,
 		)<span class="question-mark">?</span>;
-
-		<span class="kw">let </span>spawner = task_manager.spawn_handle();
-
-		<span class="kw">let </span>params = StartCollatorParams {
-			para_id,
-			block_status: client.clone(),
-			announce_block,
-			client: client.clone(),
-			task_manager: <span class="kw-2">&amp;mut </span>task_manager,
-			relay_chain_interface,
-			spawner,
-			parachain_consensus,
-			import_queue: import_queue_service,
-			collator_key: collator_key.expect(<span class="string">&quot;Command line arguments do not allow this. qed&quot;</span>),
-			relay_chain_slot_duration,
-			recovery_handle: Box::new(overseer_handle),
-			sync_service,
-		};
-
-		start_collator(params).<span class="kw">await</span><span class="question-mark">?</span>;
-	} <span class="kw">else </span>{
-		<span class="kw">let </span>params = StartFullNodeParams {
-			client: client.clone(),
-			announce_block,
-			task_manager: <span class="kw-2">&amp;mut </span>task_manager,
-			para_id,
-			relay_chain_interface,
-			relay_chain_slot_duration,
-			import_queue: import_queue_service,
-			recovery_handle: Box::new(overseer_handle),
-			sync_service,
-		};
-
-		start_full_node(params)<span class="question-mark">?</span>;
 	}
 
 	start_network.start_network();
@@ -3103,7 +2977,8 @@
 		parachain_config,
 		polkadot_config,
 		collator_options,
-		para_id,
+		CollatorSybilResistance::Resistant, <span class="comment">// Aura
+		</span>para_id,
 		|<span class="kw">_</span>| <span class="prelude-val">Ok</span>(RpcModule::new(())),
 		contracts_rococo_build_import_queue,
 		|client,
@@ -3115,7 +2990,11 @@
 		 transaction_pool,
 		 sync_oracle,
 		 keystore,
-		 force_authoring| {
+		 relay_chain_slot_duration,
+		 para_id,
+		 collator_key,
+		 overseer_handle,
+		 announce_block| {
 			<span class="kw">let </span>slot_duration = cumulus_client_consensus_aura::slot_duration(<span class="kw-2">&amp;*</span>client)<span class="question-mark">?</span>;
 
 			<span class="kw">let </span>proposer_factory = sc_basic_authorship::ProposerFactory::with_proof_recording(
@@ -3125,52 +3004,47 @@
 				prometheus_registry,
 				telemetry.clone(),
 			);
+			<span class="kw">let </span>proposer = Proposer::new(proposer_factory);
 
-			<span class="prelude-val">Ok</span>(AuraConsensus::build::&lt;sp_consensus_aura::sr25519::AuthorityPair, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-				BuildAuraConsensusParams {
-					proposer_factory,
-					create_inherent_data_providers: <span class="kw">move </span>|<span class="kw">_</span>, (relay_parent, validation_data)| {
-						<span class="kw">let </span>relay_chain_interface = relay_chain_interface.clone();
-						<span class="kw">async move </span>{
-							<span class="kw">let </span>parachain_inherent =
-								cumulus_primitives_parachain_inherent::ParachainInherentData::create_at(
-									relay_parent,
-									<span class="kw-2">&amp;</span>relay_chain_interface,
-									<span class="kw-2">&amp;</span>validation_data,
-									para_id,
-								).<span class="kw">await</span>;
+			<span class="kw">let </span>collator_service = CollatorService::new(
+				client.clone(),
+				Arc::new(task_manager.spawn_handle()),
+				announce_block,
+				client.clone(),
+			);
 
-							<span class="kw">let </span>timestamp = sp_timestamp::InherentDataProvider::from_system_time();
+			<span class="kw">let </span>params = BasicAuraParams {
+				create_inherent_data_providers: <span class="kw">move </span>|<span class="kw">_</span>, ()| <span class="kw">async move </span>{ <span class="prelude-val">Ok</span>(()) },
+				block_import,
+				para_client: client,
+				relay_client: relay_chain_interface,
+				sync_oracle,
+				keystore,
+				collator_key,
+				para_id,
+				overseer_handle,
+				slot_duration,
+				relay_chain_slot_duration,
+				proposer,
+				collator_service,
+				<span class="comment">// Very limited proposal time.
+				</span>authoring_duration: Duration::from_millis(<span class="number">500</span>),
+			};
 
-							<span class="kw">let </span>slot =
-								sp_consensus_aura::inherents::InherentDataProvider::from_timestamp_and_slot_duration(
-									<span class="kw-2">*</span>timestamp,
-									slot_duration,
-								);
+			<span class="kw">let </span>fut = basic_aura::run::&lt;
+				Block,
+				sp_consensus_aura::sr25519::AuthorityPair,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+				<span class="kw">_</span>,
+			&gt;(params);
+			task_manager.spawn_essential_handle().spawn(<span class="string">&quot;aura&quot;</span>, <span class="prelude-val">None</span>, fut);
 
-							<span class="kw">let </span>parachain_inherent = parachain_inherent.ok_or_else(|| {
-								Box::&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync&gt;::from(
-									<span class="string">&quot;Failed to create parachain inherent&quot;</span>,
-								)
-							})<span class="question-mark">?</span>;
-
-							<span class="prelude-val">Ok</span>((slot, timestamp, parachain_inherent))
-						}
-					},
-					block_import,
-					para_client: client,
-					backoff_authoring_blocks: <span class="prelude-ty">Option</span>::&lt;()&gt;::None,
-					sync_oracle,
-					keystore,
-					force_authoring,
-					slot_duration,
-					<span class="comment">// We got around 500ms for proposing
-					</span>block_proposal_slot_portion: SlotProportion::new(<span class="number">1f32 </span>/ <span class="number">24f32</span>),
-					<span class="comment">// And a maximum of 750ms if slots are skipped
-					</span>max_block_proposal_slot_portion: <span class="prelude-val">Some</span>(SlotProportion::new(<span class="number">1f32 </span>/ <span class="number">16f32</span>)),
-					telemetry,
-				},
-			))
+			<span class="prelude-val">Ok</span>(())
 		},
 		hwbench,
 	)

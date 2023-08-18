@@ -1642,6 +1642,28 @@
 <a href="#1642" id="1642">1642</a>
 <a href="#1643" id="1643">1643</a>
 <a href="#1644" id="1644">1644</a>
+<a href="#1645" id="1645">1645</a>
+<a href="#1646" id="1646">1646</a>
+<a href="#1647" id="1647">1647</a>
+<a href="#1648" id="1648">1648</a>
+<a href="#1649" id="1649">1649</a>
+<a href="#1650" id="1650">1650</a>
+<a href="#1651" id="1651">1651</a>
+<a href="#1652" id="1652">1652</a>
+<a href="#1653" id="1653">1653</a>
+<a href="#1654" id="1654">1654</a>
+<a href="#1655" id="1655">1655</a>
+<a href="#1656" id="1656">1656</a>
+<a href="#1657" id="1657">1657</a>
+<a href="#1658" id="1658">1658</a>
+<a href="#1659" id="1659">1659</a>
+<a href="#1660" id="1660">1660</a>
+<a href="#1661" id="1661">1661</a>
+<a href="#1662" id="1662">1662</a>
+<a href="#1663" id="1663">1663</a>
+<a href="#1664" id="1664">1664</a>
+<a href="#1665" id="1665">1665</a>
+<a href="#1666" id="1666">1666</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright 2020 Parity Technologies (UK) Ltd.
 // This file is part of Cumulus.
 
@@ -3212,6 +3234,13 @@
 	///
 	/// **NOTE**: This is not guaranteed to return monotonically increasing relay parents.
 	</span><span class="kw">fn </span>current_relay_chain_state() -&gt; RelayChainState;
+
+	<span class="doccomment">/// Utility function only to be used in benchmarking scenarios, to be implemented optionally,
+	/// else a noop.
+	///
+	/// It allows for setting a custom RelayChainState.
+	</span><span class="attr">#[cfg(feature = <span class="string">&quot;runtime-benchmarks&quot;</span>)]
+	</span><span class="kw">fn </span>set_current_relay_chain_state(_state: RelayChainState) {}
 }
 
 <span class="doccomment">/// Implements [`BlockNumberProvider`] that returns relay chain block number fetched from validation
@@ -3254,6 +3283,21 @@
 				state_root: d.relay_parent_storage_root,
 			})
 			.unwrap_or_default()
+	}
+
+	<span class="attr">#[cfg(feature = <span class="string">&quot;runtime-benchmarks&quot;</span>)]
+	</span><span class="kw">fn </span>set_current_relay_chain_state(state: RelayChainState) {
+		<span class="kw">let </span><span class="kw-2">mut </span>validation_data = Pallet::&lt;T&gt;::validation_data().unwrap_or_else(||
+			<span class="comment">// PersistedValidationData does not impl default in non-std
+			</span>PersistedValidationData {
+				parent_head: <span class="macro">vec!</span>[].into(),
+				relay_parent_number: Default::default(),
+				max_pov_size: Default::default(),
+				relay_parent_storage_root: Default::default(),
+			});
+		validation_data.relay_parent_number = state.number;
+		validation_data.relay_parent_storage_root = state.state_root;
+		ValidationData::&lt;T&gt;::put(validation_data)
 	}
 }
 

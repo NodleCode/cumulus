@@ -6,7 +6,7 @@
     pub sync_oracle: SO,
     pub keystore: KeystorePtr,
     pub collator_key: CollatorPair,
-    pub para_id: <a class="struct" href="../../../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a>,
+    pub para_id: ParaId,
     pub overseer_handle: OverseerHandle,
     pub slot_duration: SlotDuration,
     pub relay_chain_slot_duration: <a class="struct" href="https://doc.rust-lang.org/1.71.1/core/time/struct.Duration.html" title="struct core::time::Duration">Duration</a>,
@@ -23,7 +23,7 @@ collator.</p>
 </div><span id="structfield.sync_oracle" class="structfield small-section-header"><a href="#structfield.sync_oracle" class="anchor field">§</a><code>sync_oracle: SO</code></span><div class="docblock"><p>A chain synchronization oracle.</p>
 </div><span id="structfield.keystore" class="structfield small-section-header"><a href="#structfield.keystore" class="anchor field">§</a><code>keystore: KeystorePtr</code></span><div class="docblock"><p>The underlying keystore, which should contain Aura consensus keys.</p>
 </div><span id="structfield.collator_key" class="structfield small-section-header"><a href="#structfield.collator_key" class="anchor field">§</a><code>collator_key: CollatorPair</code></span><div class="docblock"><p>The collator key used to sign collations before submitting to validators.</p>
-</div><span id="structfield.para_id" class="structfield small-section-header"><a href="#structfield.para_id" class="anchor field">§</a><code>para_id: <a class="struct" href="../../../polkadot_parachain/primitives/struct.Id.html" title="struct polkadot_parachain::primitives::Id">ParaId</a></code></span><div class="docblock"><p>The para’s ID.</p>
+</div><span id="structfield.para_id" class="structfield small-section-header"><a href="#structfield.para_id" class="anchor field">§</a><code>para_id: ParaId</code></span><div class="docblock"><p>The para’s ID.</p>
 </div><span id="structfield.overseer_handle" class="structfield small-section-header"><a href="#structfield.overseer_handle" class="anchor field">§</a><code>overseer_handle: OverseerHandle</code></span><div class="docblock"><p>A handle to the relay-chain client’s “Overseer” or task orchestrator.</p>
 </div><span id="structfield.slot_duration" class="structfield small-section-header"><a href="#structfield.slot_duration" class="anchor field">§</a><code>slot_duration: SlotDuration</code></span><div class="docblock"><p>The length of slots in this chain.</p>
 </div><span id="structfield.relay_chain_slot_duration" class="structfield small-section-header"><a href="#structfield.relay_chain_slot_duration" class="anchor field">§</a><code>relay_chain_slot_duration: <a class="struct" href="https://doc.rust-lang.org/1.71.1/core/time/struct.Duration.html" title="struct core::time::Duration">Duration</a></code></span><div class="docblock"><p>The length of slots in the relay chain.</p>

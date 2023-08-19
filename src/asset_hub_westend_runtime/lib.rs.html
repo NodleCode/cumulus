@@ -1473,6 +1473,7 @@
 <a href="#1473" id="1473">1473</a>
 <a href="#1474" id="1474">1474</a>
 <a href="#1475" id="1475">1475</a>
+<a href="#1476" id="1476">1476</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2021-2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -1741,13 +1742,14 @@
 
 <span class="macro">parameter_types! </span>{
 	<span class="kw">pub const </span>AssetConversionPalletId: PalletId = PalletId(<span class="kw-2">*</span><span class="string">b&quot;py/ascon&quot;</span>);
-	<span class="kw">pub </span>storage AllowMultiAssetPools: bool = <span class="bool-val">false</span>;
+	<span class="kw">pub const </span>AllowMultiAssetPools: bool = <span class="bool-val">false</span>;
 	<span class="comment">// should be non-zero if AllowMultiAssetPools is true, otherwise can be zero
-	</span><span class="kw">pub </span>storage LiquidityWithdrawalFee: Permill = Permill::from_percent(<span class="number">0</span>);
+	</span><span class="kw">pub const </span>LiquidityWithdrawalFee: Permill = Permill::from_percent(<span class="number">0</span>);
 }
 
 <span class="macro">ord_parameter_types! </span>{
-	<span class="kw">pub const </span>AssetConversionOrigin: sp_runtime::AccountId32 = AccountIdConversion::&lt;sp_runtime::AccountId32&gt;::into_account_truncating(<span class="kw-2">&amp;</span>AssetConversionPalletId::get());
+	<span class="kw">pub const </span>AssetConversionOrigin: sp_runtime::AccountId32 =
+		AccountIdConversion::&lt;sp_runtime::AccountId32&gt;::into_account_truncating(<span class="kw-2">&amp;</span>AssetConversionPalletId::get());
 }
 
 <span class="kw">pub type </span>PoolAssetsInstance = pallet_assets::Instance3;

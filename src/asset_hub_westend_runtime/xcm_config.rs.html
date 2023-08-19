@@ -593,6 +593,33 @@
 <a href="#593" id="593">593</a>
 <a href="#594" id="594">594</a>
 <a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -613,7 +640,7 @@
 	ParachainSystem, PolkadotXcm, PoolAssets, Runtime, RuntimeCall, RuntimeEvent, RuntimeOrigin,
 	TrustBackedAssetsInstance, WeightToFee, XcmpQueue,
 };
-<span class="kw">use crate</span>::{AllowMultiAssetPools, ForeignAssets, LiquidityWithdrawalFee};
+<span class="kw">use </span><span class="kw">crate</span>::ForeignAssets;
 <span class="kw">use </span>assets_common::{
 	local_and_foreign_assets::MatchesLocalAndForeignAssetsMultiLocation,
 	matching::{
@@ -836,16 +863,6 @@
 			</span>}
 		}
 
-		<span class="comment">// Allow to change dedicated storage items (called by governance-like)
-		</span><span class="kw">match </span>call {
-			RuntimeCall::System(frame_system::Call::set_storage { items })
-				<span class="kw">if </span>items.iter().any(|(k, <span class="kw">_</span>)| {
-					k.eq(<span class="kw-2">&amp;</span>AllowMultiAssetPools::key()) | k.eq(<span class="kw-2">&amp;</span>LiquidityWithdrawalFee::key())
-				}) =&gt;
-				<span class="kw">return </span><span class="bool-val">true</span>,
-			<span class="kw">_ </span>=&gt; (),
-		};
-
 		<span class="macro">matches!</span>(
 			call,
 			RuntimeCall::PolkadotXcm(pallet_xcm::Call::force_xcm_version { .. }) |
@@ -875,6 +892,7 @@
 						pallet_assets::Call::destroy_accounts { .. } |
 						pallet_assets::Call::destroy_approvals { .. } |
 						pallet_assets::Call::finish_destroy { .. } |
+						pallet_assets::Call::block { .. } |
 						pallet_assets::Call::mint { .. } |
 						pallet_assets::Call::burn { .. } |
 						pallet_assets::Call::transfer { .. } |
@@ -895,7 +913,9 @@
 						pallet_assets::Call::force_cancel_approval { .. } |
 						pallet_assets::Call::transfer_approved { .. } |
 						pallet_assets::Call::touch { .. } |
-						pallet_assets::Call::refund { .. },
+						pallet_assets::Call::touch_other { .. } |
+						pallet_assets::Call::refund { .. } |
+						pallet_assets::Call::refund_other { .. },
 				) | RuntimeCall::ForeignAssets(
 				pallet_assets::Call::create { .. } |
 					pallet_assets::Call::force_create { .. } |
@@ -903,6 +923,7 @@
 					pallet_assets::Call::destroy_accounts { .. } |
 					pallet_assets::Call::destroy_approvals { .. } |
 					pallet_assets::Call::finish_destroy { .. } |
+					pallet_assets::Call::block { .. } |
 					pallet_assets::Call::mint { .. } |
 					pallet_assets::Call::burn { .. } |
 					pallet_assets::Call::transfer { .. } |
@@ -923,7 +944,40 @@
 					pallet_assets::Call::force_cancel_approval { .. } |
 					pallet_assets::Call::transfer_approved { .. } |
 					pallet_assets::Call::touch { .. } |
-					pallet_assets::Call::refund { .. },
+					pallet_assets::Call::touch_other { .. } |
+					pallet_assets::Call::refund { .. } |
+					pallet_assets::Call::refund_other { .. },
+			) | RuntimeCall::PoolAssets(
+				pallet_assets::Call::create { .. } |
+					pallet_assets::Call::force_create { .. } |
+					pallet_assets::Call::start_destroy { .. } |
+					pallet_assets::Call::destroy_accounts { .. } |
+					pallet_assets::Call::destroy_approvals { .. } |
+					pallet_assets::Call::finish_destroy { .. } |
+					pallet_assets::Call::block { .. } |
+					pallet_assets::Call::mint { .. } |
+					pallet_assets::Call::burn { .. } |
+					pallet_assets::Call::transfer { .. } |
+					pallet_assets::Call::transfer_keep_alive { .. } |
+					pallet_assets::Call::force_transfer { .. } |
+					pallet_assets::Call::freeze { .. } |
+					pallet_assets::Call::thaw { .. } |
+					pallet_assets::Call::freeze_asset { .. } |
+					pallet_assets::Call::thaw_asset { .. } |
+					pallet_assets::Call::transfer_ownership { .. } |
+					pallet_assets::Call::set_team { .. } |
+					pallet_assets::Call::set_metadata { .. } |
+					pallet_assets::Call::clear_metadata { .. } |
+					pallet_assets::Call::force_clear_metadata { .. } |
+					pallet_assets::Call::force_asset_status { .. } |
+					pallet_assets::Call::approve_transfer { .. } |
+					pallet_assets::Call::cancel_approval { .. } |
+					pallet_assets::Call::force_cancel_approval { .. } |
+					pallet_assets::Call::transfer_approved { .. } |
+					pallet_assets::Call::touch { .. } |
+					pallet_assets::Call::touch_other { .. } |
+					pallet_assets::Call::refund { .. } |
+					pallet_assets::Call::refund_other { .. },
 			) | RuntimeCall::AssetConversion(
 				pallet_asset_conversion::Call::create_pool { .. } |
 					pallet_asset_conversion::Call::add_liquidity { .. } |

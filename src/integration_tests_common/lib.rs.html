@@ -603,6 +603,8 @@
 <a href="#603" id="603">603</a>
 <a href="#604" id="604">604</a>
 <a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
 </pre></div><pre class="rust"><code><span class="kw">pub use </span>lazy_static;
 <span class="kw">pub mod </span>constants;
 <span class="kw">pub mod </span>impls;
@@ -824,7 +826,9 @@
 		pallets = {
 			PolkadotXcm: asset_hub_kusama_runtime::PolkadotXcm,
 			Assets: asset_hub_kusama_runtime::Assets,
-			ForeignAssets: asset_hub_kusama_runtime::Assets,
+			ForeignAssets: asset_hub_kusama_runtime::ForeignAssets,
+			PoolAssets: asset_hub_kusama_runtime::PoolAssets,
+			AssetConversion: asset_hub_kusama_runtime::AssetConversion,
 			Balances: asset_hub_kusama_runtime::Balances,
 		}
 	},

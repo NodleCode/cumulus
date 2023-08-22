@@ -14,12 +14,12 @@ log = "0.4.17"
 tracing = "0.1.37"
 
 # Substrate
-sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-consensus = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-consensus = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-trie = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
+sc-client-api = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-consensus = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-blockchain = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-consensus = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-runtime = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-trie = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
 
 # Polkadot
 polkadot-primitives = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.42" }
@@ -34,7 +34,7 @@ schnellru = "0.2.1"
 futures-timer = "3.0.2"
 
 # Substrate
-sp-tracing = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
+sp-tracing = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
 
 # Cumulus
 cumulus-test-client = { path = "../../../test/client" }

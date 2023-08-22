@@ -9,25 +9,25 @@ codec = { package = "parity-scale-codec", version = "3.0.0", default-features = 
 scale-info = { version = "2.5.0", default-features = false, features = ["derive"] }
 
 # Substrate
-frame-executive = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-frame-support = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-frame-system = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-frame-system-rpc-runtime-api = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-pallet-balances = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-pallet-sudo = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-pallet-timestamp = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-pallet-transaction-payment = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-api = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-block-builder = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-core = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-inherents = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-io = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-offchain = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-runtime = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-session = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-std = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-transaction-pool = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-version = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
+frame-executive = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+frame-support = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+frame-system = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+frame-system-rpc-runtime-api = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+pallet-balances = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+pallet-sudo = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+pallet-timestamp = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+pallet-transaction-payment = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-api = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-block-builder = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-core = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-inherents = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-io = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-offchain = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-runtime = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-session = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-std = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-transaction-pool = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-version = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
 
 # Cumulus
 cumulus-pallet-parachain-system = { path = "../../pallets/parachain-system", default-features = false }
@@ -35,7 +35,7 @@ cumulus-primitives-core = { path = "../../primitives/core", default-features = f
 cumulus-primitives-timestamp = { path = "../../primitives/timestamp", default-features = false }
 
 [build-dependencies]
-substrate-wasm-builder = { git = "https://github.com/paritytech/substrate", optional = true , branch = "polkadot-v0.9.42" }
+substrate-wasm-builder = { git = "https://github.com/NodleCode/substrate", optional = true , branch = "aliX/rescue-parachain" }
 
 [features]
 default = [ "std" ]

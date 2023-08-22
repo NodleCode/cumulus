@@ -36,41 +36,41 @@ jsonrpsee = { version = "0.16.2", features = ["server"] }
 parachains-common = { path = "../parachains/common" }
 
 # Substrate
-frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-runtime = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "polkadot-v0.9.42" }
-sp-io = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-session = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-consensus = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-cli = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-executor = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-service = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-telemetry = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-transaction-pool = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-transaction-pool = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-network = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-network-sync = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-basic-authorship = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-timestamp = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-block-builder = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-keystore = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-chain-spec = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-rpc = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-tracing = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-offchain = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-api = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-consensus-aura = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-sysinfo = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-serializer = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-substrate-prometheus-endpoint = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-try-runtime-cli = { git = "https://github.com/paritytech/substrate", optional = true , branch = "polkadot-v0.9.42" }
-sc-transaction-pool-api = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-frame-rpc-system = { package = "substrate-frame-rpc-system", git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-substrate-state-trie-migration-rpc = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
+frame-benchmarking = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+frame-benchmarking-cli = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-runtime = { git = "https://github.com/NodleCode/substrate", default-features = false, branch = "aliX/rescue-prachain" }
+sp-io = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-core = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-session = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-consensus = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-cli = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-client-api = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-executor = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-service = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-telemetry = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-transaction-pool = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-transaction-pool = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-network = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-network-sync = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-basic-authorship = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-timestamp = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-blockchain = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-block-builder = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-keystore = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-chain-spec = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-rpc = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-tracing = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-offchain = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-api = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-consensus-aura = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-sysinfo = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-serializer = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+substrate-prometheus-endpoint = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+try-runtime-cli = { git = "https://github.com/NodleCode/substrate", optional = true , branch = "aliX/rescue-parachain" }
+sc-transaction-pool-api = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+frame-rpc-system = { package = "substrate-frame-rpc-system", git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+pallet-transaction-payment-rpc = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+substrate-state-trie-migration-rpc = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
 
 # Polkadot
 polkadot-cli = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.42" }
@@ -90,7 +90,7 @@ cumulus-relay-chain-interface = { path = "../client/relay-chain-interface" }
 color-print = "0.3.4"
 
 [build-dependencies]
-substrate-build-script-utils = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
+substrate-build-script-utils = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
 
 [dev-dependencies]
 assert_cmd = "2.0"

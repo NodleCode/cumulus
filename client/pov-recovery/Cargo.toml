@@ -13,11 +13,11 @@ rand = "0.8.5"
 tracing = "0.1.37"
 
 # Substrate
-sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-consensus = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-consensus = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-maybe-compressed-blob = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
+sc-client-api = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-consensus = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-consensus = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-maybe-compressed-blob = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sp-runtime = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
 
 # Polkadot
 polkadot-node-primitives = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.42" }
@@ -38,6 +38,6 @@ portpicker = "0.1.1"
 cumulus-test-service = { path = "../../test/service" }
 
 # Substrate
-sc-cli = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
-substrate-test-utils = { git = "https://github.com/paritytech/substrate", branch = "polkadot-v0.9.42" }
+sc-cli = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+sc-client-api = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
+substrate-test-utils = { git = "https://github.com/NodleCode/substrate", branch = "aliX/rescue-parachain" }
